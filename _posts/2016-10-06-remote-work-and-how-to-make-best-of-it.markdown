@@ -1,8 +1,8 @@
 ---
 title:  "Remote Work And How To Make Best Of It"
-date:   2016-01-08 15:04:23
+date:   2016-10-06 15:04:23
 categories: [productivity]
-tags: [productivity]
+tags: [productivity, remote, work, freelance, home, office]
 ---
 As a software developer, you have probably been in a situation where you have to work from home, over the weekend, or when you are too sick to go to the office and yet, the deadline is so critical and you have to complete and push that feature that you are working on no matter what. That’s the beauty and curse of software development because all you need is an internet connection to be able to work and contribute. Then you have probably realized that work from home is actually cool and comfortable and you probably said to yourself “It would be great if I could work like this all the time. Laying around…”. Well sort of :)
 

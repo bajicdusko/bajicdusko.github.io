@@ -4,7 +4,7 @@ description: 'Android Developer. Gadget dependent. Music addicted.'
 url: 'http://bajicdusko.com'
 baseurl: '/'
 # google_analytics: 'UA-XXXXXX-X'
-# disqus_shortname: 'your-disqus-name'
+disqus_shortname: 'bajicdusko'
 
 author:
   name: 'Dusko Bajic'
