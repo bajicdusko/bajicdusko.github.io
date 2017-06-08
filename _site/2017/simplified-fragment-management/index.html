@@ -163,12 +163,11 @@ number of the activities. Just because it’s “complicated”, it
 does not mean that we have to stop using it. Fragments are (at the moment) part of
 our apps and we have to deal with it the best we can.</p>
 
-<p>Ok then, we have to help ourself to handle the fragments as easier as possible.
-By working on many apps, I’ve noticed few constant problem-patterns when it comes to fragments:</p>
+<p>By working on many apps, I’ve noticed few constant problem-patterns when it comes to fragments, listed below, however if you’d just like to jump to implementation, <a href="#solution">click here</a>.</p>
 
 <ol>
   <li>
-    <p>Getting instance of Fragment (for whatever reason) from the existing stack of transactions, regardless of the position in the stack.</p>
+    <p><strong>Getting instance of Fragment</strong> (for whatever reason) from the existing stack of transactions, regardless of the position in the stack.</p>
 
     <p>One way of getting the last added fragment might be this one:</p>
 
@@ -205,7 +204,7 @@ still can contain <code class="highlighter-rouge">null</code> values on any posi
 of work just to get instance of fragment we have created in the first place.</p>
   </li>
   <li>
-    <p>Handling onBackPressed navigation and application title update</p>
+    <p><strong>Handling onBackPressed navigation and application title update</strong></p>
 
     <p>Typical android application shows <code class="highlighter-rouge">Toolbar</code> on top of the screen. If the <code class="highlighter-rouge">Toolbar</code> is part of the <code class="highlighter-rouge">Activity</code> layout
 we need to update its <code class="highlighter-rouge">title</code> according to currently active fragment.</p>
@@ -248,7 +247,7 @@ we need to update its <code class="highlighter-rouge">title</code> according to 
     <p>On the other hand, when you’re popping the fragment from the stack, <code class="highlighter-rouge">setTitle()</code> might not get called at all, and you end up with <code class="highlighter-rouge">title</code> in the <code class="highlighter-rouge">Toolbar</code> that does not match the content.</p>
   </li>
   <li>
-    <p>Reseting stack triggers lifecycle of each fragment along the way</p>
+    <p><strong>Reseting stack</strong> triggers lifecycle of each fragment along the way</p>
 
     <p>At some point, we have to return to the starting point of the app. So we’ll be popping the fragments from the stack
 until stack gets empty or until there is only one fragment shown. Not so obvious problem that occurs is that
@@ -256,12 +255,228 @@ each popped fragment gets re-instantiated with call to all lifecycle methods, an
 each fragment. This is definitely unwanted behavior. We just want to remove them so that we can start from the beginning.</p>
   </li>
   <li>
-    <p>Communication between fragments and the hosting Activity</p>
+    <p><strong>Communication</strong> between fragments and the hosting Activity should not be implemented by casting <code class="highlighter-rouge">getActivity()</code> method and I like to think that no one implements it like that. Instead, communication between activity and the fragments should be implemented via interface which <code class="highlighter-rouge">Activity</code> implements, I know, obvious.</p>
   </li>
 </ol>
 
-<script src="https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f.js"></script>
+<p><a name="solution">Simple solution</a> I came up with have three main components:</p>
 
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">EasyFragmentManager</code> which is basically a wrapper around <code class="highlighter-rouge">FragmentManager</code> and exposes the methods for <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">replace</code>, <code class="highlighter-rouge">popUp</code>, <code class="highlighter-rouge">popUpAll</code> and <code class="highlighter-rouge">getCurrentFragment</code> operations. <code class="highlighter-rouge">EasyFragmentManager</code> assumes that each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">IFragment</code> interface is forcing each <code class="highlighter-rouge">Fragment</code> to have its own unique <code class="highlighter-rouge">name</code> or <code class="highlighter-rouge">tag</code> under which is added to transaction, <code class="highlighter-rouge">dispose()</code> method (which is very handy when implementing <code class="highlighter-rouge">RxJava2</code>), and yes, method to <code class="highlighter-rouge">setTitle()</code> of the <code class="highlighter-rouge">Toolbar/ActionBar</code>.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">FragmentTagStack</code> to handle stack easily and retrieve fragments. It does not contain fragment instances, but its <code class="highlighter-rouge">tags</code> as <code class="highlighter-rouge">String</code> values instead and have only basic methods for <code class="highlighter-rouge">pop</code>, <code class="highlighter-rouge">popUpAll</code>, <code class="highlighter-rouge">peek</code>, <code class="highlighter-rouge">push</code> and <code class="highlighter-rouge">getActiveTag</code> which returns tag of currently shown <code class="highlighter-rouge">Fragment</code> on the screen.</p>
+  </li>
+</ul>
+
+<p>It is really simple implementation, however, it helps a lot and here are the implementation steps:</p>
+
+<ol>
+  <li>Activity initialize <code class="highlighter-rouge">EasyFragmentManager</code> and calls its <code class="highlighter-rouge">state</code> save/restore methods as well as <code class="highlighter-rouge">onBackPressed</code> method.</li>
+  <li><code class="highlighter-rouge">EasyFragmentManager</code> initializes <code class="highlighter-rouge">FragmentTagStack</code>, and pushes and pops the <code class="highlighter-rouge">tags</code> to stack as Fragments are added or removed.</li>
+  <li>Each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface.</li>
+</ol>
+
+<p>Example implementation can be found in this <a href="https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f">Gist</a>. as well as implementations of described components below:</p>
+
+<p><code class="highlighter-rouge">EasyFragmentManager.kt</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nf">EasyFragmentManager</span><span class="p">(</span><span class="kd">private</span> <span class="n">val</span> <span class="nl">fragmentManager:</span> <span class="n">FragmentManager</span><span class="o">,</span> <span class="kd">private</span> <span class="n">val</span> <span class="nl">fragmentContainerId:</span> <span class="n">Int</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">val</span> <span class="n">KEY_TAGS</span> <span class="o">=</span> <span class="s">"key_tags"</span>
+    <span class="kd">private</span> <span class="n">var</span> <span class="nl">fragmentTagStack:</span> <span class="n">FragmentTagStack</span> <span class="o">=</span> <span class="n">FragmentTagStack</span><span class="o">()</span>
+
+    <span class="n">constructor</span><span class="o">(</span><span class="nl">fragmentManager:</span> <span class="n">FragmentManager</span><span class="o">,</span> <span class="nl">fragmentContainer:</span> <span class="n">FrameLayout</span><span class="o">)</span> <span class="o">:</span> <span class="k">this</span><span class="o">(</span><span class="n">fragmentManager</span><span class="o">,</span> <span class="n">fragmentContainer</span><span class="o">.</span><span class="na">id</span><span class="o">)</span>
+
+    <span class="n">fun</span> <span class="n">addFragment</span><span class="o">(</span><span class="nl">fragment:</span> <span class="n">IFragment</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
+        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">fragmentContainerId</span><span class="o">,</span> <span class="n">fragment</span> <span class="n">as</span> <span class="n">Fragment</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addToBackStack</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">commit</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="n">replaceFragment</span><span class="o">(</span><span class="nl">fragment:</span> <span class="n">IFragment</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
+        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="n">fragmentContainerId</span><span class="o">,</span> <span class="n">fragment</span> <span class="n">as</span> <span class="n">Fragment</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addToBackStack</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">commit</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * When [Activity.onBackPressed] is called it is a good practice to override it and to call this method.
+     * This method won't allow removal of last fragment on the stack.
+     *
+     * @return TRUE if fragment is poppedUp aka method is consumed, or FALSE if there is only one Fragment
+     * on the stack.
+     */</span>
+    <span class="n">fun</span> <span class="n">onBackPressed</span><span class="o">():</span> <span class="n">Boolean</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">fragmentManager</span><span class="o">.</span><span class="na">backStackEntryCount</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">popUp</span><span class="o">()</span>
+            <span class="n">var</span> <span class="n">currentFragment</span> <span class="o">=</span> <span class="n">getCurrentFragment</span><span class="o">()</span>
+            <span class="n">currentFragment</span><span class="o">?.</span><span class="na">setTitle</span><span class="o">()</span>
+            <span class="k">return</span> <span class="kc">true</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="n">popUp</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">popBackStackImmediate</span><span class="o">()</span>
+        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">pop</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="n">popUpAll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">popBackStack</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">FragmentManager</span><span class="o">.</span><span class="na">POP_BACK_STACK_INCLUSIVE</span><span class="o">)</span>
+        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">popUpAll</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="n">getCurrentFragment</span><span class="o">():</span> <span class="n">IFragment</span><span class="o">?</span> <span class="o">=</span> <span class="n">fragmentManager</span><span class="o">.</span><span class="na">findFragmentByTag</span><span class="o">(</span><span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">activeTag</span><span class="o">)</span> <span class="n">as</span> <span class="n">IFragment</span><span class="o">?</span>
+
+    <span class="n">fun</span> <span class="n">dispose</span><span class="o">()</span> <span class="o">=</span> <span class="n">getCurrentFragment</span><span class="o">()?.</span><span class="na">dispose</span><span class="o">()</span>
+
+    <span class="n">fun</span> <span class="n">onSaveInstanceState</span><span class="o">(</span><span class="nl">state:</span> <span class="n">Bundle</span><span class="o">?)</span> <span class="o">{</span>
+        <span class="n">state</span><span class="o">?.</span><span class="na">putParcelable</span><span class="o">(</span><span class="n">KEY_TAGS</span><span class="o">,</span> <span class="n">Parcels</span><span class="o">.</span><span class="na">wrap</span><span class="o">(</span><span class="n">fragmentTagStack</span><span class="o">))</span>
+    <span class="o">}</span>
+
+    <span class="n">fun</span> <span class="n">onRestoreInstanceState</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">savedInstanceState</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">fragmentTagStack</span> <span class="o">=</span> <span class="n">Parcels</span><span class="o">.</span><span class="na">unwrap</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">.</span><span class="na">getParcelable</span><span class="o">(</span><span class="n">KEY_TAGS</span><span class="o">))</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">fragmentTagStack</span> <span class="o">=</span> <span class="n">FragmentTagStack</span><span class="o">()</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">FragmentTagStack.kt</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@Parcel</span><span class="o">(</span><span class="n">Parcel</span><span class="o">.</span><span class="na">Serialization</span><span class="o">.</span><span class="na">BEAN</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">FragmentTagStack</span> <span class="o">{</span>
+
+    <span class="nd">@Transient</span> <span class="kd">private</span> <span class="n">var</span> <span class="nl">showLogs:</span> <span class="n">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+
+    <span class="n">var</span> <span class="nl">tags:</span> <span class="n">MutableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span>
+        <span class="kd">private</span> <span class="n">set</span>
+
+    <span class="n">var</span> <span class="nl">activeTag:</span> <span class="n">String</span><span class="o">?</span> <span class="o">=</span> <span class="kc">null</span>
+        <span class="kd">private</span> <span class="n">set</span>
+
+    <span class="n">constructor</span><span class="o">(){</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="nd">@ParcelConstructor</span>
+    <span class="n">constructor</span><span class="o">(</span><span class="nl">tags:</span> <span class="n">MutableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;,</span> <span class="nl">activeTag:</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">tags</span> <span class="o">=</span> <span class="n">tags</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">activeTag</span> <span class="o">=</span> <span class="n">activeTag</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * Enabling or disabling fragment stack logs. Logs are disabled by default.
+
+     * @param showLogs
+     */</span>
+    <span class="n">fun</span> <span class="n">setShowLogs</span><span class="o">(</span><span class="nl">showLogs:</span> <span class="n">Boolean</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">showLogs</span> <span class="o">=</span> <span class="n">showLogs</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * Pushing new tag to stack and setting is as [FragmentTagStack.activeTag]
+
+     * @param tag
+     */</span>
+    <span class="n">fun</span> <span class="n">push</span><span class="o">(</span><span class="nl">tag:</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">tags</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tag</span><span class="o">)</span>
+        <span class="n">activeTag</span> <span class="o">=</span> <span class="n">tag</span>
+        <span class="n">logStack</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * Popping tag from the stack and setting the tag below as new [FragmentTagStack.activeTag]
+     *
+     *
+     * Example:
+     *
+     *
+     * Stack [3, 2, 1, 0] (3 is last added tag). [FragmentTagStack.activeTag] have value 3
+     *
+     *
+     * Now we're popping the last added tag
+     *
+     *
+     * Stack [2, 1, 0] [FragmentTagStack.activeTag] have value 2
+
+     * @return Popped up value. From the example above, returned value will be 3. In case of empty stack, null will be returned.
+     */</span>
+    <span class="n">fun</span> <span class="n">pop</span><span class="o">():</span> <span class="n">String</span><span class="o">?</span> <span class="o">{</span>
+        <span class="n">val</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">peek</span><span class="o">()</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">tag</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">tags</span><span class="o">.</span><span class="na">removeAt</span><span class="o">(</span><span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+        <span class="o">}</span>
+
+        <span class="n">activeTag</span> <span class="o">=</span> <span class="n">peek</span><span class="o">()</span>
+        <span class="n">logStack</span><span class="o">()</span>
+        <span class="k">return</span> <span class="n">tag</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * Peeking to the top of the stack, without data modification.
+
+     * @return Value on top of the stack. If stack is empty, returned value will be null.
+     */</span>
+    <span class="n">fun</span> <span class="n">peek</span><span class="o">():</span> <span class="n">String</span><span class="o">?</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">tags</span><span class="o">[</span><span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">fun</span> <span class="n">logStack</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">showLogs</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">val</span> <span class="n">stringBuilder</span> <span class="o">=</span> <span class="n">StringBuilder</span><span class="o">()</span>
+            <span class="n">stringBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"Active tag: $activeTag\nStack:\n"</span><span class="o">)</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">-</span> <span class="mi">1</span> <span class="n">downTo</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">stringBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"[ ${tags[i]}]\n"</span><span class="o">)</span>
+            <span class="o">}</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="n">stringBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">())</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * Clears the stack.
+     */</span>
+    <span class="n">fun</span> <span class="n">popUpAll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">tags</span><span class="o">.</span><span class="na">clear</span><span class="o">()</span>
+    <span class="o">}</span>
+
+    <span class="n">companion</span> <span class="n">object</span> <span class="o">{</span>
+
+        <span class="nd">@Transient</span> <span class="kd">private</span> <span class="n">val</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">"FragmentTagStack"</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">IFragment.kt</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">interface</span> <span class="nc">IFragment</span> <span class="o">{</span>
+    <span class="n">fun</span> <span class="n">getFragmentName</span><span class="o">():</span> <span class="n">String</span>
+
+    <span class="n">fun</span> <span class="n">setTitle</span><span class="o">():</span> <span class="n">Unit</span><span class="o">?</span>
+
+    <span class="n">fun</span> <span class="n">dispose</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre>
+</div>
 
   </section>
   <section id="disqus_thread"></section><!-- /#disqus_thread -->
