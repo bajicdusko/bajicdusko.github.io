@@ -292,120 +292,119 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
 
 <p><code class="highlighter-rouge">EasyFragmentManager.kt</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nf">EasyFragmentManager</span><span class="p">(</span><span class="kd">private</span> <span class="n">val</span> <span class="nl">fragmentManager:</span> <span class="n">FragmentManager</span><span class="o">,</span> <span class="kd">private</span> <span class="n">val</span> <span class="nl">fragmentContainerId:</span> <span class="n">Int</span><span class="o">)</span> <span class="o">{</span>
+<pre><code class="language-kotlin">class EasyFragmentManager(private val fragmentManager: FragmentManager, private val fragmentContainerId: Int) {
 
-    <span class="kd">private</span> <span class="n">val</span> <span class="n">KEY_TAGS</span> <span class="o">=</span> <span class="s">"key_tags"</span>
-    <span class="kd">private</span> <span class="n">var</span> <span class="nl">fragmentTagStack:</span> <span class="n">FragmentTagStack</span> <span class="o">=</span> <span class="n">FragmentTagStack</span><span class="o">()</span>
+    private val KEY_TAGS = "key_tags"
+    private var fragmentTagStack: FragmentTagStack = FragmentTagStack()
 
-    <span class="n">constructor</span><span class="o">(</span><span class="nl">fragmentManager:</span> <span class="n">FragmentManager</span><span class="o">,</span> <span class="nl">fragmentContainer:</span> <span class="n">FrameLayout</span><span class="o">)</span> <span class="o">:</span> <span class="k">this</span><span class="o">(</span><span class="n">fragmentManager</span><span class="o">,</span> <span class="n">fragmentContainer</span><span class="o">.</span><span class="na">id</span><span class="o">)</span>
+    constructor(fragmentManager: FragmentManager, fragmentContainer: FrameLayout) : this(fragmentManager, fragmentContainer.id)
 
-    <span class="n">fun</span> <span class="n">addFragment</span><span class="o">(</span><span class="nl">fragment:</span> <span class="n">IFragment</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
-        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">fragmentContainerId</span><span class="o">,</span> <span class="n">fragment</span> <span class="n">as</span> <span class="n">Fragment</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">addToBackStack</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">commit</span><span class="o">()</span>
-    <span class="o">}</span>
+    fun addFragment(fragment: IFragment) {
+        fragmentTagStack.push(fragment.getFragmentName())
+        fragmentManager.beginTransaction()
+                .add(fragmentContainerId, fragment as Fragment)
+                .addToBackStack(fragment.getFragmentName())
+                .commit()
+    }
 
-    <span class="n">fun</span> <span class="n">replaceFragment</span><span class="o">(</span><span class="nl">fragment:</span> <span class="n">IFragment</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
-        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="n">fragmentContainerId</span><span class="o">,</span> <span class="n">fragment</span> <span class="n">as</span> <span class="n">Fragment</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">addToBackStack</span><span class="o">(</span><span class="n">fragment</span><span class="o">.</span><span class="na">getFragmentName</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">commit</span><span class="o">()</span>
-    <span class="o">}</span>
+    fun replaceFragment(fragment: IFragment) {
+        fragmentTagStack.push(fragment.getFragmentName())
+        fragmentManager.beginTransaction()
+                .replace(fragmentContainerId, fragment as Fragment)
+                .addToBackStack(fragment.getFragmentName())
+                .commit()
+    }
 
-    <span class="cm">/**
+    /**
      * When [Activity.onBackPressed] is called it is a good practice to override it and to call this method.
      * This method won't allow removal of last fragment on the stack.
      *
      * @return TRUE if fragment is poppedUp aka method is consumed, or FALSE if there is only one Fragment
      * on the stack.
-     */</span>
-    <span class="n">fun</span> <span class="n">onBackPressed</span><span class="o">():</span> <span class="n">Boolean</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">fragmentManager</span><span class="o">.</span><span class="na">backStackEntryCount</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">popUp</span><span class="o">()</span>
-            <span class="n">var</span> <span class="n">currentFragment</span> <span class="o">=</span> <span class="n">getCurrentFragment</span><span class="o">()</span>
-            <span class="n">currentFragment</span><span class="o">?.</span><span class="na">setTitle</span><span class="o">()</span>
-            <span class="k">return</span> <span class="kc">true</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kc">false</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+     */
+    fun onBackPressed(): Boolean {
+        if (fragmentManager.backStackEntryCount &gt; 1) {
+            popUp()
+            var currentFragment = getCurrentFragment()
+            currentFragment?.setTitle()
+            return true
+        } else {
+            return false
+        }
+    }
 
-    <span class="n">fun</span> <span class="n">popUp</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">popBackStackImmediate</span><span class="o">()</span>
-        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">pop</span><span class="o">()</span>
-    <span class="o">}</span>
+    fun popUp() {
+        fragmentManager.popBackStackImmediate()
+        fragmentTagStack.pop()
+    }
 
-    <span class="n">fun</span> <span class="n">popUpAll</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">fragmentManager</span><span class="o">.</span><span class="na">popBackStack</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">FragmentManager</span><span class="o">.</span><span class="na">POP_BACK_STACK_INCLUSIVE</span><span class="o">)</span>
-        <span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">popUpAll</span><span class="o">()</span>
-    <span class="o">}</span>
+    fun popUpAll() {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        fragmentTagStack.popUpAll()
+    }
 
-    <span class="n">fun</span> <span class="n">getCurrentFragment</span><span class="o">():</span> <span class="n">IFragment</span><span class="o">?</span> <span class="o">=</span> <span class="n">fragmentManager</span><span class="o">.</span><span class="na">findFragmentByTag</span><span class="o">(</span><span class="n">fragmentTagStack</span><span class="o">.</span><span class="na">activeTag</span><span class="o">)</span> <span class="n">as</span> <span class="n">IFragment</span><span class="o">?</span>
+    fun getCurrentFragment(): IFragment? = fragmentManager.findFragmentByTag(fragmentTagStack.activeTag) as IFragment?
 
-    <span class="n">fun</span> <span class="n">dispose</span><span class="o">()</span> <span class="o">=</span> <span class="n">getCurrentFragment</span><span class="o">()?.</span><span class="na">dispose</span><span class="o">()</span>
+    fun dispose() = getCurrentFragment()?.dispose()
 
-    <span class="n">fun</span> <span class="n">onSaveInstanceState</span><span class="o">(</span><span class="nl">state:</span> <span class="n">Bundle</span><span class="o">?)</span> <span class="o">{</span>
-        <span class="n">state</span><span class="o">?.</span><span class="na">putParcelable</span><span class="o">(</span><span class="n">KEY_TAGS</span><span class="o">,</span> <span class="n">Parcels</span><span class="o">.</span><span class="na">wrap</span><span class="o">(</span><span class="n">fragmentTagStack</span><span class="o">))</span>
-    <span class="o">}</span>
+    fun onSaveInstanceState(state: Bundle?) {
+        state?.putParcelable(KEY_TAGS, Parcels.wrap(fragmentTagStack))
+    }
 
-    <span class="n">fun</span> <span class="n">onRestoreInstanceState</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">savedInstanceState</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">fragmentTagStack</span> <span class="o">=</span> <span class="n">Parcels</span><span class="o">.</span><span class="na">unwrap</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">.</span><span class="na">getParcelable</span><span class="o">(</span><span class="n">KEY_TAGS</span><span class="o">))</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="n">fragmentTagStack</span> <span class="o">=</span> <span class="n">FragmentTagStack</span><span class="o">()</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+    fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            fragmentTagStack = Parcels.unwrap(savedInstanceState.getParcelable(KEY_TAGS))
+        } else {
+            fragmentTagStack = FragmentTagStack()
+        }
+    }
+}
 </code></pre>
-</div>
 
 <p><code class="highlighter-rouge">FragmentTagStack.kt</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@Parcel</span><span class="o">(</span><span class="n">Parcel</span><span class="o">.</span><span class="na">Serialization</span><span class="o">.</span><span class="na">BEAN</span><span class="o">)</span>
-<span class="kd">class</span> <span class="nc">FragmentTagStack</span> <span class="o">{</span>
+<pre><code class="language-kotlin">@Parcel(Parcel.Serialization.BEAN)
+class FragmentTagStack {
 
-    <span class="nd">@Transient</span> <span class="kd">private</span> <span class="n">var</span> <span class="nl">showLogs:</span> <span class="n">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+    @Transient private var showLogs: Boolean = false
 
-    <span class="n">var</span> <span class="nl">tags:</span> <span class="n">MutableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span>
-        <span class="kd">private</span> <span class="n">set</span>
+    var tags: MutableList&lt;String&gt;
+        private set
 
-    <span class="n">var</span> <span class="nl">activeTag:</span> <span class="n">String</span><span class="o">?</span> <span class="o">=</span> <span class="kc">null</span>
-        <span class="kd">private</span> <span class="n">set</span>
+    var activeTag: String? = null
+        private set
 
-    <span class="n">constructor</span><span class="o">(){</span>
-        <span class="n">tags</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="o">()</span>
-    <span class="o">}</span>
+    constructor(){
+        tags = LinkedList()
+    }
 
-    <span class="nd">@ParcelConstructor</span>
-    <span class="n">constructor</span><span class="o">(</span><span class="nl">tags:</span> <span class="n">MutableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;,</span> <span class="nl">activeTag:</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">tags</span> <span class="o">=</span> <span class="n">tags</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">activeTag</span> <span class="o">=</span> <span class="n">activeTag</span>
-    <span class="o">}</span>
+    @ParcelConstructor
+    constructor(tags: MutableList&lt;String&gt;, activeTag: String) {
+        this.tags = tags
+        this.activeTag = activeTag
+    }
 
-    <span class="cm">/**
+    /**
      * Enabling or disabling fragment stack logs. Logs are disabled by default.
 
      * @param showLogs
-     */</span>
-    <span class="n">fun</span> <span class="n">setShowLogs</span><span class="o">(</span><span class="nl">showLogs:</span> <span class="n">Boolean</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">showLogs</span> <span class="o">=</span> <span class="n">showLogs</span>
-    <span class="o">}</span>
+     */
+    fun setShowLogs(showLogs: Boolean) {
+        this.showLogs = showLogs
+    }
 
-    <span class="cm">/**
+    /**
      * Pushing new tag to stack and setting is as [FragmentTagStack.activeTag]
 
      * @param tag
-     */</span>
-    <span class="n">fun</span> <span class="n">push</span><span class="o">(</span><span class="nl">tag:</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">tags</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tag</span><span class="o">)</span>
-        <span class="n">activeTag</span> <span class="o">=</span> <span class="n">tag</span>
-        <span class="n">logStack</span><span class="o">()</span>
-    <span class="o">}</span>
+     */
+    fun push(tag: String) {
+        tags.add(tag)
+        activeTag = tag
+        logStack()
+    }
 
-    <span class="cm">/**
+    /**
      * Popping tag from the stack and setting the tag below as new [FragmentTagStack.activeTag]
      *
      *
@@ -421,129 +420,124 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
      * Stack [2, 1, 0] [FragmentTagStack.activeTag] have value 2
 
      * @return Popped up value. From the example above, returned value will be 3. In case of empty stack, null will be returned.
-     */</span>
-    <span class="n">fun</span> <span class="n">pop</span><span class="o">():</span> <span class="n">String</span><span class="o">?</span> <span class="o">{</span>
-        <span class="n">val</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">peek</span><span class="o">()</span>
-        <span class="k">if</span> <span class="o">(!</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">tag</span><span class="o">))</span> <span class="o">{</span>
-            <span class="n">tags</span><span class="o">.</span><span class="na">removeAt</span><span class="o">(</span><span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
-        <span class="o">}</span>
+     */
+    fun pop(): String? {
+        val tag = peek()
+        if (!TextUtils.isEmpty(tag)) {
+            tags.removeAt(tags.size - 1)
+        }
 
-        <span class="n">activeTag</span> <span class="o">=</span> <span class="n">peek</span><span class="o">()</span>
-        <span class="n">logStack</span><span class="o">()</span>
-        <span class="k">return</span> <span class="n">tag</span>
-    <span class="o">}</span>
+        activeTag = peek()
+        logStack()
+        return tag
+    }
 
-    <span class="cm">/**
+    /**
      * Peeking to the top of the stack, without data modification.
 
      * @return Value on top of the stack. If stack is empty, returned value will be null.
-     */</span>
-    <span class="n">fun</span> <span class="n">peek</span><span class="o">():</span> <span class="n">String</span><span class="o">?</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">tags</span><span class="o">[</span><span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kc">null</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+     */
+    fun peek(): String? {
+        if (tags.size &gt; 0) {
+            return tags[tags.size - 1]
+        } else {
+            return null
+        }
+    }
 
-    <span class="kd">private</span> <span class="n">fun</span> <span class="n">logStack</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">showLogs</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">val</span> <span class="n">stringBuilder</span> <span class="o">=</span> <span class="n">StringBuilder</span><span class="o">()</span>
-            <span class="n">stringBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"Active tag: $activeTag\nStack:\n"</span><span class="o">)</span>
-            <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">tags</span><span class="o">.</span><span class="na">size</span> <span class="o">-</span> <span class="mi">1</span> <span class="n">downTo</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">stringBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"[ ${tags[i]}]\n"</span><span class="o">)</span>
-            <span class="o">}</span>
-            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="n">stringBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">())</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+    private fun logStack() {
+        if (showLogs) {
+            val stringBuilder = StringBuilder()
+            stringBuilder.append("Active tag: $activeTag\nStack:\n")
+            for (i in tags.size - 1 downTo 0) {
+                stringBuilder.append("[ ${tags[i]}]\n")
+            }
+            Log.d(TAG, stringBuilder.toString())
+        }
+    }
 
-    <span class="cm">/**
+    /**
      * Clears the stack.
-     */</span>
-    <span class="n">fun</span> <span class="n">popUpAll</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">tags</span><span class="o">.</span><span class="na">clear</span><span class="o">()</span>
-    <span class="o">}</span>
+     */
+    fun popUpAll() {
+        tags.clear()
+    }
 
-    <span class="n">companion</span> <span class="n">object</span> <span class="o">{</span>
+    companion object {
 
-        <span class="nd">@Transient</span> <span class="kd">private</span> <span class="n">val</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">"FragmentTagStack"</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+        @Transient private val TAG = "FragmentTagStack"
+    }
+}
 </code></pre>
-</div>
 
 <p><code class="highlighter-rouge">IFragment.kt</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">interface</span> <span class="nc">IFragment</span> <span class="o">{</span>
-    <span class="n">fun</span> <span class="n">getFragmentName</span><span class="o">():</span> <span class="n">String</span>
+<pre><code class="language-kotlin">
+interface IFragment {
+    fun getFragmentName(): String
 
-    <span class="n">fun</span> <span class="n">setTitle</span><span class="o">():</span> <span class="n">Unit</span><span class="o">?</span>
+    fun setTitle(): Unit?
 
-    <span class="n">fun</span> <span class="n">dispose</span><span class="o">()</span>
-<span class="o">}</span>
+    fun dispose()
+}
 </code></pre>
-</div>
 
 <p><code class="highlighter-rouge">FragmentChannel.kt</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">interface</span> <span class="nc">FragmentChannel</span><span class="o">{</span>
-  <span class="n">fun</span> <span class="n">setTitle</span><span class="o">(</span><span class="nl">title:</span> <span class="n">String</span><span class="o">):</span> <span class="n">Unit</span><span class="o">?</span>
-  <span class="n">fun</span> <span class="n">showLogin</span><span class="o">()</span>
-<span class="o">}</span>
+<pre><code class="language-kotlin">
+interface FragmentChannel{
+  fun setTitle(title: String): Unit?
+  fun showLogin()
+}
 </code></pre>
-</div>
 
 <p><code class="highlighter-rouge">BaseFragment.kt</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">BaseFragment</span> <span class="o">:</span> <span class="n">Fragment</span><span class="o">(),</span> <span class="n">IFragment</span><span class="o">{</span>
+<pre><code class="language-kotlin">
+abstract class BaseFragment : Fragment(), IFragment{
 
-  <span class="n">var</span> <span class="nl">fragmentChannel:</span> <span class="n">FragmentChannel</span><span class="o">?</span> <span class="o">=</span> <span class="kc">null</span>
+  var fragmentChannel: FragmentChannel? = null
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">onAttach</span><span class="o">(</span><span class="nl">context:</span> <span class="n">Context</span><span class="o">){</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">onAttach</span><span class="o">(</span><span class="n">context</span><span class="o">)</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">context</span> <span class="n">is</span> <span class="n">FragmentChannel</span><span class="o">){</span>
-      <span class="n">fragmentChannel</span> <span class="o">=</span> <span class="n">context</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
+  override fun onAttach(context: Context){
+    super.onAttach(context)
+    if(context is FragmentChannel){
+      fragmentChannel = context
+    }
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">onCreate</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?){</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">parentFragment</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">parentFragment</span> <span class="n">is</span> <span class="n">FragmentChannel</span><span class="o">){</span>
-      <span class="n">fragmentChannel</span> <span class="o">=</span> <span class="n">parentFragment</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
+  override fun onCreate(savedInstanceState: Bundle?){
+    super.onCreate(savedInstanceState)
+    if(parentFragment != null &amp;&amp; parentFragment is FragmentChannel){
+      fragmentChannel = parentFragment
+    }
+  }
+}
 </code></pre>
-</div>
 
 <p><code class="highlighter-rouge">HomeFragment.kt</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">class</span> <span class="nc">HomeFragment</span> <span class="o">:</span> <span class="n">BaseFragment</span><span class="o">()</span> <span class="o">{</span>
+<pre><code class="language-kotlin">
+class HomeFragment : BaseFragment() {
 
-  <span class="kd">private</span> <span class="n">val</span> <span class="n">FRAGMENT_NAME</span> <span class="o">=</span> <span class="s">"Home"</span>
+  private val FRAGMENT_NAME = "Home"
 
-  <span class="n">companion</span> <span class="n">object</span><span class="o">{</span>
-    <span class="n">fun</span> <span class="n">newInstance</span><span class="o">()</span> <span class="o">=</span> <span class="n">HomeFragment</span><span class="o">()</span>
-  <span class="o">}</span>
+  companion object{
+    fun newInstance() = HomeFragment()
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">getFragmentName</span><span class="o">():</span> <span class="n">String</span> <span class="o">=</span> <span class="n">FRAGMENT_NAME</span>
+  override fun getFragmentName(): String = FRAGMENT_NAME
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">setTitle</span><span class="o">()</span> <span class="o">=</span> <span class="n">fragmentChannel</span><span class="o">?.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">home</span><span class="o">)</span>
+  override fun setTitle() = fragmentChannel?.setTitle(R.string.home)
 
-  <span class="n">fun</span> <span class="n">onLoginButtonClick</span><span class="o">(){</span>
-    <span class="n">fragmentChannel</span><span class="o">?.</span><span class="na">showLogin</span><span class="o">()</span>
-  <span class="o">}</span>
+  fun onLoginButtonClick(){
+    fragmentChannel?.showLogin()
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">dispose</span><span class="o">(){</span>
-    <span class="n">TODO</span><span class="o">(</span><span class="s">"Call presenter dispose method"</span><span class="o">)</span>
-  <span class="o">}</span>
-<span class="o">}</span>
+  override fun dispose(){
+    TODO("Call presenter dispose method")
+  }
+}
 </code></pre>
-</div>
 
 <p><code class="highlighter-rouge">HomeActivity.kt</code></p>
 

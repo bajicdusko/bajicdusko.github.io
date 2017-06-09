@@ -128,7 +128,7 @@ Once you establish hierarchy as below, you won't have to think about it much. On
 
 `EasyFragmentManager.kt`
 
-```java
+```kotlin
 class EasyFragmentManager(private val fragmentManager: FragmentManager, private val fragmentContainerId: Int) {
 
     private val KEY_TAGS = "key_tags"
@@ -200,7 +200,7 @@ class EasyFragmentManager(private val fragmentManager: FragmentManager, private 
 
 `FragmentTagStack.kt`
 
-```java
+```kotlin
 @Parcel(Parcel.Serialization.BEAN)
 class FragmentTagStack {
 
@@ -310,7 +310,7 @@ class FragmentTagStack {
 
 `IFragment.kt`
 
-```java
+```kotlin
 
 interface IFragment {
     fun getFragmentName(): String
@@ -323,7 +323,7 @@ interface IFragment {
 
 `FragmentChannel.kt`
 
-```java
+```kotlin
 
 interface FragmentChannel{
   fun setTitle(title: String): Unit?
@@ -333,7 +333,7 @@ interface FragmentChannel{
 
 `BaseFragment.kt`
 
-```java
+```kotlin
 
 abstract class BaseFragment : Fragment(), IFragment{
 
@@ -357,7 +357,7 @@ abstract class BaseFragment : Fragment(), IFragment{
 
 `HomeFragment.kt`
 
-```java
+```kotlin
 
 class HomeFragment : BaseFragment() {
 
