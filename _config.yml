@@ -3,7 +3,7 @@ title: Dusko Bajic
 description: 'Android Developer. Gadget dependent. Music addicted.'
 url: 'http://bajicdusko.com'
 baseurl: '/'
-# google_analytics: 'UA-XXXXXX-X'
+google_analytics: 'UA-34206359-1'
 disqus_shortname: 'bajicdusko'
 
 author:
