@@ -383,7 +383,7 @@ class HomeFragment : BaseFragment() {
 
 `HomeActivity.kt`
 
-```java
+```kotlin
 class HomeActivity : AppCompatActivity(), FragmentChannel{
 
   @BindView(R.layout.activity_home_container)

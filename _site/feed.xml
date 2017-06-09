@@ -5,8 +5,8 @@
     <description>Android Developer. Gadget dependent. Music addicted.</description>
     <link>http://bajicdusko.com//</link>
     <atom:link href="http://bajicdusko.com//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 09 Jun 2017 09:12:32 +0200</pubDate>
-    <lastBuildDate>Fri, 09 Jun 2017 09:12:32 +0200</lastBuildDate>
+    <pubDate>Fri, 09 Jun 2017 09:27:26 +0200</pubDate>
+    <lastBuildDate>Fri, 09 Jun 2017 09:27:26 +0200</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
     
       <item>
@@ -404,48 +404,47 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HomeActivity.kt&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeActivity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AppCompatActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&quot;language-kotlin&quot;&gt;class HomeActivity : AppCompatActivity(), FragmentChannel{
 
-  &lt;span class=&quot;nd&quot;&gt;@BindView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;activity_home_container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;lateinit&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;flContainer:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FrameLayout&lt;/span&gt;
+  @BindView(R.layout.activity_home_container)
+  lateinit var flContainer: FrameLayout
 
-  &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;EasyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getSupportFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flContainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  val easyFragmentManager by lazy {
+    EasyFragmentManager(getSupportFragmentManager(), flContainer)
+  }
 
-  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;savedInstanceState:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?){&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;setContentView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;activity_home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ButterKnife&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HomeFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  override fun onCreate(savedInstanceState: Bundle?){
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_home)
+    ButterKnife.bind(this)
+    easyFragmentManager.add(HomeFragment.newInstance())
+  }
 
-  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onSaveInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;outState:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?){&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onSaveInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onSaveInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  override fun onSaveInstanceState(outState: Bundle?){
+    super.onSaveInstanceState(outState)
+    easyFragmentManager.onSaveInstanceState(outState)
+  }
 
-  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onRestoreInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;savedInstanceState:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?){&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onRestoreInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onRestoreInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  override fun onRestoreInstanceState(savedInstanceState: Bundle?){
+    super.onRestoreInstanceState(savedInstanceState)
+    easyFragmentManager.onRestoreInstanceState(savedInstanceState)
+  }
 
-  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;titleId:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;supportActionBar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;titleId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  override fun setTitle(titleId: Int) {
+    supportActionBar?.title = getString(titleId)
+  }
 
-  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;showLogin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LoginFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  override fun showLogin(){
+    easyFragmentManager.replace(LoginFragment.newInstance())
+  }
 
-  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onBackPressed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onBackPressed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  override fun onBackPressed(){
+    if(!easyFragmentManager.onBackPressed){
+      finish();
+    }
+  }
+}
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.&lt;/p&gt;
 

@@ -547,48 +547,47 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
 
 <p><code class="highlighter-rouge">HomeActivity.kt</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">HomeActivity</span> <span class="o">:</span> <span class="n">AppCompatActivity</span><span class="o">(),</span> <span class="n">FragmentChannel</span><span class="o">{</span>
+<pre><code class="language-kotlin">class HomeActivity : AppCompatActivity(), FragmentChannel{
 
-  <span class="nd">@BindView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_home_container</span><span class="o">)</span>
-  <span class="n">lateinit</span> <span class="n">var</span> <span class="nl">flContainer:</span> <span class="n">FrameLayout</span>
+  @BindView(R.layout.activity_home_container)
+  lateinit var flContainer: FrameLayout
 
-  <span class="n">val</span> <span class="n">easyFragmentManager</span> <span class="n">by</span> <span class="n">lazy</span> <span class="o">{</span>
-    <span class="n">EasyFragmentManager</span><span class="o">(</span><span class="n">getSupportFragmentManager</span><span class="o">(),</span> <span class="n">flContainer</span><span class="o">)</span>
-  <span class="o">}</span>
+  val easyFragmentManager by lazy {
+    EasyFragmentManager(getSupportFragmentManager(), flContainer)
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">onCreate</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?){</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
-    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_home</span><span class="o">)</span>
-    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
-    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">HomeFragment</span><span class="o">.</span><span class="na">newInstance</span><span class="o">())</span>
-  <span class="o">}</span>
+  override fun onCreate(savedInstanceState: Bundle?){
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_home)
+    ButterKnife.bind(this)
+    easyFragmentManager.add(HomeFragment.newInstance())
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">onSaveInstanceState</span><span class="o">(</span><span class="nl">outState:</span> <span class="n">Bundle</span><span class="o">?){</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">onSaveInstanceState</span><span class="o">(</span><span class="n">outState</span><span class="o">)</span>
-    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">onSaveInstanceState</span><span class="o">(</span><span class="n">outState</span><span class="o">)</span>
-  <span class="o">}</span>
+  override fun onSaveInstanceState(outState: Bundle?){
+    super.onSaveInstanceState(outState)
+    easyFragmentManager.onSaveInstanceState(outState)
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">onRestoreInstanceState</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?){</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">onRestoreInstanceState</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
-    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">onRestoreInstanceState</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
-  <span class="o">}</span>
+  override fun onRestoreInstanceState(savedInstanceState: Bundle?){
+    super.onRestoreInstanceState(savedInstanceState)
+    easyFragmentManager.onRestoreInstanceState(savedInstanceState)
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">setTitle</span><span class="o">(</span><span class="nl">titleId:</span> <span class="n">Int</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">supportActionBar</span><span class="o">?.</span><span class="na">title</span> <span class="o">=</span> <span class="n">getString</span><span class="o">(</span><span class="n">titleId</span><span class="o">)</span>
-  <span class="o">}</span>
+  override fun setTitle(titleId: Int) {
+    supportActionBar?.title = getString(titleId)
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">showLogin</span><span class="o">(){</span>
-    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="n">LoginFragment</span><span class="o">.</span><span class="na">newInstance</span><span class="o">())</span>
-  <span class="o">}</span>
+  override fun showLogin(){
+    easyFragmentManager.replace(LoginFragment.newInstance())
+  }
 
-  <span class="n">override</span> <span class="n">fun</span> <span class="n">onBackPressed</span><span class="o">(){</span>
-    <span class="k">if</span><span class="o">(!</span><span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">onBackPressed</span><span class="o">){</span>
-      <span class="n">finish</span><span class="o">();</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
+  override fun onBackPressed(){
+    if(!easyFragmentManager.onBackPressed){
+      finish();
+    }
+  }
+}
 </code></pre>
-</div>
 
 <p>And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.</p>
 
