@@ -140,7 +140,7 @@ class EasyFragmentManager(private val fragmentManager: FragmentManager, private 
     fun addFragment(fragment: IFragment) {
         fragmentTagStack.push(fragment.getFragmentName())
         fragmentManager.beginTransaction()
-                .add(fragmentContainerId, fragment as Fragment)
+                .add(fragmentContainerId, fragment as Fragment, fragment.getFragmentName())
                 .addToBackStack(fragment.getFragmentName())
                 .commit()
     }
@@ -148,7 +148,7 @@ class EasyFragmentManager(private val fragmentManager: FragmentManager, private 
     fun replaceFragment(fragment: IFragment) {
         fragmentTagStack.push(fragment.getFragmentName())
         fragmentManager.beginTransaction()
-                .replace(fragmentContainerId, fragment as Fragment)
+                .replace(fragmentContainerId, fragment as Fragment, fragment.getFragmentName())
                 .addToBackStack(fragment.getFragmentName())
                 .commit()
     }
