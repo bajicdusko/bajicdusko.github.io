@@ -4,6 +4,7 @@ title: "Simplified Fragment Management"
 date: "2017-06-08 10:03"
 categories: [android]
 tags: [android, fragment, fragmentmanager]
+twitter_excerpt: "EasyFragmentManager is basically a wrapper around FragmentManager and exposes 'add', 'replace', 'popUp', 'onBackPressed' and 'getCurrentFragment' methods. EasyFragmentManager assumes that..."
 ---
 Handling fragments(lifecycle) in android app was complicated from the beginning.
 Nowadays, a lot of internal bugs is fixed, but still there is a general negativity
