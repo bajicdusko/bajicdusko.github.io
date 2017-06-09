@@ -5,8 +5,8 @@
     <description>Android Developer. Gadget dependent. Music addicted.</description>
     <link>http://bajicdusko.com//</link>
     <atom:link href="http://bajicdusko.com//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 08 Jun 2017 23:57:58 +0200</pubDate>
-    <lastBuildDate>Thu, 08 Jun 2017 23:57:58 +0200</lastBuildDate>
+    <pubDate>Fri, 09 Jun 2017 09:12:32 +0200</pubDate>
+    <lastBuildDate>Fri, 09 Jun 2017 09:12:32 +0200</lastBuildDate>
     <generator>Jekyll v3.0.2</generator>
     
       <item>
@@ -20,7 +20,7 @@ number of the activities. Just because it’s “complicated”, it
 does not mean that we have to stop using it. Fragments are (at the moment) part of
 our apps and we have to deal with it the best we can.&lt;/p&gt;
 
-&lt;p&gt;By working on many apps, I’ve noticed few constant problem-patterns when it comes to fragments, listed below, however if you’d just like to jump to implementation, &lt;a href=&quot;#solution&quot;&gt;click here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;These issues might feel a little bit basic, however, by working on many android apps, I’ve noticed few constant problem-patterns (listed-below) when it comes to fragments. If you’d just like to jump to implementation, &lt;a href=&quot;#solution&quot;&gt;click here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -38,8 +38,8 @@ our apps and we have to deal with it the best we can.&lt;/p&gt;
 
     &lt;p&gt;Although this approach makes sense, it is possible that some fragments are removed in the meantime and this list will contain &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; (instead of trimmed size).&lt;/p&gt;
 
-    &lt;p&gt;If for example we have &lt;code class=&quot;highlighter-rouge&quot;&gt;three&lt;/code&gt; fragments on stack and we just tapped back button, we might get &lt;code class=&quot;highlighter-rouge&quot;&gt;fragment.size() == 3&lt;/code&gt; but
-actual number of fragments is &lt;code class=&quot;highlighter-rouge&quot;&gt;two&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;fragments.get(fragments.size() - 1)&lt;/code&gt; will return &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt;.&lt;/p&gt;
+    &lt;p&gt;If, for example, we have &lt;code class=&quot;highlighter-rouge&quot;&gt;three&lt;/code&gt; fragments on stack and we just tapped back button, we might get &lt;code class=&quot;highlighter-rouge&quot;&gt;fragment.size() == 3&lt;/code&gt; but
+actual number of fragments is &lt;code class=&quot;highlighter-rouge&quot;&gt;two&lt;/code&gt; and third position &lt;code class=&quot;highlighter-rouge&quot;&gt;fragments.get(fragments.size() - 1)&lt;/code&gt; will return &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt;.&lt;/p&gt;
 
     &lt;p&gt;And I cannot point the obvious more than it is, but &lt;strong&gt;this is the stack&lt;/strong&gt; and still it can happen with any other index in the list. Since we have a &lt;code class=&quot;highlighter-rouge&quot;&gt;List&amp;lt;&amp;gt;&lt;/code&gt; interface exposed, then we can call &lt;code class=&quot;highlighter-rouge&quot;&gt;fragments.get(0)&lt;/code&gt; and wow, it returns &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;fragments.size()&lt;/code&gt; value will be incorrect and no matter what index we use, we won’t get correct fragment instance.&lt;/p&gt;
 
@@ -75,10 +75,10 @@ we need to update its &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/
 
 &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
   &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
+  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;setSupportActionBar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toolbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;supportFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;beginTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-             &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;activity_home_fragment_container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoginFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+             &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;activity_home_fragment_container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HomeFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addToBackStack&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
@@ -89,19 +89,21 @@ we need to update its &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/
 &lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
 
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LoginFragment.java&lt;/code&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HomeFragment.java&lt;/code&gt;&lt;/p&gt;
 
     &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
- &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-     &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-     &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HomeActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
- &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;onStart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HomeActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
 
-    &lt;p&gt;And this actually works. Except you might get &lt;code class=&quot;highlighter-rouge&quot;&gt;NullPointerException&lt;/code&gt; sometimes or &lt;code class=&quot;highlighter-rouge&quot;&gt;java.lang.IllegalStateException: Fragment LoginFragment not attached to Activity&lt;/code&gt; and honestly I’ve stopped looking for reasons why. If you move &lt;code class=&quot;highlighter-rouge&quot;&gt;getActivity().setTitle(R.string.login);&lt;/code&gt; to some other location in the fragment, &lt;code class=&quot;highlighter-rouge&quot;&gt;setTitle&lt;/code&gt; might get called too late and we’re triggering bad user experience.&lt;/p&gt;
+    &lt;p&gt;And this actually works. Except you might get &lt;code class=&quot;highlighter-rouge&quot;&gt;NullPointerException&lt;/code&gt; sometimes or &lt;code class=&quot;highlighter-rouge&quot;&gt;java.lang.IllegalStateException: Fragment LoginFragment not attached to Activity&lt;/code&gt; and honestly, I’ve stopped looking for reasons why. If you move &lt;code class=&quot;highlighter-rouge&quot;&gt;getActivity().setTitle(R.string.login);&lt;/code&gt; to some other location in the fragment, &lt;code class=&quot;highlighter-rouge&quot;&gt;setTitle&lt;/code&gt; might get called too late and we’re triggering bad user experience.&lt;/p&gt;
 
-    &lt;p&gt;On the other hand, when you’re popping the fragment from the stack, &lt;code class=&quot;highlighter-rouge&quot;&gt;setTitle()&lt;/code&gt; might not get called at all, and you end up with &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt; in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Toolbar&lt;/code&gt; that does not match the content.&lt;/p&gt;
+    &lt;p&gt;On the other hand, when you’re popping the fragment from the stack, you have to call &lt;code class=&quot;highlighter-rouge&quot;&gt;setTitle()&lt;/code&gt; method of the &lt;code class=&quot;highlighter-rouge&quot;&gt;Fragment&lt;/code&gt; which is popping up and at some point &lt;code class=&quot;highlighter-rouge&quot;&gt;setTitle()&lt;/code&gt; method might not get called at all, and you end up with &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt; in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Toolbar&lt;/code&gt; that does not match the content.&lt;/p&gt;
+
+    &lt;p&gt;It does not have to be the title, you might want to change navigation options for different fragments, to show back arrow instead of hamburger icon etc, and setting these options will depend of some method call inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;Fragment&lt;/code&gt;.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Reseting stack&lt;/strong&gt; triggers lifecycle of each fragment along the way&lt;/p&gt;
@@ -116,7 +118,7 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;a name=&quot;solution&quot;&gt;Simple solution&lt;/a&gt; I came up with have three main components:&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;solution&quot;&gt;Simple solution&lt;/a&gt; I came up with have four main components:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -128,17 +130,22 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
   &lt;li&gt;
     &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FragmentTagStack&lt;/code&gt; to handle stack easily and retrieve fragments. It does not contain fragment instances, but its &lt;code class=&quot;highlighter-rouge&quot;&gt;tags&lt;/code&gt; as &lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt; values instead and have only basic methods for &lt;code class=&quot;highlighter-rouge&quot;&gt;pop&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;popUpAll&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;peek&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;getActiveTag&lt;/code&gt; which returns tag of currently shown &lt;code class=&quot;highlighter-rouge&quot;&gt;Fragment&lt;/code&gt; on the screen.&lt;/p&gt;
   &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;‘FragmentChannel’ is the most basic interface for callback implementation between the &lt;code class=&quot;highlighter-rouge&quot;&gt;Fragment&lt;/code&gt; and hosting environment, which can be &lt;code class=&quot;highlighter-rouge&quot;&gt;Activity&lt;/code&gt; or parent &lt;code class=&quot;highlighter-rouge&quot;&gt;Fragment&lt;/code&gt;.&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;It is really simple implementation, however, it helps a lot and here are the implementation steps:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Activity initialize &lt;code class=&quot;highlighter-rouge&quot;&gt;EasyFragmentManager&lt;/code&gt; and calls its &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt; save/restore methods as well as &lt;code class=&quot;highlighter-rouge&quot;&gt;onBackPressed&lt;/code&gt; method.&lt;/li&gt;
+  &lt;li&gt;Activity initialize &lt;code class=&quot;highlighter-rouge&quot;&gt;EasyFragmentManager&lt;/code&gt; and calls its &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt; save/restore methods as well as &lt;code class=&quot;highlighter-rouge&quot;&gt;onBackPressed&lt;/code&gt; method and implements &lt;code class=&quot;highlighter-rouge&quot;&gt;FragmentChannel&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;EasyFragmentManager&lt;/code&gt; initializes &lt;code class=&quot;highlighter-rouge&quot;&gt;FragmentTagStack&lt;/code&gt;, and pushes and pops the &lt;code class=&quot;highlighter-rouge&quot;&gt;tags&lt;/code&gt; to stack as Fragments are added or removed.&lt;/li&gt;
   &lt;li&gt;Each &lt;code class=&quot;highlighter-rouge&quot;&gt;Fragment&lt;/code&gt; implements &lt;code class=&quot;highlighter-rouge&quot;&gt;IFragment&lt;/code&gt; interface.&lt;/li&gt;
+  &lt;li&gt;Tip: Usually, having &lt;code class=&quot;highlighter-rouge&quot;&gt;abstract BaseFragment&lt;/code&gt; class which implements &lt;code class=&quot;highlighter-rouge&quot;&gt;IFragment&lt;/code&gt; and initializes &lt;code class=&quot;highlighter-rouge&quot;&gt;FragmentChannel&lt;/code&gt; is less error prone, then implementing these methods for all Fragments individually.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Example implementation can be found in this &lt;a href=&quot;https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f&quot;&gt;Gist&lt;/a&gt;. as well as implementations of described components below:&lt;/p&gt;
+&lt;p&gt;Example implementation can be found in this &lt;strong&gt;&lt;a href=&quot;https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f&quot;&gt;Gist&lt;/a&gt;&lt;/strong&gt;. as well as implementations of described components below.
+Once you establish hierarchy as below, you won’t have to think about it much. Only component that you’ll update constantly is &lt;code class=&quot;highlighter-rouge&quot;&gt;FragmentChannel&lt;/code&gt; interface since you’ll be implementing all &lt;code class=&quot;highlighter-rouge&quot;&gt;Fragment&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Activity&lt;/code&gt; calls through it. &lt;code class=&quot;highlighter-rouge&quot;&gt;showLogin()&lt;/code&gt; function in example below is one such case.&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;EasyFragmentManager.kt&lt;/code&gt;&lt;/p&gt;
 
@@ -334,6 +341,115 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FragmentChannel.kt&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;title:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Unit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;showLogin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BaseFragment.kt&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BaseFragment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Fragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;fragmentChannel:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onAttach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;context:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onAttach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;fragmentChannel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;savedInstanceState:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?){&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parentFragment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parentFragment&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;fragmentChannel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parentFragment&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HomeFragment.kt&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeFragment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BaseFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FRAGMENT_NAME&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Home&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;companion&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HomeFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getFragmentName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;():&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FRAGMENT_NAME&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onLoginButtonClick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;showLogin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dispose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;TODO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Call presenter dispose method&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HomeActivity.kt&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeActivity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AppCompatActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FragmentChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+  &lt;span class=&quot;nd&quot;&gt;@BindView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;activity_home_container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;lateinit&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;flContainer:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FrameLayout&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;EasyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getSupportFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flContainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;savedInstanceState:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?){&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;setContentView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;activity_home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ButterKnife&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HomeFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onSaveInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;outState:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?){&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onSaveInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onSaveInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onRestoreInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;savedInstanceState:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?){&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onRestoreInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onRestoreInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;titleId:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportActionBar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;titleId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;showLogin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LoginFragment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newInstance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onBackPressed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;easyFragmentManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onBackPressed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/eUG3VWnXFtg&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 </description>
         <pubDate>Thu, 08 Jun 2017 10:03:00 +0200</pubDate>
         <link>http://bajicdusko.com//2017/simplified-fragment-management/</link>

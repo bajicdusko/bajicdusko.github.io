@@ -14,7 +14,7 @@ number of the activities. Just because it's "complicated", it
 does not mean that we have to stop using it. Fragments are (at the moment) part of
 our apps and we have to deal with it the best we can.
 
-By working on many apps, I've noticed few constant problem-patterns when it comes to fragments, listed below, however if you'd just like to jump to implementation, [click here](#solution).
+These issues might feel a little bit basic, however, by working on many android apps, I've noticed few constant problem-patterns (listed-below) when it comes to fragments. If you'd just like to jump to implementation, [click here](#solution).
 
 
 1. __Getting instance of Fragment__ (for whatever reason) from the existing stack of transactions, regardless of the position in the stack.
@@ -31,8 +31,8 @@ By working on many apps, I've noticed few constant problem-patterns when it come
 
    Although this approach makes sense, it is possible that some fragments are removed in the meantime and this list will contain `null` (instead of trimmed size).
 
-   If for example we have `three` fragments on stack and we just tapped back button, we might get `fragment.size() == 3` but
-   actual number of fragments is `two` and `fragments.get(fragments.size() - 1)` will return `null`.
+   If, for example, we have `three` fragments on stack and we just tapped back button, we might get `fragment.size() == 3` but
+   actual number of fragments is `two` and third position `fragments.get(fragments.size() - 1)` will return `null`.
 
    And I cannot point the obvious more than it is, but __this is the stack__ and still it can happen with any other index in the list. Since we have a `List<>` interface exposed, then we can call `fragments.get(0)` and wow, it returns `null`, `fragments.size()` value will be incorrect and no matter what index we use, we won't get correct fragment instance.
 
@@ -68,10 +68,10 @@ By working on many apps, I've noticed few constant problem-patterns when it come
 
    public void onCreate(Bundle savedInstanceState){
      super.onCreate(savedInstanceState);
-
+     ...
      setSupportActionBar(toolbar);
      supportFragmentManager.beginTransaction()
-                .add(R.id.activity_home_fragment_container, LoginFragment.newInstance())
+                .add(R.id.activity_home_fragment_container, HomeFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
    }
@@ -81,19 +81,21 @@ By working on many apps, I've noticed few constant problem-patterns when it come
    }
    ```
 
-   `LoginFragment.java`
+   `HomeFragment.java`
 
    ```java
    @Override
-    public void onStart() {
-        super.onStart();
-        ((HomeActivity)getActivity()).setTitle(R.string.login);
-    }
+   public void onStart() {
+      super.onStart();
+      ((HomeActivity)getActivity()).setTitle(R.string.home);
+   }
    ```
 
-   And this actually works. Except you might get `NullPointerException` sometimes or `java.lang.IllegalStateException: Fragment LoginFragment not attached to Activity` and honestly I've stopped looking for reasons why. If you move `getActivity().setTitle(R.string.login);` to some other location in the fragment, `setTitle` might get called too late and we're triggering bad user experience.
+   And this actually works. Except you might get `NullPointerException` sometimes or `java.lang.IllegalStateException: Fragment LoginFragment not attached to Activity` and honestly, I've stopped looking for reasons why. If you move `getActivity().setTitle(R.string.login);` to some other location in the fragment, `setTitle` might get called too late and we're triggering bad user experience.
 
-   On the other hand, when you're popping the fragment from the stack, `setTitle()` might not get called at all, and you end up with `title` in the `Toolbar` that does not match the content.
+   On the other hand, when you're popping the fragment from the stack, you have to call `setTitle()` method of the `Fragment` which is popping up and at some point `setTitle()` method might not get called at all, and you end up with `title` in the `Toolbar` that does not match the content.
+
+   It does not have to be the title, you might want to change navigation options for different fragments, to show back arrow instead of hamburger icon etc, and setting these options will depend of some method call inside the `Fragment`.
 
 3. __Reseting stack__ triggers lifecycle of each fragment along the way
 
@@ -104,7 +106,7 @@ By working on many apps, I've noticed few constant problem-patterns when it come
 
 4. __Communication__ between fragments and the hosting Activity should not be implemented by casting `getActivity()` method and I like to think that no one implements it like that. Instead, communication between activity and the fragments should be implemented via interface which `Activity` implements, I know, obvious.
 
-<a name="solution">Simple solution</a> I came up with have three main components:
+<a name="solution">Simple solution</a> I came up with have four main components:
 
 - `EasyFragmentManager` which is basically a wrapper around `FragmentManager` and exposes the methods for `add`, `replace`, `popUp`, `popUpAll` and `getCurrentFragment` operations. `EasyFragmentManager` assumes that each `Fragment` implements `IFragment` interface.
 
@@ -112,13 +114,17 @@ By working on many apps, I've noticed few constant problem-patterns when it come
 
 - `FragmentTagStack` to handle stack easily and retrieve fragments. It does not contain fragment instances, but its `tags` as `String` values instead and have only basic methods for `pop`, `popUpAll`, `peek`, `push` and `getActiveTag` which returns tag of currently shown `Fragment` on the screen.
 
+- 'FragmentChannel' is the most basic interface for callback implementation between the `Fragment` and hosting environment, which can be `Activity` or parent `Fragment`.
+
 It is really simple implementation, however, it helps a lot and here are the implementation steps:
 
-1. Activity initialize `EasyFragmentManager` and calls its `state` save/restore methods as well as `onBackPressed` method.
+1. Activity initialize `EasyFragmentManager` and calls its `state` save/restore methods as well as `onBackPressed` method and implements `FragmentChannel`.
 2. `EasyFragmentManager` initializes `FragmentTagStack`, and pushes and pops the `tags` to stack as Fragments are added or removed.
 3. Each `Fragment` implements `IFragment` interface.
+4. Tip: Usually, having `abstract BaseFragment` class which implements `IFragment` and initializes `FragmentChannel` is less error prone, then implementing these methods for all Fragments individually.
 
-Example implementation can be found in this [Gist](https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f). as well as implementations of described components below:
+Example implementation can be found in this __[Gist](https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f)__. as well as implementations of described components below.
+Once you establish hierarchy as below, you won't have to think about it much. Only component that you'll update constantly is `FragmentChannel` interface since you'll be implementing all `Fragment` -> `Activity` calls through it. `showLogin()` function in example below is one such case.
 
 `EasyFragmentManager.kt`
 
@@ -314,3 +320,112 @@ interface IFragment {
     fun dispose()
 }
 ```
+
+`FragmentChannel.kt`
+
+```java
+
+interface FragmentChannel{
+  fun setTitle(title: String): Unit?
+  fun showLogin()
+}
+```
+
+`BaseFragment.kt`
+
+```java
+
+abstract class BaseFragment : Fragment(), IFragment{
+
+  var fragmentChannel: FragmentChannel? = null
+
+  override fun onAttach(context: Context){
+    super.onAttach(context)
+    if(context is FragmentChannel){
+      fragmentChannel = context
+    }
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?){
+    super.onCreate(savedInstanceState)
+    if(parentFragment != null && parentFragment is FragmentChannel){
+      fragmentChannel = parentFragment
+    }
+  }
+}
+```
+
+`HomeFragment.kt`
+
+```java
+
+class HomeFragment : BaseFragment() {
+
+  private val FRAGMENT_NAME = "Home"
+
+  companion object{
+    fun newInstance() = HomeFragment()
+  }
+
+  override fun getFragmentName(): String = FRAGMENT_NAME
+
+  override fun setTitle() = fragmentChannel?.setTitle(R.string.home)
+
+  fun onLoginButtonClick(){
+    fragmentChannel?.showLogin()
+  }
+
+  override fun dispose(){
+    TODO("Call presenter dispose method")
+  }
+}
+```
+
+`HomeActivity.kt`
+
+```java
+class HomeActivity : AppCompatActivity(), FragmentChannel{
+
+  @BindView(R.layout.activity_home_container)
+  lateinit var flContainer: FrameLayout
+
+  val easyFragmentManager by lazy {
+    EasyFragmentManager(getSupportFragmentManager(), flContainer)
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?){
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_home)
+    ButterKnife.bind(this)
+    easyFragmentManager.add(HomeFragment.newInstance())
+  }
+
+  override fun onSaveInstanceState(outState: Bundle?){
+    super.onSaveInstanceState(outState)
+    easyFragmentManager.onSaveInstanceState(outState)
+  }
+
+  override fun onRestoreInstanceState(savedInstanceState: Bundle?){
+    super.onRestoreInstanceState(savedInstanceState)
+    easyFragmentManager.onRestoreInstanceState(savedInstanceState)
+  }
+
+  override fun setTitle(titleId: Int) {
+    supportActionBar?.title = getString(titleId)
+  }
+
+  override fun showLogin(){
+    easyFragmentManager.replace(LoginFragment.newInstance())
+  }
+
+  override fun onBackPressed(){
+    if(!easyFragmentManager.onBackPressed){
+      finish();
+    }
+  }
+}
+```
+
+And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eUG3VWnXFtg" frameborder="0" allowfullscreen></iframe>

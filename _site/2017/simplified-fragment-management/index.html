@@ -163,7 +163,7 @@ number of the activities. Just because it’s “complicated”, it
 does not mean that we have to stop using it. Fragments are (at the moment) part of
 our apps and we have to deal with it the best we can.</p>
 
-<p>By working on many apps, I’ve noticed few constant problem-patterns when it comes to fragments, listed below, however if you’d just like to jump to implementation, <a href="#solution">click here</a>.</p>
+<p>These issues might feel a little bit basic, however, by working on many android apps, I’ve noticed few constant problem-patterns (listed-below) when it comes to fragments. If you’d just like to jump to implementation, <a href="#solution">click here</a>.</p>
 
 <ol>
   <li>
@@ -181,8 +181,8 @@ our apps and we have to deal with it the best we can.</p>
 
     <p>Although this approach makes sense, it is possible that some fragments are removed in the meantime and this list will contain <code class="highlighter-rouge">null</code> (instead of trimmed size).</p>
 
-    <p>If for example we have <code class="highlighter-rouge">three</code> fragments on stack and we just tapped back button, we might get <code class="highlighter-rouge">fragment.size() == 3</code> but
-actual number of fragments is <code class="highlighter-rouge">two</code> and <code class="highlighter-rouge">fragments.get(fragments.size() - 1)</code> will return <code class="highlighter-rouge">null</code>.</p>
+    <p>If, for example, we have <code class="highlighter-rouge">three</code> fragments on stack and we just tapped back button, we might get <code class="highlighter-rouge">fragment.size() == 3</code> but
+actual number of fragments is <code class="highlighter-rouge">two</code> and third position <code class="highlighter-rouge">fragments.get(fragments.size() - 1)</code> will return <code class="highlighter-rouge">null</code>.</p>
 
     <p>And I cannot point the obvious more than it is, but <strong>this is the stack</strong> and still it can happen with any other index in the list. Since we have a <code class="highlighter-rouge">List&lt;&gt;</code> interface exposed, then we can call <code class="highlighter-rouge">fragments.get(0)</code> and wow, it returns <code class="highlighter-rouge">null</code>, <code class="highlighter-rouge">fragments.size()</code> value will be incorrect and no matter what index we use, we won’t get correct fragment instance.</p>
 
@@ -218,10 +218,10 @@ we need to update its <code class="highlighter-rouge">title</code> according to 
 
 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">){</span>
   <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-
+  <span class="o">...</span>
   <span class="n">setSupportActionBar</span><span class="o">(</span><span class="n">toolbar</span><span class="o">);</span>
   <span class="n">supportFragmentManager</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">()</span>
-             <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">activity_home_fragment_container</span><span class="o">,</span> <span class="n">LoginFragment</span><span class="o">.</span><span class="na">newInstance</span><span class="o">())</span>
+             <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">activity_home_fragment_container</span><span class="o">,</span> <span class="n">HomeFragment</span><span class="o">.</span><span class="na">newInstance</span><span class="o">())</span>
              <span class="o">.</span><span class="na">addToBackStack</span><span class="o">(</span><span class="kc">null</span><span class="o">)</span>
              <span class="o">.</span><span class="na">commit</span><span class="o">();</span>
 <span class="o">}</span>
@@ -232,19 +232,21 @@ we need to update its <code class="highlighter-rouge">title</code> according to 
 </code></pre>
     </div>
 
-    <p><code class="highlighter-rouge">LoginFragment.java</code></p>
+    <p><code class="highlighter-rouge">HomeFragment.java</code></p>
 
     <div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
- <span class="kd">public</span> <span class="kt">void</span> <span class="n">onStart</span><span class="o">()</span> <span class="o">{</span>
-     <span class="kd">super</span><span class="o">.</span><span class="na">onStart</span><span class="o">();</span>
-     <span class="o">((</span><span class="n">HomeActivity</span><span class="o">)</span><span class="n">getActivity</span><span class="o">()).</span><span class="na">setTitle</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">login</span><span class="o">);</span>
- <span class="o">}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStart</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+   <span class="kd">super</span><span class="o">.</span><span class="na">onStart</span><span class="o">();</span>
+   <span class="o">((</span><span class="n">HomeActivity</span><span class="o">)</span><span class="n">getActivity</span><span class="o">()).</span><span class="na">setTitle</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">home</span><span class="o">);</span>
+<span class="o">}</span>
 </code></pre>
     </div>
 
-    <p>And this actually works. Except you might get <code class="highlighter-rouge">NullPointerException</code> sometimes or <code class="highlighter-rouge">java.lang.IllegalStateException: Fragment LoginFragment not attached to Activity</code> and honestly I’ve stopped looking for reasons why. If you move <code class="highlighter-rouge">getActivity().setTitle(R.string.login);</code> to some other location in the fragment, <code class="highlighter-rouge">setTitle</code> might get called too late and we’re triggering bad user experience.</p>
+    <p>And this actually works. Except you might get <code class="highlighter-rouge">NullPointerException</code> sometimes or <code class="highlighter-rouge">java.lang.IllegalStateException: Fragment LoginFragment not attached to Activity</code> and honestly, I’ve stopped looking for reasons why. If you move <code class="highlighter-rouge">getActivity().setTitle(R.string.login);</code> to some other location in the fragment, <code class="highlighter-rouge">setTitle</code> might get called too late and we’re triggering bad user experience.</p>
 
-    <p>On the other hand, when you’re popping the fragment from the stack, <code class="highlighter-rouge">setTitle()</code> might not get called at all, and you end up with <code class="highlighter-rouge">title</code> in the <code class="highlighter-rouge">Toolbar</code> that does not match the content.</p>
+    <p>On the other hand, when you’re popping the fragment from the stack, you have to call <code class="highlighter-rouge">setTitle()</code> method of the <code class="highlighter-rouge">Fragment</code> which is popping up and at some point <code class="highlighter-rouge">setTitle()</code> method might not get called at all, and you end up with <code class="highlighter-rouge">title</code> in the <code class="highlighter-rouge">Toolbar</code> that does not match the content.</p>
+
+    <p>It does not have to be the title, you might want to change navigation options for different fragments, to show back arrow instead of hamburger icon etc, and setting these options will depend of some method call inside the <code class="highlighter-rouge">Fragment</code>.</p>
   </li>
   <li>
     <p><strong>Reseting stack</strong> triggers lifecycle of each fragment along the way</p>
@@ -259,7 +261,7 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
   </li>
 </ol>
 
-<p><a name="solution">Simple solution</a> I came up with have three main components:</p>
+<p><a name="solution">Simple solution</a> I came up with have four main components:</p>
 
 <ul>
   <li>
@@ -271,17 +273,22 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
   <li>
     <p><code class="highlighter-rouge">FragmentTagStack</code> to handle stack easily and retrieve fragments. It does not contain fragment instances, but its <code class="highlighter-rouge">tags</code> as <code class="highlighter-rouge">String</code> values instead and have only basic methods for <code class="highlighter-rouge">pop</code>, <code class="highlighter-rouge">popUpAll</code>, <code class="highlighter-rouge">peek</code>, <code class="highlighter-rouge">push</code> and <code class="highlighter-rouge">getActiveTag</code> which returns tag of currently shown <code class="highlighter-rouge">Fragment</code> on the screen.</p>
   </li>
+  <li>
+    <p>‘FragmentChannel’ is the most basic interface for callback implementation between the <code class="highlighter-rouge">Fragment</code> and hosting environment, which can be <code class="highlighter-rouge">Activity</code> or parent <code class="highlighter-rouge">Fragment</code>.</p>
+  </li>
 </ul>
 
 <p>It is really simple implementation, however, it helps a lot and here are the implementation steps:</p>
 
 <ol>
-  <li>Activity initialize <code class="highlighter-rouge">EasyFragmentManager</code> and calls its <code class="highlighter-rouge">state</code> save/restore methods as well as <code class="highlighter-rouge">onBackPressed</code> method.</li>
+  <li>Activity initialize <code class="highlighter-rouge">EasyFragmentManager</code> and calls its <code class="highlighter-rouge">state</code> save/restore methods as well as <code class="highlighter-rouge">onBackPressed</code> method and implements <code class="highlighter-rouge">FragmentChannel</code>.</li>
   <li><code class="highlighter-rouge">EasyFragmentManager</code> initializes <code class="highlighter-rouge">FragmentTagStack</code>, and pushes and pops the <code class="highlighter-rouge">tags</code> to stack as Fragments are added or removed.</li>
   <li>Each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface.</li>
+  <li>Tip: Usually, having <code class="highlighter-rouge">abstract BaseFragment</code> class which implements <code class="highlighter-rouge">IFragment</code> and initializes <code class="highlighter-rouge">FragmentChannel</code> is less error prone, then implementing these methods for all Fragments individually.</li>
 </ol>
 
-<p>Example implementation can be found in this <a href="https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f">Gist</a>. as well as implementations of described components below:</p>
+<p>Example implementation can be found in this <strong><a href="https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f">Gist</a></strong>. as well as implementations of described components below.
+Once you establish hierarchy as below, you won’t have to think about it much. Only component that you’ll update constantly is <code class="highlighter-rouge">FragmentChannel</code> interface since you’ll be implementing all <code class="highlighter-rouge">Fragment</code> -&gt; <code class="highlighter-rouge">Activity</code> calls through it. <code class="highlighter-rouge">showLogin()</code> function in example below is one such case.</p>
 
 <p><code class="highlighter-rouge">EasyFragmentManager.kt</code></p>
 
@@ -477,6 +484,115 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
 <span class="o">}</span>
 </code></pre>
 </div>
+
+<p><code class="highlighter-rouge">FragmentChannel.kt</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">interface</span> <span class="nc">FragmentChannel</span><span class="o">{</span>
+  <span class="n">fun</span> <span class="n">setTitle</span><span class="o">(</span><span class="nl">title:</span> <span class="n">String</span><span class="o">):</span> <span class="n">Unit</span><span class="o">?</span>
+  <span class="n">fun</span> <span class="n">showLogin</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">BaseFragment.kt</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">BaseFragment</span> <span class="o">:</span> <span class="n">Fragment</span><span class="o">(),</span> <span class="n">IFragment</span><span class="o">{</span>
+
+  <span class="n">var</span> <span class="nl">fragmentChannel:</span> <span class="n">FragmentChannel</span><span class="o">?</span> <span class="o">=</span> <span class="kc">null</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">onAttach</span><span class="o">(</span><span class="nl">context:</span> <span class="n">Context</span><span class="o">){</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onAttach</span><span class="o">(</span><span class="n">context</span><span class="o">)</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">context</span> <span class="n">is</span> <span class="n">FragmentChannel</span><span class="o">){</span>
+      <span class="n">fragmentChannel</span> <span class="o">=</span> <span class="n">context</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">onCreate</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?){</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">parentFragment</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">parentFragment</span> <span class="n">is</span> <span class="n">FragmentChannel</span><span class="o">){</span>
+      <span class="n">fragmentChannel</span> <span class="o">=</span> <span class="n">parentFragment</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">HomeFragment.kt</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">HomeFragment</span> <span class="o">:</span> <span class="n">BaseFragment</span><span class="o">()</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">val</span> <span class="n">FRAGMENT_NAME</span> <span class="o">=</span> <span class="s">"Home"</span>
+
+  <span class="n">companion</span> <span class="n">object</span><span class="o">{</span>
+    <span class="n">fun</span> <span class="n">newInstance</span><span class="o">()</span> <span class="o">=</span> <span class="n">HomeFragment</span><span class="o">()</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">getFragmentName</span><span class="o">():</span> <span class="n">String</span> <span class="o">=</span> <span class="n">FRAGMENT_NAME</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">setTitle</span><span class="o">()</span> <span class="o">=</span> <span class="n">fragmentChannel</span><span class="o">?.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">home</span><span class="o">)</span>
+
+  <span class="n">fun</span> <span class="n">onLoginButtonClick</span><span class="o">(){</span>
+    <span class="n">fragmentChannel</span><span class="o">?.</span><span class="na">showLogin</span><span class="o">()</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">dispose</span><span class="o">(){</span>
+    <span class="n">TODO</span><span class="o">(</span><span class="s">"Call presenter dispose method"</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">HomeActivity.kt</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">HomeActivity</span> <span class="o">:</span> <span class="n">AppCompatActivity</span><span class="o">(),</span> <span class="n">FragmentChannel</span><span class="o">{</span>
+
+  <span class="nd">@BindView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_home_container</span><span class="o">)</span>
+  <span class="n">lateinit</span> <span class="n">var</span> <span class="nl">flContainer:</span> <span class="n">FrameLayout</span>
+
+  <span class="n">val</span> <span class="n">easyFragmentManager</span> <span class="n">by</span> <span class="n">lazy</span> <span class="o">{</span>
+    <span class="n">EasyFragmentManager</span><span class="o">(</span><span class="n">getSupportFragmentManager</span><span class="o">(),</span> <span class="n">flContainer</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">onCreate</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?){</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
+    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_home</span><span class="o">)</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">HomeFragment</span><span class="o">.</span><span class="na">newInstance</span><span class="o">())</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">onSaveInstanceState</span><span class="o">(</span><span class="nl">outState:</span> <span class="n">Bundle</span><span class="o">?){</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onSaveInstanceState</span><span class="o">(</span><span class="n">outState</span><span class="o">)</span>
+    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">onSaveInstanceState</span><span class="o">(</span><span class="n">outState</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">onRestoreInstanceState</span><span class="o">(</span><span class="nl">savedInstanceState:</span> <span class="n">Bundle</span><span class="o">?){</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onRestoreInstanceState</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
+    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">onRestoreInstanceState</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">setTitle</span><span class="o">(</span><span class="nl">titleId:</span> <span class="n">Int</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">supportActionBar</span><span class="o">?.</span><span class="na">title</span> <span class="o">=</span> <span class="n">getString</span><span class="o">(</span><span class="n">titleId</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">showLogin</span><span class="o">(){</span>
+    <span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="n">LoginFragment</span><span class="o">.</span><span class="na">newInstance</span><span class="o">())</span>
+  <span class="o">}</span>
+
+  <span class="n">override</span> <span class="n">fun</span> <span class="n">onBackPressed</span><span class="o">(){</span>
+    <span class="k">if</span><span class="o">(!</span><span class="n">easyFragmentManager</span><span class="o">.</span><span class="na">onBackPressed</span><span class="o">){</span>
+      <span class="n">finish</span><span class="o">();</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eUG3VWnXFtg" frameborder="0" allowfullscreen=""></iframe>
 
   </section>
   <section id="disqus_thread"></section><!-- /#disqus_thread -->
