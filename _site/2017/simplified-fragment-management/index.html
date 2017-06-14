@@ -383,7 +383,7 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
     <span class="k">fun</span> <span class="nf">addFragment</span><span class="p">(</span><span class="n">fragment</span><span class="p">:</span> <span class="n">IFragment</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">fragmentTagStack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
         <span class="n">fragmentManager</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">()</span>
-                <span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">fragmentContainerId</span><span class="p">,</span> <span class="n">fragment</span> <span class="k">as</span> <span class="n">Fragment</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">fragmentContainerId</span><span class="p">,</span> <span class="n">fragment</span> <span class="k">as</span> <span class="n">Fragment</span><span class="p">,</span> <span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
                 <span class="p">.</span><span class="n">addToBackStack</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
                 <span class="p">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="p">}</span>
@@ -391,7 +391,7 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
     <span class="k">fun</span> <span class="nf">replaceFragment</span><span class="p">(</span><span class="n">fragment</span><span class="p">:</span> <span class="n">IFragment</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">fragmentTagStack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
         <span class="n">fragmentManager</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">()</span>
-                <span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">fragmentContainerId</span><span class="p">,</span> <span class="n">fragment</span> <span class="k">as</span> <span class="n">Fragment</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">fragmentContainerId</span><span class="p">,</span> <span class="n">fragment</span> <span class="k">as</span> <span class="n">Fragment</span><span class="p">,</span> <span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
                 <span class="p">.</span><span class="n">addToBackStack</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
                 <span class="p">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="p">}</span>
