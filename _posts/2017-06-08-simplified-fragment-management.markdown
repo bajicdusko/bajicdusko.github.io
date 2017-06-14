@@ -121,7 +121,12 @@ And here is the sequence diagram that simplifies the explanation, that shows bas
 
 ![Sequence Diagram]({{ site.url }}/images/posts/2017/2017-06-08-fragmentdiagram.svg)
 
-It is obvious that implementation is really simple. These are the preconditions you must fulfill.
+It is obvious that implementation is really simple.
+To make things even more easier, sources can be easily found by referencing the library in your `build.gradle` file: `implementation 'com.bajicdusko:fragment-manager:1.0.2'`.
+
+You have the freedom to reimplement base classes for the activities and fragments, or you can extend already prepared `SFMActivity` and `SFMFragment` class which do all the work for you.
+
+In case that you're unable to extend these classes, these are the preconditions you have to prepare in your own class.
 
 1. Activity initialize `SimpleFragmentManager`.
   - Override `onSaveInstanceState` and `onRestoreInstanceState` methods and forward the state to `SimpleFragmentManager`.
@@ -129,7 +134,7 @@ It is obvious that implementation is really simple. These are the preconditions 
   - Implement `FragmentChannel`.
 2. Each `Fragment` implements `IFragment` interface. _Tip: Usually, having `abstract BaseFragment` class which implements `IFragment` and initializes `FragmentChannel` is less error prone, then implementing these methods for all Fragments individually._
 
-Example implementation can be found in this __[Gist](https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f)__. as well as implementations of described components below.
+Example implementation can be found in this __[sample project](https://github.com/bajicdusko/SimpleFragmentManager)__. as well as implementations of described components below.
 Once you establish hierarchy as below, you won't have to think about it much. Only component that you'll update constantly is `FragmentChannel` interface since you'll be implementing all `Fragment` -> `Activity` calls through it. `showLogin()` function in example below is one such case.
 
 `SimpleFragmentManager.kt`
