@@ -21,6 +21,10 @@ defaults:
     values:
         layout: 'post'
 
+# Diagrams
+mermaid:
+  src: '/js/mermaid.js'
+
 # Build settings
 destination: _site
 paginate: 10
@@ -34,5 +38,5 @@ kramdown:
   # do not replace newlines by <br>s
   hard_wrap: false
 
-gems: ['jekyll-paginate']
+gems: ['jekyll-paginate', 'jekyll-mermaid']
 exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'screenshot.png']

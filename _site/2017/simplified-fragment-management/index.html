@@ -48,7 +48,8 @@
   <meta name="theme-color" content="#ffffff">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://bajicdusko.com//2017/simplified-fragment-management/">
+  <link rel="stylesheet" href="/css/mermaid.css">
+  <link rel="canonical" href="http://localhost:4000//2017/simplified-fragment-management/">
   <link rel="alternate" type="application/rss+xml" title="Dusko Bajic" href="/feed.xml">
 </head>
 
@@ -176,7 +177,7 @@ our apps and we have to deal with it the best we can.</p>
 
     <p>One way of getting the last added fragment might be this one:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//fetching all fragments</span>
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//fetching all fragments</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">Fragment</span><span class="o">&gt;</span> <span class="n">fragments</span> <span class="o">=</span> <span class="n">fragmentManager</span><span class="o">.</span><span class="na">getFragments</span><span class="o">();</span>
 
 <span class="c1">//getting last added fragment</span>
@@ -193,7 +194,7 @@ actual number of fragments is <code class="highlighter-rouge">two</code> and thi
 
     <p>Then we might say, ok we can use this approach instead:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//fetching all fragments</span>
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//fetching all fragments</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">Fragment</span><span class="o">&gt;</span> <span class="n">fragments</span> <span class="o">=</span> <span class="n">fragmentManager</span><span class="o">.</span><span class="na">getFragments</span><span class="o">();</span>
 
 <span class="c1">//getting the actual number of fragments from the fragmentManager</span>
@@ -218,10 +219,10 @@ we need to update its <code class="highlighter-rouge">title</code> according to 
 
     <p><code class="highlighter-rouge">HomeActivity.java</code></p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@Inject</span> <span class="n">FragmentManager</span> <span class="n">supportFragmentManager</span><span class="o">;</span>
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Inject</span> <span class="n">FragmentManager</span> <span class="n">supportFragmentManager</span><span class="o">;</span>
 <span class="nd">@BindView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">toolbar</span><span class="o">)</span> <span class="n">Toolbar</span> <span class="n">toolbar</span><span class="o">;</span>
 
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">){</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">){</span>
   <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
   <span class="o">...</span>
   <span class="n">setSupportActionBar</span><span class="o">(</span><span class="n">toolbar</span><span class="o">);</span>
@@ -231,7 +232,7 @@ we need to update its <code class="highlighter-rouge">title</code> according to 
              <span class="o">.</span><span class="na">commit</span><span class="o">();</span>
 <span class="o">}</span>
 
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTitle</span><span class="p">(</span><span class="nd">@StringRes</span> <span class="kt">int</span> <span class="n">titleId</span><span class="o">){</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTitle</span><span class="o">(</span><span class="nd">@StringRes</span> <span class="kt">int</span> <span class="n">titleId</span><span class="o">){</span>
   <span class="n">getSupportActionBar</span><span class="o">().</span><span class="na">setTitle</span><span class="o">(</span><span class="n">getString</span><span class="o">(</span><span class="n">titleId</span><span class="o">));</span>
 <span class="o">}</span>
 </code></pre>
@@ -239,8 +240,8 @@ we need to update its <code class="highlighter-rouge">title</code> according to 
 
     <p><code class="highlighter-rouge">HomeFragment.java</code></p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStart</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStart</span><span class="o">()</span> <span class="o">{</span>
    <span class="kd">super</span><span class="o">.</span><span class="na">onStart</span><span class="o">();</span>
    <span class="o">((</span><span class="n">HomeActivity</span><span class="o">)</span><span class="n">getActivity</span><span class="o">()).</span><span class="na">setTitle</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">home</span><span class="o">);</span>
 <span class="o">}</span>
@@ -279,17 +280,92 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
     <p><code class="highlighter-rouge">FragmentTagStack</code> to handle stack easily and retrieve fragments. It does not contain fragment instances, but its <code class="highlighter-rouge">tags</code> as <code class="highlighter-rouge">String</code> values instead and have only basic methods for <code class="highlighter-rouge">pop</code>, <code class="highlighter-rouge">popUpAll</code>, <code class="highlighter-rouge">peek</code>, <code class="highlighter-rouge">push</code> and <code class="highlighter-rouge">getActiveTag</code> which returns tag of currently shown <code class="highlighter-rouge">Fragment</code> on the screen.</p>
   </li>
   <li>
-    <p>‘FragmentChannel’ is the most basic interface for callback implementation between the <code class="highlighter-rouge">Fragment</code> and hosting environment, which can be <code class="highlighter-rouge">Activity</code> or parent <code class="highlighter-rouge">Fragment</code>.</p>
+    <p><code class="highlighter-rouge">FragmentChannel</code> is the most basic interface for callback implementation between the <code class="highlighter-rouge">Fragment</code> and hosting environment, which can be <code class="highlighter-rouge">Activity</code> or parent <code class="highlighter-rouge">Fragment</code>.</p>
   </li>
 </ul>
 
-<p>It is really simple implementation, however, it helps a lot and here are the implementation steps:</p>
+<p>And here is the sequence diagram that simplifies the explanation, that shows basic interaction with adding, replacing and removing fragments.</p>
+
+<script src="/js/mermaid.js"></script>
+<div class="mermaid">
+sequenceDiagram
+    participant Activity
+    participant EasyFragmentManager
+    participant FragmentManager
+    participant FragmentTagStack
+    participant Fragment
+    Activity-&gt;&gt;EasyFragmentManager: Initialize
+    activate Activity
+    Activity-&gt;&gt;+Fragment: Creates new instance
+    Fragment-&gt;&gt;-Activity: Return IFragment instance
+    Activity-&gt;&gt;EasyFragmentManager: Adds new IFragment
+    deactivate Activity
+    activate EasyFragmentManager
+    EasyFragmentManager-&gt;&gt;FragmentManager: Commits transaction
+    EasyFragmentManager-&gt;&gt;FragmentTagStack: Pushes the tag
+    deactivate EasyFragmentManager
+    Note over Activity,Fragment: User interaction
+    Fragment-&gt;&gt;Activity: (via FragmentChannel) Open some other fragment
+    activate Activity
+    Activity-&gt;&gt;+Fragment: Create some other instance
+    Fragment-&gt;&gt;-Activity: Return some other IFragment instance
+    Activity-&gt;&gt;EasyFragmentManager: Replace existing IFragment with newly created
+    deactivate Activity
+    activate EasyFragmentManager
+    EasyFragmentManager-&gt;&gt;FragmentManager: Commits transaction
+    EasyFragmentManager-&gt;&gt;FragmentTagStack: Pushes the tag
+    deactivate EasyFragmentManager
+    Note over Activity,Fragment: User interaction
+    Fragment-&gt;&gt;+Activity: User pressed the back button
+    Activity-&gt;&gt;-EasyFragmentManager: Checking for the state of fragment stack
+    alt is not last fragment
+      activate EasyFragmentManager
+      EasyFragmentManager-&gt;&gt;FragmentManager: Pop Immediate
+      EasyFragmentManager-&gt;&gt;FragmentTagStack: Pop up the tag
+      EasyFragmentManager-&gt;&gt;+FragmentTagStack: Get tag of current fragment
+      FragmentTagStack-&gt;&gt;-EasyFragmentManager: Returns tag of current fragment
+      EasyFragmentManager-&gt;&gt;+FragmentManager: Find fragment by tag
+      FragmentManager--&gt;&gt;-EasyFragmentManager: Returns the fragment
+      EasyFragmentManager--&gt;&gt;+Fragment: Set the title
+      Fragment--&gt;&gt;-Activity: (via FragmentChannel) Set the title
+      Note over Activity: Setting the title.
+      EasyFragmentManager-&gt;&gt;Activity: TRUE
+      deactivate EasyFragmentManager
+    else is last fragment
+      EasyFragmentManager-&gt;&gt;Activity: FALSE
+      Note over Activity: Finish
+      Activity-&gt;&gt;EasyFragmentManager: Disposing on destroy
+      activate Activity
+      EasyFragmentManager-&gt;&gt;FragmentTagStack: Get tag of current fragment
+      activate FragmentTagStack
+      FragmentTagStack-&gt;&gt;EasyFragmentManager: Returns tag of current fragment
+      deactivate FragmentTagStack
+      EasyFragmentManager-&gt;&gt;FragmentManager: Find fragment by tag
+      activate FragmentManager
+      FragmentManager--&gt;&gt;EasyFragmentManager: Returns the fragment
+      deactivate FragmentManager
+      EasyFragmentManager--&gt;&gt;Fragment: Dispose
+      activate Fragment
+      Note over Fragment: Disposing all RX streams for example
+      Fragment--&gt;&gt;EasyFragmentManager: Dispose completed
+      deactivate Fragment
+      EasyFragmentManager-&gt;&gt;Activity: Everything disposed
+      deactivate Activity
+      Note over Activity: Finished
+    end
+</div>
+
+<p>It is obvious that implementation is really simple. These are the preconditions you must fulfill.</p>
 
 <ol>
-  <li>Activity initialize <code class="highlighter-rouge">EasyFragmentManager</code> and calls its <code class="highlighter-rouge">state</code> save/restore methods as well as <code class="highlighter-rouge">onBackPressed</code> method and implements <code class="highlighter-rouge">FragmentChannel</code>.</li>
-  <li><code class="highlighter-rouge">EasyFragmentManager</code> initializes <code class="highlighter-rouge">FragmentTagStack</code>, and pushes and pops the <code class="highlighter-rouge">tags</code> to stack as Fragments are added or removed.</li>
-  <li>Each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface.</li>
-  <li>Tip: Usually, having <code class="highlighter-rouge">abstract BaseFragment</code> class which implements <code class="highlighter-rouge">IFragment</code> and initializes <code class="highlighter-rouge">FragmentChannel</code> is less error prone, then implementing these methods for all Fragments individually.</li>
+  <li>Activity initialize <code class="highlighter-rouge">EasyFragmentManager</code>.
+    <ul>
+      <li>Override <code class="highlighter-rouge">onSaveInstanceState</code> and <code class="highlighter-rouge">onRestoreInstanceState</code> methods and forward the state to <code class="highlighter-rouge">EasyFragmentManager</code>.</li>
+      <li>Override <code class="highlighter-rouge">onBackPressed</code> method forward the call to <code class="highlighter-rouge">EasyFragmentManager</code>.</li>
+      <li>Implement <code class="highlighter-rouge">FragmentChannel</code>.</li>
+    </ul>
+  </li>
+  <li>Each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface. <em>Tip: Usually, having <code class="highlighter-rouge">abstract BaseFragment</code> class which implements <code class="highlighter-rouge">IFragment</code> and initializes <code class="highlighter-rouge">FragmentChannel</code> is less error prone, then implementing these methods for all Fragments individually.</em></li>
 </ol>
 
 <p>Example implementation can be found in this <strong><a href="https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f">Gist</a></strong>. as well as implementations of described components below.
@@ -297,119 +373,120 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
 
 <p><code class="highlighter-rouge">EasyFragmentManager.kt</code></p>
 
-<pre><code class="language-kotlin">class EasyFragmentManager(private val fragmentManager: FragmentManager, private val fragmentContainerId: Int) {
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">EasyFragmentManager</span><span class="p">(</span><span class="k">private</span> <span class="kd">val</span> <span class="py">fragmentManager</span><span class="p">:</span> <span class="n">FragmentManager</span><span class="p">,</span> <span class="k">private</span> <span class="kd">val</span> <span class="py">fragmentContainerId</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
 
-    private val KEY_TAGS = "key_tags"
-    private var fragmentTagStack: FragmentTagStack = FragmentTagStack()
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">KEY_TAGS</span> <span class="p">=</span> <span class="s">"key_tags"</span>
+    <span class="k">private</span> <span class="kd">var</span> <span class="py">fragmentTagStack</span><span class="p">:</span> <span class="n">FragmentTagStack</span> <span class="p">=</span> <span class="n">FragmentTagStack</span><span class="p">()</span>
 
-    constructor(fragmentManager: FragmentManager, fragmentContainer: FrameLayout) : this(fragmentManager, fragmentContainer.id)
+    <span class="k">constructor</span><span class="p">(</span><span class="n">fragmentManager</span><span class="p">:</span> <span class="n">FragmentManager</span><span class="p">,</span> <span class="n">fragmentContainer</span><span class="p">:</span> <span class="n">FrameLayout</span><span class="p">)</span> <span class="p">:</span> <span class="k">this</span><span class="p">(</span><span class="n">fragmentManager</span><span class="p">,</span> <span class="n">fragmentContainer</span><span class="p">.</span><span class="n">id</span><span class="p">)</span>
 
-    fun addFragment(fragment: IFragment) {
-        fragmentTagStack.push(fragment.getFragmentName())
-        fragmentManager.beginTransaction()
-                .add(fragmentContainerId, fragment as Fragment)
-                .addToBackStack(fragment.getFragmentName())
-                .commit()
-    }
+    <span class="k">fun</span> <span class="nf">addFragment</span><span class="p">(</span><span class="n">fragment</span><span class="p">:</span> <span class="n">IFragment</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fragmentTagStack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
+        <span class="n">fragmentManager</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">fragmentContainerId</span><span class="p">,</span> <span class="n">fragment</span> <span class="k">as</span> <span class="n">Fragment</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">addToBackStack</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
+                <span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    fun replaceFragment(fragment: IFragment) {
-        fragmentTagStack.push(fragment.getFragmentName())
-        fragmentManager.beginTransaction()
-                .replace(fragmentContainerId, fragment as Fragment)
-                .addToBackStack(fragment.getFragmentName())
-                .commit()
-    }
+    <span class="k">fun</span> <span class="nf">replaceFragment</span><span class="p">(</span><span class="n">fragment</span><span class="p">:</span> <span class="n">IFragment</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fragmentTagStack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
+        <span class="n">fragmentManager</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">fragmentContainerId</span><span class="p">,</span> <span class="n">fragment</span> <span class="k">as</span> <span class="n">Fragment</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">addToBackStack</span><span class="p">(</span><span class="n">fragment</span><span class="p">.</span><span class="n">getFragmentName</span><span class="p">())</span>
+                <span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    /**
+    <span class="cm">/**
      * When [Activity.onBackPressed] is called it is a good practice to override it and to call this method.
      * This method won't allow removal of last fragment on the stack.
      *
      * @return TRUE if fragment is poppedUp aka method is consumed, or FALSE if there is only one Fragment
      * on the stack.
-     */
-    fun onBackPressed(): Boolean {
-        if (fragmentManager.backStackEntryCount &gt; 1) {
-            popUp()
-            var currentFragment = getCurrentFragment()
-            currentFragment?.setTitle()
-            return true
-        } else {
-            return false
-        }
-    }
+     */</span>
+    <span class="k">fun</span> <span class="nf">onBackPressed</span><span class="p">():</span> <span class="n">Boolean</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fragmentManager</span><span class="p">.</span><span class="n">backStackEntryCount</span> <span class="p">&gt;</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">popUp</span><span class="p">()</span>
+            <span class="kd">var</span> <span class="py">currentFragment</span> <span class="p">=</span> <span class="n">getCurrentFragment</span><span class="p">()</span>
+            <span class="n">currentFragment</span><span class="o">?.</span><span class="n">setTitle</span><span class="p">()</span>
+            <span class="k">return</span> <span class="k">true</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">false</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    fun popUp() {
-        fragmentManager.popBackStackImmediate()
-        fragmentTagStack.pop()
-    }
+    <span class="k">fun</span> <span class="nf">popUp</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">fragmentManager</span><span class="p">.</span><span class="n">popBackStackImmediate</span><span class="p">()</span>
+        <span class="n">fragmentTagStack</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    fun popUpAll() {
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        fragmentTagStack.popUpAll()
-    }
+    <span class="k">fun</span> <span class="nf">popUpAll</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">fragmentManager</span><span class="p">.</span><span class="n">popBackStack</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="n">FragmentManager</span><span class="p">.</span><span class="n">POP_BACK_STACK_INCLUSIVE</span><span class="p">)</span>
+        <span class="n">fragmentTagStack</span><span class="p">.</span><span class="n">popUpAll</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    fun getCurrentFragment(): IFragment? = fragmentManager.findFragmentByTag(fragmentTagStack.activeTag) as IFragment?
+    <span class="k">fun</span> <span class="nf">getCurrentFragment</span><span class="p">():</span> <span class="n">IFragment</span><span class="p">?</span> <span class="p">=</span> <span class="n">fragmentManager</span><span class="p">.</span><span class="n">findFragmentByTag</span><span class="p">(</span><span class="n">fragmentTagStack</span><span class="p">.</span><span class="n">activeTag</span><span class="p">)</span> <span class="k">as</span> <span class="n">IFragment</span><span class="p">?</span>
 
-    fun dispose() = getCurrentFragment()?.dispose()
+    <span class="k">fun</span> <span class="nf">dispose</span><span class="p">()</span> <span class="p">=</span> <span class="n">getCurrentFragment</span><span class="p">()</span><span class="o">?.</span><span class="n">dispose</span><span class="p">()</span>
 
-    fun onSaveInstanceState(state: Bundle?) {
-        state?.putParcelable(KEY_TAGS, Parcels.wrap(fragmentTagStack))
-    }
+    <span class="k">fun</span> <span class="nf">onSaveInstanceState</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="n">state</span><span class="o">?.</span><span class="n">putParcelable</span><span class="p">(</span><span class="n">KEY_TAGS</span><span class="p">,</span> <span class="n">Parcels</span><span class="p">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">fragmentTagStack</span><span class="p">))</span>
+    <span class="p">}</span>
 
-    fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            fragmentTagStack = Parcels.unwrap(savedInstanceState.getParcelable(KEY_TAGS))
-        } else {
-            fragmentTagStack = FragmentTagStack()
-        }
-    }
-}
+    <span class="k">fun</span> <span class="nf">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">savedInstanceState</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">fragmentTagStack</span> <span class="p">=</span> <span class="n">Parcels</span><span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">.</span><span class="n">getParcelable</span><span class="p">(</span><span class="n">KEY_TAGS</span><span class="p">))</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">fragmentTagStack</span> <span class="p">=</span> <span class="n">FragmentTagStack</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <p><code class="highlighter-rouge">FragmentTagStack.kt</code></p>
 
-<pre><code class="language-kotlin">@Parcel(Parcel.Serialization.BEAN)
-class FragmentTagStack {
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code><span class="n">@Parcel</span><span class="p">(</span><span class="n">Parcel</span><span class="p">.</span><span class="n">Serialization</span><span class="p">.</span><span class="n">BEAN</span><span class="p">)</span>
+<span class="kd">class</span> <span class="nc">FragmentTagStack</span> <span class="p">{</span>
 
-    @Transient private var showLogs: Boolean = false
+    <span class="n">@Transient</span> <span class="k">private</span> <span class="kd">var</span> <span class="py">showLogs</span><span class="p">:</span> <span class="n">Boolean</span> <span class="p">=</span> <span class="k">false</span>
 
-    var tags: MutableList&lt;String&gt;
-        private set
+    <span class="kd">var</span> <span class="py">tags</span><span class="p">:</span> <span class="n">MutableList</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span>
+        <span class="k">private</span> <span class="k">set</span>
 
-    var activeTag: String? = null
-        private set
+    <span class="kd">var</span> <span class="py">activeTag</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+        <span class="k">private</span> <span class="k">set</span>
 
-    constructor(){
-        tags = LinkedList()
-    }
+    <span class="k">constructor</span><span class="p">(){</span>
+        <span class="n">tags</span> <span class="p">=</span> <span class="n">LinkedList</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    @ParcelConstructor
-    constructor(tags: MutableList&lt;String&gt;, activeTag: String) {
-        this.tags = tags
-        this.activeTag = activeTag
-    }
+    <span class="n">@ParcelConstructor</span>
+    <span class="k">constructor</span><span class="p">(</span><span class="n">tags</span><span class="p">:</span> <span class="n">MutableList</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;,</span> <span class="n">activeTag</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">tags</span> <span class="p">=</span> <span class="n">tags</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">activeTag</span> <span class="p">=</span> <span class="n">activeTag</span>
+    <span class="p">}</span>
 
-    /**
+    <span class="cm">/**
      * Enabling or disabling fragment stack logs. Logs are disabled by default.
 
      * @param showLogs
-     */
-    fun setShowLogs(showLogs: Boolean) {
-        this.showLogs = showLogs
-    }
+     */</span>
+    <span class="k">fun</span> <span class="nf">setShowLogs</span><span class="p">(</span><span class="n">showLogs</span><span class="p">:</span> <span class="n">Boolean</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">showLogs</span> <span class="p">=</span> <span class="n">showLogs</span>
+    <span class="p">}</span>
 
-    /**
+    <span class="cm">/**
      * Pushing new tag to stack and setting is as [FragmentTagStack.activeTag]
 
      * @param tag
-     */
-    fun push(tag: String) {
-        tags.add(tag)
-        activeTag = tag
-        logStack()
-    }
+     */</span>
+    <span class="k">fun</span> <span class="nf">push</span><span class="p">(</span><span class="n">tag</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">tags</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">activeTag</span> <span class="p">=</span> <span class="n">tag</span>
+        <span class="n">logStack</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    /**
+    <span class="cm">/**
      * Popping tag from the stack and setting the tag below as new [FragmentTagStack.activeTag]
      *
      *
@@ -425,168 +502,174 @@ class FragmentTagStack {
      * Stack [2, 1, 0] [FragmentTagStack.activeTag] have value 2
 
      * @return Popped up value. From the example above, returned value will be 3. In case of empty stack, null will be returned.
-     */
-    fun pop(): String? {
-        val tag = peek()
-        if (!TextUtils.isEmpty(tag)) {
-            tags.removeAt(tags.size - 1)
-        }
+     */</span>
+    <span class="k">fun</span> <span class="nf">pop</span><span class="p">():</span> <span class="n">String</span><span class="p">?</span> <span class="p">{</span>
+        <span class="kd">val</span> <span class="py">tag</span> <span class="p">=</span> <span class="n">peek</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(!</span><span class="n">TextUtils</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">tags</span><span class="p">.</span><span class="n">removeAt</span><span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">size</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span>
+        <span class="p">}</span>
 
-        activeTag = peek()
-        logStack()
-        return tag
-    }
+        <span class="n">activeTag</span> <span class="p">=</span> <span class="n">peek</span><span class="p">()</span>
+        <span class="n">logStack</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">tag</span>
+    <span class="p">}</span>
 
-    /**
+    <span class="cm">/**
      * Peeking to the top of the stack, without data modification.
 
      * @return Value on top of the stack. If stack is empty, returned value will be null.
-     */
-    fun peek(): String? {
-        if (tags.size &gt; 0) {
-            return tags[tags.size - 1]
-        } else {
-            return null
-        }
-    }
+     */</span>
+    <span class="k">fun</span> <span class="nf">peek</span><span class="p">():</span> <span class="n">String</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">tags</span><span class="p">.</span><span class="n">size</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">tags</span><span class="p">[</span><span class="n">tags</span><span class="p">.</span><span class="n">size</span> <span class="p">-</span> <span class="m">1</span><span class="p">]</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">null</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    private fun logStack() {
-        if (showLogs) {
-            val stringBuilder = StringBuilder()
-            stringBuilder.append("Active tag: $activeTag\nStack:\n")
-            for (i in tags.size - 1 downTo 0) {
-                stringBuilder.append("[ ${tags[i]}]\n")
-            }
-            Log.d(TAG, stringBuilder.toString())
-        }
-    }
+    <span class="k">private</span> <span class="k">fun</span> <span class="nf">logStack</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">showLogs</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">val</span> <span class="py">stringBuilder</span> <span class="p">=</span> <span class="n">StringBuilder</span><span class="p">()</span>
+            <span class="n">stringBuilder</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"Active tag: $activeTag\nStack:\n"</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="n">tags</span><span class="p">.</span><span class="n">size</span> <span class="p">-</span> <span class="m">1</span> <span class="n">downTo</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">stringBuilder</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"[ ${tags[i]}]\n"</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="n">Log</span><span class="p">.</span><span class="n">d</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="n">stringBuilder</span><span class="p">.</span><span class="n">toString</span><span class="p">())</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    /**
+    <span class="cm">/**
      * Clears the stack.
-     */
-    fun popUpAll() {
-        tags.clear()
-    }
+     */</span>
+    <span class="k">fun</span> <span class="nf">popUpAll</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">tags</span><span class="p">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    companion object {
+    <span class="k">companion</span> <span class="kd">object</span> <span class="err">{
 
-        @Transient private val TAG = "FragmentTagStack"
-    }
-}
+        </span><span class="nc">@Transient</span> <span class="k">private</span> <span class="kd">val</span> <span class="py">TAG</span> <span class="p">=</span> <span class="s">"FragmentTagStack"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <p><code class="highlighter-rouge">IFragment.kt</code></p>
 
-<pre><code class="language-kotlin">
-interface IFragment {
-    fun getFragmentName(): String
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">interface</span> <span class="nc">IFragment</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">getFragmentName</span><span class="p">():</span> <span class="n">String</span>
 
-    fun setTitle(): Unit?
+    <span class="k">fun</span> <span class="nf">setTitle</span><span class="p">():</span> <span class="n">Unit</span><span class="p">?</span>
 
-    fun dispose()
-}
+    <span class="k">fun</span> <span class="nf">dispose</span><span class="p">()</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <p><code class="highlighter-rouge">FragmentChannel.kt</code></p>
 
-<pre><code class="language-kotlin">
-interface FragmentChannel{
-  fun setTitle(title: String): Unit?
-  fun showLogin()
-}
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">interface</span> <span class="nc">FragmentChannel</span><span class="p">{</span>
+  <span class="k">fun</span> <span class="nf">setTitle</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Unit</span><span class="p">?</span>
+  <span class="k">fun</span> <span class="nf">showLogin</span><span class="p">()</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <p><code class="highlighter-rouge">BaseFragment.kt</code></p>
 
-<pre><code class="language-kotlin">
-abstract class BaseFragment : Fragment(), IFragment{
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="k">abstract</span> <span class="kd">class</span> <span class="nc">BaseFragment</span> <span class="p">:</span> <span class="n">Fragment</span><span class="p">(),</span> <span class="n">IFragment</span><span class="p">{</span>
 
-  var fragmentChannel: FragmentChannel? = null
+  <span class="kd">var</span> <span class="py">fragmentChannel</span><span class="p">:</span> <span class="n">FragmentChannel</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
 
-  override fun onAttach(context: Context){
-    super.onAttach(context)
-    if(context is FragmentChannel){
-      fragmentChannel = context
-    }
-  }
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">onAttach</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">){</span>
+    <span class="k">super</span><span class="p">.</span><span class="n">onAttach</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">context</span> <span class="k">is</span> <span class="n">FragmentChannel</span><span class="p">){</span>
+      <span class="n">fragmentChannel</span> <span class="p">=</span> <span class="n">context</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
 
-  override fun onCreate(savedInstanceState: Bundle?){
-    super.onCreate(savedInstanceState)
-    if(parentFragment != null &amp;&amp; parentFragment is FragmentChannel){
-      fragmentChannel = parentFragment
-    }
-  }
-}
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?){</span>
+    <span class="k">super</span><span class="p">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">parentFragment</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">parentFragment</span> <span class="k">is</span> <span class="n">FragmentChannel</span><span class="p">){</span>
+      <span class="n">fragmentChannel</span> <span class="p">=</span> <span class="n">parentFragment</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <p><code class="highlighter-rouge">HomeFragment.kt</code></p>
 
-<pre><code class="language-kotlin">
-class HomeFragment : BaseFragment() {
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">HomeFragment</span> <span class="p">:</span> <span class="n">BaseFragment</span><span class="p">()</span> <span class="p">{</span>
 
-  private val FRAGMENT_NAME = "Home"
+  <span class="k">private</span> <span class="kd">val</span> <span class="py">FRAGMENT_NAME</span> <span class="p">=</span> <span class="s">"Home"</span>
 
-  companion object{
-    fun newInstance() = HomeFragment()
-  }
+  <span class="k">companion</span> <span class="k">object</span><span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">newInstance</span><span class="p">()</span> <span class="p">=</span> <span class="n">HomeFragment</span><span class="p">()</span>
+  <span class="p">}</span>
 
-  override fun getFragmentName(): String = FRAGMENT_NAME
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">getFragmentName</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="n">FRAGMENT_NAME</span>
 
-  override fun setTitle() = fragmentChannel?.setTitle(R.string.home)
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">setTitle</span><span class="p">()</span> <span class="p">=</span> <span class="n">fragmentChannel</span><span class="o">?.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">string</span><span class="p">.</span><span class="n">home</span><span class="p">)</span>
 
-  fun onLoginButtonClick(){
-    fragmentChannel?.showLogin()
-  }
+  <span class="k">fun</span> <span class="nf">onLoginButtonClick</span><span class="p">(){</span>
+    <span class="n">fragmentChannel</span><span class="o">?.</span><span class="n">showLogin</span><span class="p">()</span>
+  <span class="p">}</span>
 
-  override fun dispose(){
-    TODO("Call presenter dispose method")
-  }
-}
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">dispose</span><span class="p">(){</span>
+    <span class="n">TODO</span><span class="p">(</span><span class="s">"Call presenter dispose method"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <p><code class="highlighter-rouge">HomeActivity.kt</code></p>
 
-<pre><code class="language-kotlin">class HomeActivity : AppCompatActivity(), FragmentChannel{
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">HomeActivity</span> <span class="p">:</span> <span class="n">AppCompatActivity</span><span class="p">(),</span> <span class="n">FragmentChannel</span><span class="p">{</span>
 
-  @BindView(R.layout.activity_home_container)
-  lateinit var flContainer: FrameLayout
+  <span class="n">@BindView</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">activity_home_container</span><span class="p">)</span>
+  <span class="k">lateinit</span> <span class="kd">var</span> <span class="py">flContainer</span><span class="p">:</span> <span class="n">FrameLayout</span>
 
-  val easyFragmentManager by lazy {
-    EasyFragmentManager(getSupportFragmentManager(), flContainer)
-  }
+  <span class="kd">val</span> <span class="py">easyFragmentManager</span> <span class="k">by</span> <span class="n">lazy</span> <span class="p">{</span>
+    <span class="n">EasyFragmentManager</span><span class="p">(</span><span class="n">getSupportFragmentManager</span><span class="p">(),</span> <span class="n">flContainer</span><span class="p">)</span>
+  <span class="p">}</span>
 
-  override fun onCreate(savedInstanceState: Bundle?){
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_home)
-    ButterKnife.bind(this)
-    easyFragmentManager.add(HomeFragment.newInstance())
-  }
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?){</span>
+    <span class="k">super</span><span class="p">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+    <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">activity_home</span><span class="p">)</span>
+    <span class="n">ButterKnife</span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">HomeFragment</span><span class="p">.</span><span class="n">newInstance</span><span class="p">())</span>
+  <span class="p">}</span>
 
-  override fun onSaveInstanceState(outState: Bundle?){
-    super.onSaveInstanceState(outState)
-    easyFragmentManager.onSaveInstanceState(outState)
-  }
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?){</span>
+    <span class="k">super</span><span class="p">.</span><span class="n">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">)</span>
+    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">)</span>
+  <span class="p">}</span>
 
-  override fun onRestoreInstanceState(savedInstanceState: Bundle?){
-    super.onRestoreInstanceState(savedInstanceState)
-    easyFragmentManager.onRestoreInstanceState(savedInstanceState)
-  }
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?){</span>
+    <span class="k">super</span><span class="p">.</span><span class="n">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+  <span class="p">}</span>
 
-  override fun setTitle(titleId: Int) {
-    supportActionBar?.title = getString(titleId)
-  }
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">setTitle</span><span class="p">(</span><span class="n">titleId</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">supportActionBar</span><span class="o">?.</span><span class="n">title</span> <span class="p">=</span> <span class="n">getString</span><span class="p">(</span><span class="n">titleId</span><span class="p">)</span>
+  <span class="p">}</span>
 
-  override fun showLogin(){
-    easyFragmentManager.replace(LoginFragment.newInstance())
-  }
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">showLogin</span><span class="p">(){</span>
+    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">LoginFragment</span><span class="p">.</span><span class="n">newInstance</span><span class="p">())</span>
+  <span class="p">}</span>
 
-  override fun onBackPressed(){
-    if(!easyFragmentManager.onBackPressed){
-      finish();
-    }
-  }
-}
+  <span class="k">override</span> <span class="k">fun</span> <span class="nf">onBackPressed</span><span class="p">(){</span>
+    <span class="k">if</span><span class="p">(!</span><span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">onBackPressed</span><span class="p">){</span>
+      <span class="n">finish</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
+</div>
 
 <p>And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.</p>
 
@@ -598,7 +681,7 @@ class HomeFragment : BaseFragment() {
 
     <script type="text/javascript">
       var disqus_config = function () {
-        this.page.url = 'http://bajicdusko.com/2017/simplified-fragment-management/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = 'http://localhost:4000/2017/simplified-fragment-management/';  // Replace PAGE_URL with your page's canonical URL variable
         this.page.identifier = '/2017/simplified-fragment-management'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
       };
 
@@ -618,10 +701,11 @@ class HomeFragment : BaseFragment() {
 
       <footer class="footer">
   <span class="footer__copyright">&copy; 2017 Dusko Bajic. All rights reserved.</span>
-</footer> 
+</footer>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
+
 
     </div>
   </body>
