@@ -286,74 +286,7 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
 
 <p>And here is the sequence diagram that simplifies the explanation, that shows basic interaction with adding, replacing and removing fragments.</p>
 
-<script src="/js/mermaid.js"></script>
-<div class="mermaid">
-sequenceDiagram
-    participant Activity
-    participant EasyFragmentManager
-    participant FragmentManager
-    participant FragmentTagStack
-    participant Fragment
-    Activity-&gt;&gt;EasyFragmentManager: Initialize
-    activate Activity
-    Activity-&gt;&gt;+Fragment: Creates new instance
-    Fragment-&gt;&gt;-Activity: Return IFragment instance
-    Activity-&gt;&gt;EasyFragmentManager: Adds new IFragment
-    deactivate Activity
-    activate EasyFragmentManager
-    EasyFragmentManager-&gt;&gt;FragmentManager: Commits transaction
-    EasyFragmentManager-&gt;&gt;FragmentTagStack: Pushes the tag
-    deactivate EasyFragmentManager
-    Note over Activity,Fragment: User interaction
-    Fragment-&gt;&gt;Activity: (via FragmentChannel) Open some other fragment
-    activate Activity
-    Activity-&gt;&gt;+Fragment: Create some other instance
-    Fragment-&gt;&gt;-Activity: Return some other IFragment instance
-    Activity-&gt;&gt;EasyFragmentManager: Replace existing IFragment with newly created
-    deactivate Activity
-    activate EasyFragmentManager
-    EasyFragmentManager-&gt;&gt;FragmentManager: Commits transaction
-    EasyFragmentManager-&gt;&gt;FragmentTagStack: Pushes the tag
-    deactivate EasyFragmentManager
-    Note over Activity,Fragment: User interaction
-    Fragment-&gt;&gt;+Activity: User pressed the back button
-    Activity-&gt;&gt;-EasyFragmentManager: Checking for the state of fragment stack
-    alt is not last fragment
-      activate EasyFragmentManager
-      EasyFragmentManager-&gt;&gt;FragmentManager: Pop Immediate
-      EasyFragmentManager-&gt;&gt;FragmentTagStack: Pop up the tag
-      EasyFragmentManager-&gt;&gt;+FragmentTagStack: Get tag of current fragment
-      FragmentTagStack-&gt;&gt;-EasyFragmentManager: Returns tag of current fragment
-      EasyFragmentManager-&gt;&gt;+FragmentManager: Find fragment by tag
-      FragmentManager--&gt;&gt;-EasyFragmentManager: Returns the fragment
-      EasyFragmentManager--&gt;&gt;+Fragment: Set the title
-      Fragment--&gt;&gt;-Activity: (via FragmentChannel) Set the title
-      Note over Activity: Setting the title.
-      EasyFragmentManager-&gt;&gt;Activity: TRUE
-      deactivate EasyFragmentManager
-    else is last fragment
-      EasyFragmentManager-&gt;&gt;Activity: FALSE
-      Note over Activity: Finish
-      Activity-&gt;&gt;EasyFragmentManager: Disposing on destroy
-      activate Activity
-      EasyFragmentManager-&gt;&gt;FragmentTagStack: Get tag of current fragment
-      activate FragmentTagStack
-      FragmentTagStack-&gt;&gt;EasyFragmentManager: Returns tag of current fragment
-      deactivate FragmentTagStack
-      EasyFragmentManager-&gt;&gt;FragmentManager: Find fragment by tag
-      activate FragmentManager
-      FragmentManager--&gt;&gt;EasyFragmentManager: Returns the fragment
-      deactivate FragmentManager
-      EasyFragmentManager--&gt;&gt;Fragment: Dispose
-      activate Fragment
-      Note over Fragment: Disposing all RX streams for example
-      Fragment--&gt;&gt;EasyFragmentManager: Dispose completed
-      deactivate Fragment
-      EasyFragmentManager-&gt;&gt;Activity: Everything disposed
-      deactivate Activity
-      Note over Activity: Finished
-    end
-</div>
+<p><img src="http://localhost:4000/images/posts/2017/2017-06-08-fragmentdiagram.svg" alt="Sequence Diagram" /></p>
 
 <p>It is obvious that implementation is really simple. These are the preconditions you must fulfill.</p>
 

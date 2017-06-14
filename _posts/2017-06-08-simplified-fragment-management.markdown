@@ -119,74 +119,7 @@ These issues might feel a little bit basic, however, by working on many android 
 
 And here is the sequence diagram that simplifies the explanation, that shows basic interaction with adding, replacing and removing fragments.
 
-{% mermaid %}
-sequenceDiagram
-    participant Activity
-    participant EasyFragmentManager
-    participant FragmentManager
-    participant FragmentTagStack
-    participant Fragment
-    Activity->>EasyFragmentManager: Initialize
-    activate Activity
-    Activity->>+Fragment: Creates new instance
-    Fragment->>-Activity: Return IFragment instance
-    Activity->>EasyFragmentManager: Adds new IFragment
-    deactivate Activity
-    activate EasyFragmentManager
-    EasyFragmentManager->>FragmentManager: Commits transaction
-    EasyFragmentManager->>FragmentTagStack: Pushes the tag
-    deactivate EasyFragmentManager
-    Note over Activity,Fragment: User interaction
-    Fragment->>Activity: (via FragmentChannel) Open some other fragment
-    activate Activity
-    Activity->>+Fragment: Create some other instance
-    Fragment->>-Activity: Return some other IFragment instance
-    Activity->>EasyFragmentManager: Replace existing IFragment with newly created
-    deactivate Activity
-    activate EasyFragmentManager
-    EasyFragmentManager->>FragmentManager: Commits transaction
-    EasyFragmentManager->>FragmentTagStack: Pushes the tag
-    deactivate EasyFragmentManager
-    Note over Activity,Fragment: User interaction
-    Fragment->>+Activity: User pressed the back button
-    Activity->>-EasyFragmentManager: Checking for the state of fragment stack
-    alt is not last fragment
-      activate EasyFragmentManager
-      EasyFragmentManager->>FragmentManager: Pop Immediate
-      EasyFragmentManager->>FragmentTagStack: Pop up the tag
-      EasyFragmentManager->>+FragmentTagStack: Get tag of current fragment
-      FragmentTagStack->>-EasyFragmentManager: Returns tag of current fragment
-      EasyFragmentManager->>+FragmentManager: Find fragment by tag
-      FragmentManager-->>-EasyFragmentManager: Returns the fragment
-      EasyFragmentManager-->>+Fragment: Set the title
-      Fragment-->>-Activity: (via FragmentChannel) Set the title
-      Note over Activity: Setting the title.
-      EasyFragmentManager->>Activity: TRUE
-      deactivate EasyFragmentManager
-    else is last fragment
-      EasyFragmentManager->>Activity: FALSE
-      Note over Activity: Finish
-      Activity->>EasyFragmentManager: Disposing on destroy
-      activate Activity
-      EasyFragmentManager->>FragmentTagStack: Get tag of current fragment
-      activate FragmentTagStack
-      FragmentTagStack->>EasyFragmentManager: Returns tag of current fragment
-      deactivate FragmentTagStack
-      EasyFragmentManager->>FragmentManager: Find fragment by tag
-      activate FragmentManager
-      FragmentManager-->>EasyFragmentManager: Returns the fragment
-      deactivate FragmentManager
-      EasyFragmentManager-->>Fragment: Dispose
-      activate Fragment
-      Note over Fragment: Disposing all RX streams for example
-      Fragment-->>EasyFragmentManager: Dispose completed
-      deactivate Fragment
-      EasyFragmentManager->>Activity: Everything disposed
-      deactivate Activity
-      Note over Activity: Finished
-    end
-{% endmermaid %}
-
+![Sequence Diagram]({{ site.url }}/images/posts/2017/2017-06-08-fragmentdiagram.svg)
 
 It is obvious that implementation is really simple. These are the preconditions you must fulfill.
 
