@@ -4,7 +4,7 @@ title: "Simplified Fragment Management"
 date: "2017-06-08 10:03"
 categories: [android]
 tags: [android, fragment, fragmentmanager]
-twitter_excerpt: "EasyFragmentManager is basically a wrapper around FragmentManager and exposes 'add', 'replace', 'popUp', 'onBackPressed' and 'getCurrentFragment' methods. EasyFragmentManager assumes that..."
+twitter_excerpt: "SimpleFragmentManager is basically a wrapper around FragmentManager and exposes 'add', 'replace', 'popUp', 'onBackPressed' and 'getCurrentFragment' methods. SimpleFragmentManager assumes that..."
 ---
 Handling fragments(lifecycle) in android app was complicated from the beginning.
 Nowadays, a lot of internal bugs is fixed, but still there is a general negativity
@@ -109,7 +109,7 @@ These issues might feel a little bit basic, however, by working on many android 
 
 <a name="solution">Simple solution</a> I came up with have four main components:
 
-- `EasyFragmentManager` which is basically a wrapper around `FragmentManager` and exposes the methods for `add`, `replace`, `popUp`, `popUpAll` and `getCurrentFragment` operations. `EasyFragmentManager` assumes that each `Fragment` implements `IFragment` interface.
+- `SimpleFragmentManager` which is basically a wrapper around `FragmentManager` and exposes the methods for `add`, `replace`, `popUp`, `popUpAll` and `getCurrentFragment` operations. `SimpleFragmentManager` assumes that each `Fragment` implements `IFragment` interface.
 
 - `IFragment` interface is forcing each `Fragment` to have its own unique `name` or `tag` under which is added to transaction, `dispose()` method (which is very handy when implementing `RxJava2`), and yes, method to `setTitle()` of the `Toolbar/ActionBar`.
 
@@ -123,19 +123,19 @@ And here is the sequence diagram that simplifies the explanation, that shows bas
 
 It is obvious that implementation is really simple. These are the preconditions you must fulfill.
 
-1. Activity initialize `EasyFragmentManager`.
-  - Override `onSaveInstanceState` and `onRestoreInstanceState` methods and forward the state to `EasyFragmentManager`.
-  - Override `onBackPressed` method forward the call to `EasyFragmentManager`.
+1. Activity initialize `SimpleFragmentManager`.
+  - Override `onSaveInstanceState` and `onRestoreInstanceState` methods and forward the state to `SimpleFragmentManager`.
+  - Override `onBackPressed` method forward the call to `SimpleFragmentManager`.
   - Implement `FragmentChannel`.
 2. Each `Fragment` implements `IFragment` interface. _Tip: Usually, having `abstract BaseFragment` class which implements `IFragment` and initializes `FragmentChannel` is less error prone, then implementing these methods for all Fragments individually._
 
 Example implementation can be found in this __[Gist](https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f)__. as well as implementations of described components below.
 Once you establish hierarchy as below, you won't have to think about it much. Only component that you'll update constantly is `FragmentChannel` interface since you'll be implementing all `Fragment` -> `Activity` calls through it. `showLogin()` function in example below is one such case.
 
-`EasyFragmentManager.kt`
+`SimpleFragmentManager.kt`
 
 ```kotlin
-class EasyFragmentManager(private val fragmentManager: FragmentManager, private val fragmentContainerId: Int) {
+class SimpleFragmentManager(private val fragmentManager: FragmentManager, private val fragmentContainerId: Int) {
 
     private val KEY_TAGS = "key_tags"
     private var fragmentTagStack: FragmentTagStack = FragmentTagStack()
@@ -395,25 +395,25 @@ class HomeActivity : AppCompatActivity(), FragmentChannel{
   @BindView(R.layout.activity_home_container)
   lateinit var flContainer: FrameLayout
 
-  val easyFragmentManager by lazy {
-    EasyFragmentManager(getSupportFragmentManager(), flContainer)
+  val simpleFragmentManager by lazy {
+    SimpleFragmentManager(getSupportFragmentManager(), flContainer)
   }
 
   override fun onCreate(savedInstanceState: Bundle?){
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_home)
     ButterKnife.bind(this)
-    easyFragmentManager.add(HomeFragment.newInstance())
+    simpleFragmentManager.add(HomeFragment.newInstance())
   }
 
   override fun onSaveInstanceState(outState: Bundle?){
     super.onSaveInstanceState(outState)
-    easyFragmentManager.onSaveInstanceState(outState)
+    simpleFragmentManager.onSaveInstanceState(outState)
   }
 
   override fun onRestoreInstanceState(savedInstanceState: Bundle?){
     super.onRestoreInstanceState(savedInstanceState)
-    easyFragmentManager.onRestoreInstanceState(savedInstanceState)
+    simpleFragmentManager.onRestoreInstanceState(savedInstanceState)
   }
 
   override fun setTitle(titleId: Int) {
@@ -421,11 +421,11 @@ class HomeActivity : AppCompatActivity(), FragmentChannel{
   }
 
   override fun showLogin(){
-    easyFragmentManager.replace(LoginFragment.newInstance())
+    simpleFragmentManager.replace(LoginFragment.newInstance())
   }
 
   override fun onBackPressed(){
-    if(!easyFragmentManager.onBackPressed){
+    if(!simpleFragmentManager.onBackPressed){
       finish();
     }
   }
