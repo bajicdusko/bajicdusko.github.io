@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Simplified Fragment Management">
   
   
-  <meta name="twitter:description" content="EasyFragmentManager is basically a wrapper around FragmentManager and exposes 'add', 'replace', 'popUp', 'onBackPressed' and 'getCurrentFragment' methods. EasyFragmentManager assumes that...">
+  <meta name="twitter:description" content="SimpleFragmentManager is basically a wrapper around FragmentManager and exposes 'add', 'replace', 'popUp', 'onBackPressed' and 'getCurrentFragment' methods. SimpleFragmentManager assumes that...">
   
   <meta name="twitter:site" content="@bajicdusko">
 
@@ -80,8 +80,6 @@
               <li class="navigation__item"><a href="/bio" title="link to Dusko Bajic contact" class="contact-button">Bio/Contact</a></li>
             </ul>
           </nav>
-        </div>
-        <div class="navigation-wrapper">
           <nav class="cover-navigation navigation--social">
             <ul class="navigation">
 
@@ -271,7 +269,7 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
 
 <ul>
   <li>
-    <p><code class="highlighter-rouge">EasyFragmentManager</code> which is basically a wrapper around <code class="highlighter-rouge">FragmentManager</code> and exposes the methods for <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">replace</code>, <code class="highlighter-rouge">popUp</code>, <code class="highlighter-rouge">popUpAll</code> and <code class="highlighter-rouge">getCurrentFragment</code> operations. <code class="highlighter-rouge">EasyFragmentManager</code> assumes that each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface.</p>
+    <p><code class="highlighter-rouge">SimpleFragmentManager</code> which is basically a wrapper around <code class="highlighter-rouge">FragmentManager</code> and exposes the methods for <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">replace</code>, <code class="highlighter-rouge">popUp</code>, <code class="highlighter-rouge">popUpAll</code> and <code class="highlighter-rouge">getCurrentFragment</code> operations. <code class="highlighter-rouge">SimpleFragmentManager</code> assumes that each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface.</p>
   </li>
   <li>
     <p><code class="highlighter-rouge">IFragment</code> interface is forcing each <code class="highlighter-rouge">Fragment</code> to have its own unique <code class="highlighter-rouge">name</code> or <code class="highlighter-rouge">tag</code> under which is added to transaction, <code class="highlighter-rouge">dispose()</code> method (which is very handy when implementing <code class="highlighter-rouge">RxJava2</code>), and yes, method to <code class="highlighter-rouge">setTitle()</code> of the <code class="highlighter-rouge">Toolbar/ActionBar</code>.</p>
@@ -288,25 +286,30 @@ each fragment. This is definitely unwanted behavior. We just want to remove them
 
 <p><img src="http://localhost:4000/images/posts/2017/2017-06-08-fragmentdiagram.svg" alt="Sequence Diagram" /></p>
 
-<p>It is obvious that implementation is really simple. These are the preconditions you must fulfill.</p>
+<p>It is obvious that implementation is really simple.
+To make things even more easier, sources can be easily found by referencing the library in your <code class="highlighter-rouge">build.gradle</code> file: <code class="highlighter-rouge">implementation 'com.bajicdusko:fragment-manager:1.0.2'</code>.</p>
+
+<p>You have the freedom to reimplement base classes for the activities and fragments, or you can extend already prepared <code class="highlighter-rouge">SFMActivity</code> and <code class="highlighter-rouge">SFMFragment</code> class which do all the work for you.</p>
+
+<p>In case that you’re unable to extend these classes, these are the preconditions you have to prepare in your own class.</p>
 
 <ol>
-  <li>Activity initialize <code class="highlighter-rouge">EasyFragmentManager</code>.
+  <li>Activity initialize <code class="highlighter-rouge">SimpleFragmentManager</code>.
     <ul>
-      <li>Override <code class="highlighter-rouge">onSaveInstanceState</code> and <code class="highlighter-rouge">onRestoreInstanceState</code> methods and forward the state to <code class="highlighter-rouge">EasyFragmentManager</code>.</li>
-      <li>Override <code class="highlighter-rouge">onBackPressed</code> method forward the call to <code class="highlighter-rouge">EasyFragmentManager</code>.</li>
+      <li>Override <code class="highlighter-rouge">onSaveInstanceState</code> and <code class="highlighter-rouge">onRestoreInstanceState</code> methods and forward the state to <code class="highlighter-rouge">SimpleFragmentManager</code>.</li>
+      <li>Override <code class="highlighter-rouge">onBackPressed</code> method forward the call to <code class="highlighter-rouge">SimpleFragmentManager</code>.</li>
       <li>Implement <code class="highlighter-rouge">FragmentChannel</code>.</li>
     </ul>
   </li>
   <li>Each <code class="highlighter-rouge">Fragment</code> implements <code class="highlighter-rouge">IFragment</code> interface. <em>Tip: Usually, having <code class="highlighter-rouge">abstract BaseFragment</code> class which implements <code class="highlighter-rouge">IFragment</code> and initializes <code class="highlighter-rouge">FragmentChannel</code> is less error prone, then implementing these methods for all Fragments individually.</em></li>
 </ol>
 
-<p>Example implementation can be found in this <strong><a href="https://gist.github.com/bajicdusko/683766ab74b93519be27df0ae6e0793f">Gist</a></strong>. as well as implementations of described components below.
+<p>Example implementation can be found in this <strong><a href="https://github.com/bajicdusko/SimpleFragmentManager">sample project</a></strong>. as well as implementations of described components below.
 Once you establish hierarchy as below, you won’t have to think about it much. Only component that you’ll update constantly is <code class="highlighter-rouge">FragmentChannel</code> interface since you’ll be implementing all <code class="highlighter-rouge">Fragment</code> -&gt; <code class="highlighter-rouge">Activity</code> calls through it. <code class="highlighter-rouge">showLogin()</code> function in example below is one such case.</p>
 
-<p><code class="highlighter-rouge">EasyFragmentManager.kt</code></p>
+<p><code class="highlighter-rouge">SimpleFragmentManager.kt</code></p>
 
-<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">EasyFragmentManager</span><span class="p">(</span><span class="k">private</span> <span class="kd">val</span> <span class="py">fragmentManager</span><span class="p">:</span> <span class="n">FragmentManager</span><span class="p">,</span> <span class="k">private</span> <span class="kd">val</span> <span class="py">fragmentContainerId</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">SimpleFragmentManager</span><span class="p">(</span><span class="k">private</span> <span class="kd">val</span> <span class="py">fragmentManager</span><span class="p">:</span> <span class="n">FragmentManager</span><span class="p">,</span> <span class="k">private</span> <span class="kd">val</span> <span class="py">fragmentContainerId</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="k">private</span> <span class="kd">val</span> <span class="py">KEY_TAGS</span> <span class="p">=</span> <span class="s">"key_tags"</span>
     <span class="k">private</span> <span class="kd">var</span> <span class="py">fragmentTagStack</span><span class="p">:</span> <span class="n">FragmentTagStack</span> <span class="p">=</span> <span class="n">FragmentTagStack</span><span class="p">()</span>
@@ -566,25 +569,25 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
   <span class="n">@BindView</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">activity_home_container</span><span class="p">)</span>
   <span class="k">lateinit</span> <span class="kd">var</span> <span class="py">flContainer</span><span class="p">:</span> <span class="n">FrameLayout</span>
 
-  <span class="kd">val</span> <span class="py">easyFragmentManager</span> <span class="k">by</span> <span class="n">lazy</span> <span class="p">{</span>
-    <span class="n">EasyFragmentManager</span><span class="p">(</span><span class="n">getSupportFragmentManager</span><span class="p">(),</span> <span class="n">flContainer</span><span class="p">)</span>
+  <span class="kd">val</span> <span class="py">simpleFragmentManager</span> <span class="k">by</span> <span class="n">lazy</span> <span class="p">{</span>
+    <span class="n">SimpleFragmentManager</span><span class="p">(</span><span class="n">getSupportFragmentManager</span><span class="p">(),</span> <span class="n">flContainer</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?){</span>
     <span class="k">super</span><span class="p">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
     <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">activity_home</span><span class="p">)</span>
     <span class="n">ButterKnife</span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
-    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">HomeFragment</span><span class="p">.</span><span class="n">newInstance</span><span class="p">())</span>
+    <span class="n">simpleFragmentManager</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">HomeFragment</span><span class="p">.</span><span class="n">newInstance</span><span class="p">())</span>
   <span class="p">}</span>
 
   <span class="k">override</span> <span class="k">fun</span> <span class="nf">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?){</span>
     <span class="k">super</span><span class="p">.</span><span class="n">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">)</span>
-    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">)</span>
+    <span class="n">simpleFragmentManager</span><span class="p">.</span><span class="n">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="k">override</span> <span class="k">fun</span> <span class="nf">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="n">Bundle</span><span class="p">?){</span>
     <span class="k">super</span><span class="p">.</span><span class="n">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
-    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+    <span class="n">simpleFragmentManager</span><span class="p">.</span><span class="n">onRestoreInstanceState</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="k">override</span> <span class="k">fun</span> <span class="nf">setTitle</span><span class="p">(</span><span class="n">titleId</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
@@ -592,11 +595,11 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
   <span class="p">}</span>
 
   <span class="k">override</span> <span class="k">fun</span> <span class="nf">showLogin</span><span class="p">(){</span>
-    <span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">LoginFragment</span><span class="p">.</span><span class="n">newInstance</span><span class="p">())</span>
+    <span class="n">simpleFragmentManager</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">LoginFragment</span><span class="p">.</span><span class="n">newInstance</span><span class="p">())</span>
   <span class="p">}</span>
 
   <span class="k">override</span> <span class="k">fun</span> <span class="nf">onBackPressed</span><span class="p">(){</span>
-    <span class="k">if</span><span class="p">(!</span><span class="n">easyFragmentManager</span><span class="p">.</span><span class="n">onBackPressed</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(!</span><span class="n">simpleFragmentManager</span><span class="p">.</span><span class="n">onBackPressed</span><span class="p">){</span>
       <span class="n">finish</span><span class="p">();</span>
     <span class="p">}</span>
   <span class="p">}</span>
@@ -606,7 +609,9 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
 
 <p>And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.</p>
 
+<div class="videoWrapper">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/eUG3VWnXFtg" frameborder="0" allowfullscreen=""></iframe>
+</div>
 
   </section>
   <section id="disqus_thread"></section><!-- /#disqus_thread -->

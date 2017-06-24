@@ -439,4 +439,6 @@ class HomeActivity : AppCompatActivity(), FragmentChannel{
 
 And last but not least on latest Google IO (2017), guys from Google found it necessary to remind everyone about the basics as well.
 
+<div class="videoWrapper">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/eUG3VWnXFtg" frameborder="0" allowfullscreen></iframe>
+</div>
