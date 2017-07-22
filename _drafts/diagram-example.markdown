@@ -68,3 +68,39 @@ sequenceDiagram
        deactivate Activity
        Note over Activity: Finished
      end
+
+
+
+     recycler view
+
+sequenceDiagram
+participant Fragment
+participant TestAdapter
+participant TestAdapterPresenter
+participant TestViewHolder
+participant TestViewHolderPresenter
+Fragment->>TestAdapter: Initializes
+TestAdapter->>TestAdapterPresenter: Initializes
+activate TestAdapter
+TestAdapter->>TestAdapterPresenter: Sets View
+deactivate TestAd
+Fragment->>TestAdapterPresenter: onDataChange(list)
+TestAdapterPresenter->>TestAdapter: view.notifyAdapter()
+TestAdapter->>TestAdapterPresenter: getItemCount()
+TestAdapter->>TestViewHolder: Creates
+TestViewHolder->>TestViewHolderPresenter: Initializes
+activate TestViewHolder
+TestViewHolder->>TestViewHolderPresenter: Sets View
+deactivate TestViewHolder
+TestAdapter->>TestViewHolder: Binds
+activate TestAdapter
+TestViewHolder->>TestAdapter: Get TestViewHolderPresenter instance
+TestAdapter->>TestViewHolderPresenter: Sets TestAdapterPresenter instance
+TestAdapter->>TestViewHolderPresenter: Sets current position
+deactivate TestAdapter
+TestAdapterPresenter->>TestViewHolderPresenter: getItemAt(position)
+activate TestViewHolderPresenter
+TestViewHolderPresenter->>TestViewHolder: setTitle(title)
+TestViewHolderPresenter->>TestViewHolder: setDescription(description)
+deactivate TestViewHolderPresenter
+TestViewHolder->>TestViewHolder: Set values to TextViews

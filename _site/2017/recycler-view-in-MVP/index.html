@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>RecyclerView with MVP</title>
+  <meta name="description" content="Android Developer. Gadget dependent. Music addicted.">
+  <meta name="author" content="Dusko Bajic">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="RecyclerView with MVP">
+  
+  
+  <meta name="twitter:description" content="Implementing RecyclerView in android, with MVP approach can be tricky and complicated. This is the Part 1 of RecyclerView with MVP implementation.">
+  
+  <meta name="twitter:site" content="@bajicdusko">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Dusko Bajic">
+  <meta property="og:description" content="Android Developer. Gadget dependent. Music addicted.">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-194x194.png" sizes="194x194">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/images/favicons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/images/favicons/manifest.json">
+  <link rel="shortcut icon" href="/images/favicons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffc40d">
+  <meta name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/mermaid.css">
+  <link rel="canonical" href="http://localhost:4000//2017/recycler-view-in-MVP/">
+  <link rel="alternate" type="application/rss+xml" title="Dusko Bajic" href="/feed.xml">
+</head>
+
+
+  <body>
+    <span class="mobile btn-mobile-menu">
+  <i class="icon icon-list btn-mobile-menu__icon"></i>
+  <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+</span>
+
+<header class="panel-cover" style="background-image: url(/images/cover.jpg)">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <a href="/" title="link to home of Dusko Bajic">
+          <img src="/images/profile.jpg" class="user-image" alt="My Profile Photo">
+          <h1 class="panel-cover__title panel-title">Dusko Bajic</h1>
+        </a>
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description">Android Developer. Gadget dependent. Music addicted.</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="link to Dusko Bajic blog" class="blog-button">Blog</a></li>
+              <li class="navigation__item"><a href="/bio" title="link to Dusko Bajic contact" class="contact-button">Bio/Contact</a></li>
+            </ul>
+          </nav>
+          <nav class="cover-navigation navigation--social">
+            <ul class="navigation">
+
+            
+              <!-- Twitter -->
+              <li class="navigation__item">
+                <a href="http://twitter.com/bajicdusko" title="@bajicdusko on Twitter" target="_blank">
+                  <i class="icon icon-social-twitter"></i>
+                  <span class="label">Twitter</span>
+                </a>
+              </li>
+            
+
+            
+
+            
+              <!-- LinkedIn -->
+              <li class="navigation__item">
+                <a href="https://www.linkedin.com/in/bajicdusko" title="bajicdusko on LinkedIn" target="_blank">
+                  <i class="icon icon-social-linkedin"></i>
+                  <span class="label">LinkedIn</span>
+                </a>
+              </li>
+            
+
+            
+              <!-- GitHub -->
+              <li class="navigation__item">
+                <a href="https://www.github.com/bajicdusko" title="bajicdusko on GitHub" target="_blank">
+                  <i class="icon icon-social-github"></i>
+                  <span class="label">GitHub</span>
+                </a>
+              </li>
+            
+
+            
+              <!-- Email -->
+              <li class="navigation__item">
+                <a href="mailto:bajicdusko@gmail.com" title="Email bajicdusko@gmail.com" target="_blank">
+                  <i class="icon icon-mail"></i>
+                  <span class="label">Email</span>
+                </a>
+              </li>
+            
+
+            <!-- RSS -->
+            <li class="navigation__item">
+              <a href="/feed.xml" title="Subscribe" target="_blank">
+                <i class="icon icon-rss"></i>
+                <span class="label">RSS</span>
+              </a>
+            </li>
+
+            </ul>
+          </nav>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <article class="post-container post-container--single">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="21 Jul 2017" class="post-meta__date date">21 Jul 2017</time> &#8226; <span class="post-meta__tags">on <a href="/tags/#android">android</a> <a href="/tags/#recyclerview">recyclerview</a> <a href="/tags/#mvp">mvp</a> <a href="/tags/#presenter">presenter</a> <a href="/tags/#view">view</a> </span>
+    </div>
+    <h1 class="post-title">RecyclerView with MVP</h1>
+  </header>
+
+  <section class="post">
+    <p>MVC/MVP/MVVM, we’re all talking about it. It’s modern, it’s cool, but besides that it’s useful. We’ll see if the MVP is dead, now that <a href="https://developer.android.com/topic/libraries/architecture/index.html">Google announced its own archtecture components</a>, however, that’s something to deal with later.
+Currently MVP with Clean Architecture is doing a great job for us. And most importantly it is so easy to implement and understand.
+Sometimes, implementation starts to be chaotic and/or confusing and RecyclerView is such example.</p>
+
+<p>Usually, when implementing <code class="highlighter-rouge">RecyclerView</code> we’ve used to send list of some objects to its adapter, to create some ViewHolders and bind the data to it. If we’re good citizens, we’ll at least move <code class="highlighter-rouge">ViewHolder</code> logic to its own class, instead of referencing it inside <code class="highlighter-rouge">onBindViewHolder</code> method.</p>
+
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">TestAdapter</span><span class="p">(</span><span class="kd">val</span> <span class="py">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">RecyclerView</span><span class="p">.</span><span class="n">Adapter</span><span class="p">&lt;</span><span class="n">TestViewHolder</span><span class="p">&gt;(){</span>
+
+    <span class="k">private</span> <span class="kd">var</span> <span class="py">testItemsList</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">TestItem</span><span class="p">&gt;()</span>
+
+    <span class="k">fun</span> <span class="nf">onDataChange</span><span class="p">(</span><span class="n">testItems</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">TestItem</span><span class="p">&gt;){</span>
+      <span class="n">testItems</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(!</span><span class="n">testItemsList</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">it</span><span class="p">)){</span>
+          <span class="n">testItemsList</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="n">notifyDataSetChanged</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreateViewHolder</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">ViewGroup</span><span class="p">?,</span> <span class="n">viewType</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">TestViewHolder</span> <span class="p">=</span>
+      <span class="n">TestViewHolder</span><span class="p">(</span><span class="n">LayoutInflater</span><span class="p">.</span><span class="n">fromContext</span><span class="p">(</span><span class="n">context</span><span class="p">).</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">test_list_item</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="k">false</span><span class="p">))</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onBindViewHolder</span><span class="p">(</span><span class="n">holder</span><span class="p">:</span> <span class="n">TestViewHolder</span><span class="p">?,</span> <span class="n">position</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="py">testItem</span> <span class="p">=</span> <span class="n">testItemsList</span><span class="p">[</span><span class="n">position</span><span class="p">]</span>
+      <span class="n">holder</span><span class="o">?.</span><span class="n">title</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">testItem</span><span class="p">.</span><span class="n">title</span>
+      <span class="n">holder</span><span class="o">?.</span><span class="n">description</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">testItem</span><span class="p">.</span><span class="n">description</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getItemCount</span> <span class="p">=</span> <span class="n">testItemsList</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+<p>and usage of this adapter in activity or fragment would look like this:</p>
+
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onDataLoaded</span><span class="p">(</span><span class="n">testItems</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">TestItem</span><span class="p">&gt;){</span>
+      <span class="kd">var</span> <span class="py">testAdapter</span> <span class="p">=</span> <span class="n">TestAdapter</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+      <span class="n">recyclerView</span><span class="p">.</span><span class="n">adapter</span> <span class="p">=</span> <span class="n">testAdapter</span>
+      <span class="n">testAdapter</span><span class="p">.</span><span class="n">onDataChange</span><span class="p">(</span><span class="n">testItems</span><span class="p">)</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>It’s simple, it really is. I haven’t shown the <code class="highlighter-rouge">TestViewHolder</code> implementation, but it’s really just initialization of TextView’s. However,
+if we wan’t to write a unit test for adapter above, we’ll be in trouble. There is a android <code class="highlighter-rouge">Context</code> in the constructor, we have
+<code class="highlighter-rouge">LayoutInflater</code> when creating the ViewHolder and we have to mock all of it just to check if the list is loading.</p>
+
+<p>We won’t, so we’ll write a <code class="highlighter-rouge">presenter</code> for it.
+Adapter presenter should be:</p>
+<ul>
+  <li>keeping the list of items</li>
+  <li>providing an item per index/position</li>
+  <li>providing the items count</li>
+  <li>notifying adapter when the change occur.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">TestAdapterPresenter</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="py">view</span><span class="p">:</span> <span class="n">View</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+    <span class="k">private</span> <span class="kd">var</span> <span class="py">testItems</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">&lt;</span><span class="n">TestItem</span><span class="p">&gt;()</span>
+
+    <span class="k">fun</span> <span class="nf">onDataChange</span><span class="p">(</span><span class="n">testItems</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">TestItem</span><span class="p">&gt;)</span> <span class="p">{</span>
+        <span class="n">testItems</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span>
+          <span class="k">if</span><span class="p">(!</span><span class="n">testItemsList</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">it</span><span class="p">)){</span>
+            <span class="n">testItemsList</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">view</span><span class="o">?.</span><span class="n">notifyAdapter</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">fun</span> <span class="nf">getCount</span><span class="p">():</span> <span class="n">Int</span> <span class="p">=</span> <span class="n">testItems</span><span class="p">.</span><span class="n">size</span>
+
+    <span class="k">fun</span> <span class="nf">getItemAt</span><span class="p">(</span><span class="n">position</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">=</span> <span class="n">testItems</span><span class="p">[</span><span class="n">position</span><span class="p">]</span>
+
+    <span class="k">infix</span> <span class="k">fun</span> <span class="nf">itemAtPosition</span><span class="p">(</span><span class="n">position</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">TestItem</span> <span class="p">=</span> <span class="n">testItems</span><span class="p">[</span><span class="n">position</span><span class="p">]</span>
+
+    <span class="kd">interface</span> <span class="nc">View</span> <span class="p">{</span>
+        <span class="k">fun</span> <span class="nf">notifyAdapter</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<p>and we’ll change the adapter according to these changes:</p>
+
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">TestAdapter</span><span class="p">(</span><span class="kd">val</span> <span class="py">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">RecyclerView</span><span class="p">.</span><span class="n">Adapter</span><span class="p">&lt;</span><span class="n">TestViewHolder</span><span class="p">&gt;(),</span> <span class="n">TestAdapterPresenter</span><span class="p">.</span><span class="n">View</span><span class="p">{</span>
+
+    <span class="kd">var</span> <span class="py">testAdapterPresenter</span> <span class="p">=</span> <span class="n">TestAdapterPresenter</span><span class="p">()</span>
+
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">testAdapterPresenter</span><span class="p">.</span><span class="n">view</span> <span class="p">=</span> <span class="k">this</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">notifyAdapter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">notifyDataSetChanged</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreateViewHolder</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">ViewGroup</span><span class="p">?,</span> <span class="n">viewType</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">TestViewHolder</span> <span class="p">=</span>
+      <span class="n">TestViewHolder</span><span class="p">(</span><span class="n">LayoutInflater</span><span class="p">.</span><span class="n">fromContext</span><span class="p">(</span><span class="n">context</span><span class="p">).</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">test_list_item</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="k">false</span><span class="p">))</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onBindViewHolder</span><span class="p">(</span><span class="n">holder</span><span class="p">:</span> <span class="n">TestViewHolder</span><span class="p">?,</span> <span class="n">position</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="py">testItem</span> <span class="p">=</span> <span class="n">testItemsList</span><span class="p">[</span><span class="n">position</span><span class="p">]</span>
+      <span class="n">holder</span><span class="o">?.</span><span class="n">title</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">testItem</span><span class="p">.</span><span class="n">title</span>
+      <span class="n">holder</span><span class="o">?.</span><span class="n">description</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">testItem</span><span class="p">.</span><span class="n">description</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getItemsCount</span><span class="p">()</span> <span class="p">=</span> <span class="n">testAdapterPresenter</span><span class="p">.</span><span class="n">getCount</span><span class="p">()</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<p>In this case, adapter initialization is mostly unchanged. Except, we won’t be passing the list items to it, but to its presenter.</p>
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onDataLoaded</span><span class="p">(</span><span class="n">testItems</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">TestItem</span><span class="p">&gt;){</span>
+      <span class="kd">var</span> <span class="py">testAdapter</span> <span class="p">=</span> <span class="n">TestAdapter</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+      <span class="n">recyclerView</span><span class="p">.</span><span class="n">adapter</span> <span class="p">=</span> <span class="n">testAdapter</span>
+      <span class="n">testAdapter</span><span class="p">.</span><span class="n">testAdapterPresenter</span><span class="p">.</span><span class="n">onDataChange</span><span class="p">(</span><span class="n">testItems</span><span class="p">)</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>We have created a <code class="highlighter-rouge">View</code> interface which <code class="highlighter-rouge">TestAdapter</code> implemented. <code class="highlighter-rouge">TestAdapterPresenter</code> does not know to whom is he talking to,
+when calling <code class="highlighter-rouge">notifyAdapter()</code>, which is very important as we can mock it easily and test its behavior when list is received and data passed from it.</p>
+
+<p>So we improved the testability of the app. But it can be better, right? If we want to test the behavior of the <code class="highlighter-rouge">TestViewHolder</code>,
+our hands are tight and we have to do some changes in order to help ourself. We’ll be still following the MVP pattern and create a presenter for the <code class="highlighter-rouge">TestViewHolder</code>. Also, we’ll move the <code class="highlighter-rouge">title</code> and <code class="highlighter-rouge">description</code> related calls to ViewHolder as well.</p>
+
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">TestViewHolderPresenter</span> <span class="p">{</span>
+
+  <span class="kd">var</span> <span class="py">testAdapterPresenter</span><span class="p">:</span> <span class="n">TestAdapterPresenter</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+  <span class="kd">var</span> <span class="py">position</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+  <span class="kd">var</span> <span class="py">view</span><span class="p">:</span> <span class="n">View</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span>
+
+  <span class="k">fun</span> <span class="nf">bind</span><span class="p">(){</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">position</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">testAdapterPresenter</span> <span class="p">!=</span> <span class="k">null</span><span class="p">){</span>
+      <span class="kd">var</span> <span class="py">testItem</span> <span class="p">=</span> <span class="n">testAdapterPresenter</span><span class="p">.</span><span class="n">getItemAt</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+      <span class="n">view</span><span class="o">?.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">testItem</span><span class="p">.</span><span class="n">title</span><span class="p">)</span>
+      <span class="n">view</span><span class="o">?.</span><span class="n">setDescription</span><span class="p">(</span><span class="n">testItem</span><span class="p">.</span><span class="n">description</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kd">interface</span> <span class="nc">View</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">setTitle</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+    <span class="k">fun</span> <span class="nf">setDescription</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>As each ViewHolder is bound to some position in the list, it is perfectly natural to set that <code class="highlighter-rouge">position</code> in the ViewHolder presenter.
+Also, in order to enable the communication between the Adapter presenter and ViewHolder presenters, each ViewHolder presenter needs to have the reference to Adapter presenter as shown above with <code class="highlighter-rouge">testAdapterPresenter</code> variable.</p>
+
+<p>Below, <code class="highlighter-rouge">TestViewHolder</code> implements <code class="highlighter-rouge">TestViewHolderPresenter.View</code> and it’s functions to set the <code class="highlighter-rouge">title</code> and <code class="highlighter-rouge">description</code> values.</p>
+
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">TestViewHolder</span><span class="p">(</span><span class="kd">val</span> <span class="py">view</span><span class="p">:</span> <span class="n">View</span><span class="p">)</span> <span class="p">:</span> <span class="n">RecyclerView</span><span class="p">.</span><span class="n">ViewHolder</span><span class="p">(</span><span class="n">view</span><span class="p">),</span> <span class="n">TestViewHolderPresenter</span><span class="p">.</span><span class="n">View</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="py">testViewHolderPresenter</span> <span class="p">=</span> <span class="n">TestViewHolderPresenter</span><span class="p">()</span>
+
+    <span class="n">@BindView</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">id</span><span class="p">.</span><span class="n">test_list_item_tv_title</span><span class="p">)</span> <span class="k">lateinit</span> <span class="kd">var</span> <span class="py">tvTitle</span><span class="p">:</span> <span class="n">TextView</span>
+    <span class="n">@BindView</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">id</span><span class="p">.</span><span class="n">test_list_item_tv_description</span><span class="p">)</span> <span class="k">lateinit</span> <span class="kd">var</span> <span class="py">tvDescription</span><span class="p">:</span> <span class="n">TextView</span>
+
+    <span class="n">init</span> <span class="p">{</span>
+      <span class="n">ButterKnife</span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+      <span class="n">testViewHolderPresenter</span><span class="p">.</span><span class="n">view</span> <span class="p">=</span> <span class="k">this</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">setTitle</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
+      <span class="n">tvTitle</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">title</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">setDescription</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="n">String</span><span class="p">){</span>
+      <span class="n">tvDesription</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">description</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>It is obvious that <code class="highlighter-rouge">TestViewHolder</code> really does not know anything about the data, or its position in the adapter. Only thing ViewHolder worries about
+is to set received values (<code class="highlighter-rouge">title</code>, <code class="highlighter-rouge">description</code>) to its components. Whole logic is moved to its presenter and since we have moved ViewHolder logic to its class and Adapter implementation changes again.</p>
+
+<div class="language-kotlin highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">TestAdapter</span><span class="p">(</span><span class="kd">val</span> <span class="py">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">)</span> <span class="p">:</span> <span class="n">RecyclerView</span><span class="p">.</span><span class="n">Adapter</span><span class="p">&lt;</span><span class="n">TestViewHolder</span><span class="p">&gt;(),</span> <span class="n">TestAdapterPresenter</span><span class="p">.</span><span class="n">View</span><span class="p">{</span>
+
+    <span class="kd">var</span> <span class="py">testAdapterPresenter</span> <span class="p">=</span> <span class="n">TestAdapterPresenter</span><span class="p">()</span>
+
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">testAdapterPresenter</span><span class="p">.</span><span class="n">view</span> <span class="p">=</span> <span class="k">this</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">notifyAdapter</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">notifyDataSetChanged</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreateViewHolder</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">ViewGroup</span><span class="p">?,</span> <span class="n">viewType</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">TestViewHolder</span> <span class="p">=</span>
+      <span class="n">TestViewHolder</span><span class="p">(</span><span class="n">LayoutInflater</span><span class="p">.</span><span class="n">fromContext</span><span class="p">(</span><span class="n">context</span><span class="p">).</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">layout</span><span class="p">.</span><span class="n">test_list_item</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="k">false</span><span class="p">))</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onBindViewHolder</span><span class="p">(</span><span class="n">holder</span><span class="p">:</span> <span class="n">TestViewHolder</span><span class="p">?,</span> <span class="n">position</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">holder</span><span class="p">.</span><span class="n">testViewHolderPresenter</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">position</span>
+      <span class="n">holder</span><span class="p">.</span><span class="n">testViewHolderPresenter</span><span class="p">.</span><span class="n">testAdapterPresenter</span> <span class="p">=</span> <span class="n">testAdapterPresenter</span>
+      <span class="n">holder</span><span class="p">.</span><span class="n">testViewHolderPresenter</span><span class="p">.</span><span class="n">bind</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getItemsCount</span><span class="p">()</span> <span class="p">=</span> <span class="n">testAdapterPresenter</span><span class="p">.</span><span class="n">getCount</span><span class="p">()</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<p>And after these changes, <code class="highlighter-rouge">TestAdapter</code> also just worries about initialization of its presenter, ViewHolder and passing the current <code class="highlighter-rouge">position</code> to it.</p>
+
+<p>To make it easier to understand, here is a simple sequence diagram that shows how these presenters fits into the app.
+<img src="http://localhost:4000/images/posts/2017/2017-07-21-recyclerview_mvp.svg" alt="Sequence Diagram" /></p>
+
+<p>Problem we haven’t described above (nor implemented) is callback implementation from ViewHolder through the presenter all the way to Fragment or Activity. Kaushik Gopal mentioned this problem when talking about the state of EventBus today, in <a href="http://fragmentedpodcast.com/episodes/061/">Eposide 61 of Fragmented Podcast</a>. So he decided that EventBus could find its usage here. However, in Part 2 of RecyclerView with MVP, well be addressing this implementation, without EventBus though.</p>
+
+  </section>
+  <section id="disqus_thread"></section><!-- /#disqus_thread -->
+</article>
+
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://localhost:4000/2017/recycler-view-in-MVP/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = '/2017/recycler-view-in-MVP'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//bajicdusko.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+       })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      </div>
+
+      <footer class="footer">
+  <span class="footer__copyright">&copy; 2017 Dusko Bajic. All rights reserved.</span>
+</footer>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+    </div>
+  </body>
+</html>
