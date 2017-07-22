@@ -21,10 +21,6 @@ defaults:
     values:
         layout: 'post'
 
-# Diagrams
-mermaid:
-  src: '/js/mermaid.js'
-
 # Build settings
 destination: _site
 paginate: 10
