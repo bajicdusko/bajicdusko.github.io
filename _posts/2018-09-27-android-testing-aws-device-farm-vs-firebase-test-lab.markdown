@@ -82,8 +82,8 @@ Here we’ll try to sum up the pros and cons from both services:
 8. Support accessibility: Firebase (almost instant via Slack)
 9. Device remote control: AWS
 10. System stability: AWS (On Firebase we had a lot of “infrastructure failures" on certain devices)
-IDE integration: Firebase
-11. iOS support: Both(with the slight advantage to AWS as Firebase XCUITest support is in closed beta at the time of writing)
+11. IDE integration: Firebase
+12. iOS support: Both(with the slight advantage to AWS as Firebase XCUITest support is in closed beta at the time of writing)
 
 This list could go on and on, but its goal is not to tell you _"You should never use service X"_. I wanted to point out to the issues and advantages from the real world example.
 
