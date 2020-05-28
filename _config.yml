@@ -1,13 +1,13 @@
 # Site settings
-title: Dusko Bajic
-description: 'Android Developer. Gadget dependent. Music addicted.'
-url: 'http://bajicdusko.com/'
+title: Duško Bajić
+description: 'Android  ●  .NET  ●  AWS  ●  Photography'
+url: 'https://www.dusko.dev/'
 baseurl: ''
 google_analytics: 'UA-34206359-1'
 disqus_shortname: 'bajicdusko'
 
 author:
-  name: 'Dusko Bajic'
+  name: 'Duško Bajić'
   email: bajicdusko@gmail.com
   twitter_username: bajicdusko
   github_username:  bajicdusko
@@ -24,7 +24,7 @@ defaults:
 # Build settings
 destination: _site
 paginate: 10
-permalink: /:year/:title/
+permalink: /:year/:month/:title/
 markdown: kramdown
 highlighter: rouge
 

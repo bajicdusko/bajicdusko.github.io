@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Android testing: AWS Device Farm vs Firebase TestLab</title>
+  <meta name="description" content="Android  ●  .NET  ●  AWS  ●  Photography">
+  <meta name="author" content="Duško Bajić">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="Android testing: AWS Device Farm vs Firebase TestLab">
+  
+  
+  <meta name="twitter:description" content="With the gained experience by working on large scale android project, check out some tips and tricks about the AWS DeviceFarm and Firebase TestLab">
+  
+  <meta name="twitter:site" content="@bajicdusko">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Duško Bajić">
+  <meta property="og:description" content="Android  ●  .NET  ●  AWS  ●  Photography">
+  <meta property="test:githuburl" content="">
+  <meta property="test:url" content="http://localhost:4000">
+  <meta property="test:baseurl" content="">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-194x194.png" sizes="194x194">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/images/favicons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/images/favicons/manifest.json">
+  <link rel="shortcut icon" href="/images/favicons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffc40d">
+  <meta name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2018/09/android-testing-aws-device-farm-vs-firebase-test-lab/">
+  <link rel="alternate" type="application/rss+xml" title="Duško Bajić" href="/feed.xml">
+</head>
+
+
+  <body>
+    <span class="mobile btn-mobile-menu">
+  <i class="icon icon-list btn-mobile-menu__icon"></i>
+  <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+</span>
+
+<header class="panel-cover" style="background-image: url(/images/cover.jpg)">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <a href="/" title="link to home of Duško Bajić">
+          <img src="/images/profile.jpg" class="user-image" alt="My Profile Photo">
+          <h1 class="panel-cover__title panel-title">Duško Bajić</h1>
+        </a>
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description">Android  ●  .NET  ●  AWS  ●  Photography</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="link to Duško Bajić blog" class="blog-button">Blog</a></li>
+              <li class="navigation__item"><a href="/bio" title="link to Duško Bajić contact" class="contact-button">Bio/Contact</a></li>
+            </ul>
+          </nav>
+          <nav class="cover-navigation navigation--social">
+            <ul class="navigation">
+
+            
+              <!-- Twitter -->
+              <li class="navigation__item">
+                <a href="http://twitter.com/bajicdusko" title="@bajicdusko on Twitter" target="_blank">
+                  <i class="icon icon-social-twitter"></i>
+                  <span class="label">Twitter</span>
+                </a>
+              </li>
+            
+
+            
+
+            
+              <!-- LinkedIn -->
+              <li class="navigation__item">
+                <a href="https://www.linkedin.com/in/bajicdusko" title="bajicdusko on LinkedIn" target="_blank">
+                  <i class="icon icon-social-linkedin"></i>
+                  <span class="label">LinkedIn</span>
+                </a>
+              </li>
+            
+
+            
+              <!-- GitHub -->
+              <li class="navigation__item">
+                <a href="https://www.github.com/bajicdusko" title="bajicdusko on GitHub" target="_blank">
+                  <i class="icon icon-social-github"></i>
+                  <span class="label">GitHub</span>
+                </a>
+              </li>
+            
+
+            
+              <!-- Email -->
+              <li class="navigation__item">
+                <a href="mailto:bajicdusko@gmail.com" title="Email bajicdusko@gmail.com" target="_blank">
+                  <i class="icon icon-mail"></i>
+                  <span class="label">Email</span>
+                </a>
+              </li>
+            
+
+            <!-- RSS -->
+            <li class="navigation__item">
+              <a href="/feed.xml" title="Subscribe" target="_blank">
+                <i class="icon icon-rss"></i>
+                <span class="label">RSS</span>
+              </a>
+            </li>
+
+            </ul>
+          </nav>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <article class="post-container post-container--single">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="27 Sep 2018" class="post-meta__date date">27 Sep 2018</time> &#8226; <span class="post-meta__tags">on <a href="tags/#android">android</a> <a href="tags/#testing">testing</a> <a href="tags/#aws">aws</a> <a href="tags/#devicefarm">devicefarm</a> <a href="tags/#firebase">firebase</a> <a href="tags/#testlab">testlab</a> </span>
+    </div>
+    <h1 class="post-title">Android testing: AWS Device Farm vs Firebase TestLab</h1>
+  </header>
+
+  <section class="post">
+    <p>A whole year passed since I started working on Android automation testing solution on the project for a large corporation. The project is handed over to another team now, and it’s time to share the valuable experience.</p>
+
+<p>Our job was to automate E2E tests only. And one of the first decisions we had to make, is to choose a serious enough company which provides a service of “renting” all kind of physical devices for the testing purposes. First, we thought of self-hosting solution which could be wired to the Cl pipeline, but we could never provide a device diversity granular enough. Therefore, we started looking for cloud solutions.</p>
+
+<p>Since we needed a solution which supports both, Android and iOS platforms, with a large number of various devices, AWS DeviceFarm singled out, as a solution we could trust to be stable enough, with the responsive support and general ease of use.</p>
+
+<h3 id="aws-devicefarm">AWS DeviceFarm</h3>
+
+<p>When using it for the first time, you will probably try out the service through the web UI. There are just a couple of mandatory steps to go through in order to start the test run:</p>
+
+<ol>
+  <li>Choose a test type: Instrumentation</li>
+  <li>Upload test apk</li>
+  <li>Upload app apk</li>
+  <li>Choose devices (create a so-called device-pool)</li>
+  <li>If you don’t need any extra data package to provide, then click run.</li>
+</ol>
+
+<p>And basically, that’s it. The tests will run on a chosen devices and if everything goes well, you’ll see the cumulative pass/fail statistic per device and detailed list of passed and failed tests.</p>
+
+<p>For each test, you’ll be able to get the instrumentation log, logcat and video recording by default.</p>
+
+<p>However, web UI isn’t much of use when the CI pipeline is used, so we have to use either the AWS CLI or some plugin for the build server. We were using the Jenkins which has the support for AWS DeviceFarm communication (through the plugin of course).</p>
+
+<p>It worked very well, at least when it comes to the tests execution. A first huge issue we stumbled upon was the lack of reporting. There is no option to add an email or emails which should receive the testing report. Actually, there is no report at all, not even a digested one which could be forwarded to the client. We were left with the option to allow the access to our AWS project so that the testing results could be checked through the web Ul.</p>
+
+<h4 id="junit4-support---deal-breaker">JUnit4 support - Deal breaker</h4>
+
+<p>On the Android side, the testing procedure was complicated enough and we had to make a couple of compromises. One of them was to force a strict order of the test execution due to complex and long login procedure in the app.</p>
+
+<p>In order to do so, as a first step, we’ve created a precise test suites. A handy behaviour of test suite definition on Android is that test classes will be executed in the order they are defined in the <code class="highlighter-rouge">@SuiteClasses</code> annotation.</p>
+
+<p>As a second part, we had to order the tests inside the test classes as well, which we did with the only option available: <code class="highlighter-rouge">@FixMethodOrder</code> annotation.</p>
+
+<p>And that was the end of the journey for us with AWS DeviceFarm because they implement <code class="highlighter-rouge">JUnit4</code> only partially, without any support for test suites definition, nor for the FixMethodOrder! Since we were left out of options, we had to abandon the service as we could not run the tests as we wanted to.</p>
+
+<p>###Firebase TestLab
+Ahead of abandoning the AWS, we had to make sure that we can find a service, still serious enough and with good support which doesn’t have those <code class="highlighter-rouge">JUnit4</code> limitations. We tried the Firebase and it worked.</p>
+
+<p>Through the web UI the setup procedure steps are almost identical to AWS:</p>
+
+<ol>
+  <li>Choose a test type: (also instrumentation)</li>
+  <li>Upload both apk’s</li>
+  <li>Choose a device</li>
+  <li>Run.</li>
+  <li>Observe the test results per device and per test with access to video recording and logs.</li>
+</ol>
+
+<p>Of course, we cannot use the web UI, so we end up using the CLI solution for Firebase: <code class="highlighter-rouge">gcloud</code>.</p>
+
+<p>With the <code class="highlighter-rouge">gcloud</code> we’re able to define the type of the test, paths to the apk files, result directory and bucket on Google Cloud Storage, and the <code class="highlighter-rouge">test-target</code> which besides all standard options like test package or individual test, also accepts the test suite as a target, respecting the order of execution.</p>
+
+<p>Although it works on a similar way as AWS DeviceFarm, Firebase TestLab relies on Google stack and therefore saves all test results into the bucket on Google Cloud Storage, which is awesome as we’re able to access the files directly.</p>
+
+<blockquote>
+  <p>In order to define the custom bucket and path per test execution, a payed access to Google Cloud Storage is required. In the case of free storage usage, the test results will be saved under the testlab/random-hash directory, and removed after 90 days.
+Since we could access the test results directly, we could build the testing report as we wanted to, which is something our client really liked. Still, I’d like to mention that Firebase also doesn’t provide a system reporting solution where we could create only the mailing list in order to have the results delivered. It does have a digested results per device in the console output.</p>
+</blockquote>
+
+<h4 id="timeouts">Timeouts:</h4>
+
+<p>Although the Firebase gives us the possibility of test suites run, it didn’t come for free. A maximum timeout for test execution is <strong>30 minutes</strong>. This is more than enough for 90% of use cases, but in our case having one test suite containing all test classes proved to be a problematic solution as our E2E tests are executing 60+ minutes.</p>
+
+<p>The reason behind this 30 min limit, according to the discussions on Google forums and Slack, is the system stability, so they found the compromise on 30 min. Executing anything longer than that would be interrupted without any results.</p>
+
+<p>We solved this problem by creating many small test suites which are executed one after another, with separate <code class="highlighter-rouge">gcloud</code> calls. As a consequence, report generation was even more complex, but possible at least, giving us the working solution at the end.</p>
+
+<h3 id="comparison">Comparison:</h3>
+<p>Here we’ll try to sum up the pros and cons from both services:</p>
+
+<ol>
+  <li>CLI simplicity: Firebase</li>
+  <li>Plugin accessibility: AWS</li>
+  <li>System reports(mailing list): None</li>
+  <li>Reports accessibility: Firebase</li>
+  <li>Digested report: Firebase</li>
+  <li>Devices choice: AWS (Firebase have a 15-20 different devices)</li>
+  <li>Up-to-date compatibility: Firebase</li>
+  <li>Support accessibility: Firebase (almost instant via Slack)</li>
+  <li>Device remote control: AWS</li>
+  <li>System stability: AWS (On Firebase we had a lot of “infrastructure failures” on certain devices)</li>
+  <li>IDE integration: Firebase</li>
+  <li>iOS support: Both(with the slight advantage to AWS as Firebase XCUITest support is in closed beta at the time of writing)</li>
+</ol>
+
+<p>This list could go on and on, but its goal is not to tell you <em>“You should never use service X”</em>. I wanted to point out to the issues and advantages from the real world example.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>A general feeling I get as a user of these services is that there is no large freedom of choice. As our requests and expectations are higher, the walls we hit are higher as well, and it happens much often. The worst thing about it is that you cannot be aware of all these tiny issues when making a decision. Who would think of <code class="highlighter-rouge">JUnit4</code> issues on AWS… but it happens.</p>
+
+<blockquote>
+  <p>These services are used on unlimited payed plans, including the traffic generated on Google Cloud Storage. There was no limitations of service due to free or trial usage.</p>
+</blockquote>
+
+<p>Stay cautious!</p>
+
+  </section>
+  <section id="disqus_thread"></section><!-- /#disqus_thread -->
+</article>
+
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://localhost:4000/2018/09/android-testing-aws-device-farm-vs-firebase-test-lab/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = '/2018/09/android-testing-aws-device-farm-vs-firebase-test-lab'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+
+      (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//bajicdusko.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+       })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      </div>
+
+      <footer class="footer">
+  <span class="footer__copyright">&copy; 2020 Duško Bajić. All rights reserved.</span>
+</footer>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+    </div>
+  </body>
+</html>
