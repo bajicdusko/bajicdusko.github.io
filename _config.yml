@@ -1,7 +1,7 @@
 # Site settings
 title: Duško Bajić
 description: 'Android  ●  .NET  ●  AWS  ●  Photography'
-url: 'https://www.dusko.dev/'
+url: 'https://www.dusko.dev'
 baseurl: ''
 google_analytics: 'UA-34206359-1'
 disqus_shortname: 'bajicdusko'
@@ -24,7 +24,7 @@ defaults:
 # Build settings
 destination: _site
 paginate: 10
-permalink: /:year/:month/:title/
+permalink: /:year/:month/:title
 markdown: kramdown
 highlighter: rouge
 
@@ -34,5 +34,5 @@ kramdown:
   # do not replace newlines by <br>s
   hard_wrap: false
 
-plugins: ['jekyll-paginate']
+plugins: ['jekyll-paginate', 'jekyll-seo-tag', 'jekyll-sitemap']
 exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'screenshot.png']

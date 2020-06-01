@@ -5,8 +5,8 @@
     <description>Android  ●  .NET  ●  AWS  ●  Photography</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 29 May 2020 00:02:45 +0200</pubDate>
-    <lastBuildDate>Fri, 29 May 2020 00:02:45 +0200</lastBuildDate>
+    <pubDate>Mon, 01 Jun 2020 22:46:26 +0200</pubDate>
+    <lastBuildDate>Mon, 01 Jun 2020 22:46:26 +0200</lastBuildDate>
     <generator>Jekyll v3.8.7</generator>
     
       <item>
@@ -109,8 +109,8 @@ Since we could access the test results directly, we could build the testing repo
 &lt;p&gt;Stay cautious!&lt;/p&gt;
 </description>
         <pubDate>Thu, 27 Sep 2018 13:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2018/09/android-testing-aws-device-farm-vs-firebase-test-lab/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/09/android-testing-aws-device-farm-vs-firebase-test-lab/</guid>
+        <link>http://localhost:4000/2018/09/android-testing-aws-device-farm-vs-firebase-test-lab</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/09/android-testing-aws-device-farm-vs-firebase-test-lab</guid>
         
         <category>android</category>
         
@@ -346,8 +346,8 @@ is to set received values (&lt;code class=&quot;highlighter-rouge&quot;&gt;title
 &lt;p&gt;Problem we haven’t described above (nor implemented) is callback implementation from ViewHolder through the presenter all the way to Fragment or Activity. Kaushik Gopal mentioned this problem when talking about the state of EventBus today, in &lt;a href=&quot;http://fragmentedpodcast.com/episodes/061/&quot;&gt;Eposide 61 of Fragmented Podcast&lt;/a&gt;. So he decided that EventBus could find its usage here. However, in Part 2 of RecyclerView with MVP, well be addressing this implementation, without EventBus though.&lt;/p&gt;
 </description>
         <pubDate>Fri, 21 Jul 2017 13:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2017/07/recycler-view-in-MVP/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/recycler-view-in-MVP/</guid>
+        <link>http://localhost:4000/2017/07/recycler-view-in-MVP</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/recycler-view-in-MVP</guid>
         
         <category>android</category>
         
@@ -811,8 +811,8 @@ Once you establish hierarchy as below, you won’t have to think about it much. 
 &lt;/div&gt;
 </description>
         <pubDate>Thu, 08 Jun 2017 10:03:00 +0200</pubDate>
-        <link>http://localhost:4000/2017/06/simplified-fragment-management/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/simplified-fragment-management/</guid>
+        <link>http://localhost:4000/2017/06/simplified-fragment-management</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/simplified-fragment-management</guid>
         
         <category>android</category>
         
@@ -910,8 +910,8 @@ Family friends can come to visit once you finish with your work and your wife or
 &lt;p&gt;It’s hard to follow everything stated. In reality, your daily time will be a mix of these things. It is your responsibility to be as effective as possible. My 8h billed time is spread across the whole day, from 8 am until midnight and I am trying to have a schedule which will follow notes I have written above. This is what I intend to do and this text will be a reminder to myself.&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Oct 2016 17:04:23 +0200</pubDate>
-        <link>http://localhost:4000/2016/10/remote-work-and-how-to-make-best-of-it/</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/10/remote-work-and-how-to-make-best-of-it/</guid>
+        <link>http://localhost:4000/2016/10/remote-work-and-how-to-make-best-of-it</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/10/remote-work-and-how-to-make-best-of-it</guid>
         
         <category>productivity</category>
         

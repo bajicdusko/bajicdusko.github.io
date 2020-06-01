@@ -3,8 +3,14 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{{ site.description }}">
+  <title>
+    {% if page.title %}
+      {{ page.title }}
+    {% else %}
+      {{ site.title }}
+    {% endif %}
+  </title>
+  <meta name="description" itemprop="description" content="{% if page.description %}{{ page.description | truncate: 160 }}{% else %}{{ site.description | truncate: 160  }}{% endif %}" />
   <meta name="author" content="{{ site.author.name }}">
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
@@ -13,27 +19,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <meta name="twitter:card" content="summary">
-  {% if page.title %}
-  <meta name="twitter:title" content="{{ page.title }}">
-  {% else %}
-  <meta name="twitter:title" content="{{ site.title }}">
-  {% endif %}
-  {% if page.twitter_excerpt %}
-  <meta name="twitter:description" content="{{ page.twitter_excerpt }}">
-  {% else if page.excerpt %}
-  <meta name="twitter:description" content="{{ page.excerpt }}">
-  {% else %}
-  <meta name="twitter:description" content="{{ site.description }}">
-  {% endif %}
+  <meta name="twitter:title" content="{%if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
   <meta name="twitter:site" content="@{{ site.author.twitter_username }}">
+  <meta name="twitter:creator" content="@{{ site.author.twitter_username }}">
+  <meta name="test:siteurl" content={{ site.url }}>
+  <meta name="test:pageurl" content={{ page.url }}>
+  <meta name="test:baseurl" content={{ base.url }}>
 
+  <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="{{ site.title }}">
-  <meta property="og:description" content="{{ site.description }}">
-  <meta property="test:githuburl" content="{{ site.github.url }}">
-  <meta property="test:url" content="{{ site.url }}">
-  <meta property="test:baseurl" content="{{ site.baseurl }}">
-
+  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}/thumbs/{{ page.image }}" />
+  <meta property="og:site_name" content="Dusko Bajic Blog">
+  <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="article:published_time" content="{{ page.date }}" />
+  
   <link rel="apple-touch-icon" sizes="57x57" href="{{ "/images/favicons/apple-touch-icon-57x57.png" | prepend: site.baseurl }}">
   <link rel="apple-touch-icon" sizes="60x60" href="{{ "/images/favicons/apple-touch-icon-60x60.png" | prepend: site.baseurl }}">
   <link rel="apple-touch-icon" sizes="72x72" href="{{ "/images/favicons/apple-touch-icon-72x72.png" | prepend: site.baseurl }}">
