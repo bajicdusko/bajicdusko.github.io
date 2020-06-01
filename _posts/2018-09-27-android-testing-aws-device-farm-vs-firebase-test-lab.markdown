@@ -4,7 +4,7 @@ title: "Android testing: AWS Device Farm vs Firebase TestLab"
 date: "2018-09-27 13:00"
 categories: [android]
 tags: [android, testing, aws, devicefarm, firebase, testlab]
-twitter_excerpt: "With the gained experience by working on large scale android project, check out some tips and tricks about the AWS DeviceFarm and Firebase TestLab"
+description: "Tips and tricks on the AWS DeviceFarm and Firebase TestLab."
 ---
 
 A whole year passed since I started working on Android automation testing solution on the project for a large corporation. The project is handed over to another team now, and it’s time to share the valuable experience.

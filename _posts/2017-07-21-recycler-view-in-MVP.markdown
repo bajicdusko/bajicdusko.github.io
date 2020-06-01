@@ -4,7 +4,7 @@ title: "RecyclerView with MVP"
 date: "2017-07-21 13:00"
 categories: [android]
 tags: [android, recyclerview, mvp, presenter, view]
-twitter_excerpt: "Implementing RecyclerView in android, with MVP approach can be tricky and complicated. This is the Part 1 of RecyclerView with MVP implementation."
+description: "Implementing RecyclerView in android, with MVP approach can be tricky and complicated. This is the Part 1 of RecyclerView with MVP implementation."
 ---
 MVC/MVP/MVVM, we're all talking about it. It's modern, it's cool, but besides that it's useful. We'll see if the MVP is dead, now that [Google announced its own archtecture components](https://developer.android.com/topic/libraries/architecture/index.html), however, that's something to deal with later.
 Currently MVP with Clean Architecture is doing a great job for us. And most importantly it is so easy to implement and understand.
