@@ -1,7 +1,7 @@
 # Site settings
 title: Duško Bajić
 description: 'Android  ●  .NET  ●  AWS  ●  Photography'
-url: 'https://www.dusko.dev'
+url: 'https://dusko.dev'
 baseurl: ''
 google_analytics: 'UA-34206359-1'
 disqus_shortname: 'bajicdusko'

@@ -10,7 +10,11 @@
       {{ site.title }}
     {% endif %}
   </title>
-  <meta name="description" itemprop="description" content="{% if page.description %}{{ page.description | truncate: 160 }}{% else %}{{ site.description | truncate: 160  }}{% endif %}" />
+  {% if page.description %}
+  <meta name="description" itemprop="description" content="{{ page.description }}">
+  {% else %}
+  <meta name="description" itemprop="description" content="{{ site.description  }}">
+  {% endif %}
   <meta name="author" content="{{ site.author.name }}">
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
