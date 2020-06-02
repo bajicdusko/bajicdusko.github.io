@@ -119,7 +119,7 @@ These issues might feel a little bit basic, however, by working on many android 
 
 And here is the sequence diagram that simplifies the explanation, that shows basic interaction with adding, replacing and removing fragments.
 
-![Sequence Diagram]({{ site.url }}/images/posts/2017/2017-06-08-fragmentdiagram.svg)
+![Sequence Diagram]({{ site.url }}/assets/img/posts/2017/2017-06-08-fragmentdiagram.svg)
 
 It is obvious that implementation is really simple.
 To make things even more easier, sources can be easily found by referencing the library in your `build.gradle` file: `implementation 'com.bajicdusko:fragment-manager:1.0.2'`.

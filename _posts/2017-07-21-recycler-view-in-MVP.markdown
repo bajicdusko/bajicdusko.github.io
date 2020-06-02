@@ -222,6 +222,6 @@ class TestAdapter(val context: Context) : RecyclerView.Adapter<TestViewHolder>()
 And after these changes, `TestAdapter` also just worries about initialization of its presenter, ViewHolder and passing the current `position` to it.
 
 To make it easier to understand, here is a simple sequence diagram that shows how these presenters fits into the app.
-![Sequence Diagram]({{ site.url }}/images/posts/2017/2017-07-21-recyclerview_mvp.svg)
+![Sequence Diagram]({{ site.url }}/assets/img/posts/2017/2017-07-21-recyclerview_mvp.svg)
 
 Problem we haven't described above (nor implemented) is callback implementation from ViewHolder through the presenter all the way to Fragment or Activity. Kaushik Gopal mentioned this problem when talking about the state of EventBus today, in [Eposide 61 of Fragmented Podcast](http://fragmentedpodcast.com/episodes/061/). So he decided that EventBus could find its usage here. However, in Part 2 of RecyclerView with MVP, well be addressing this implementation, without EventBus though.
