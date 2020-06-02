@@ -4,13 +4,9 @@
 # © 2017-2019 Cotes Chung
 # MIT licensed
 
-
-# jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
-#--------------------------
-
 title: Duško Bajić
 
-tagline: Android  ●  .NET  ●  AWS  ●  Photography  # it will display as the sub-title
+tagline: Android  ●  .NET  ●  AWS  ●  Photography
 
 description: >-
   Software engineer. Enjoys in DevOps, proficient in development.
@@ -23,7 +19,7 @@ github:
   username: bajicdusko
 
 twitter:
-  username: bajicdusko            # change to your twitter username
+  username: bajicdusko
   card: summary
 
 linkedin:
@@ -33,26 +29,19 @@ social:
   name: Duško Bajić
   email: bajicdusko@gmail.com
   links:
-    # The first element serves as the copyright owner's link
     - https://twitter.com/bajicdusko
     - https://github.com/bajicdusko
     - https://www.linkedin.com/in/bajicdusko
 
-google_site_verification: 1mycoeDFQZxslULZ44j-kZFIW_Qtl9b08z-8yg7W_gw # change to your verification string
-
-#--------------------------
+google_site_verification: 1mycoeDFQZxslULZ44j-kZFIW_Qtl9b08z-8yg7W_gw
 
 # if your site type is Project Pages site, change below value to '/projectname'
 baseurl: ''
 
-# Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
 timezone: Europe/Sarajevo
 
 google_analytics:
-  # Fill with your Google Analytics ID
   id: 'UA-34206359-1'
-  # The Google Analytics pageviews switch.
-
   pv:
     # DO NOT enable it unless you know how to deploy the Google Analytics superProxy.
     enabled: false
