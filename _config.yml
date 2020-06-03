@@ -87,7 +87,7 @@ kramdown:
       line_numbers: true
       start_line: 1
 
-permalink: /posts/:year/:month/:title
+permalink: /posts/:year/:month/:title/
 
 defaults:
   -
