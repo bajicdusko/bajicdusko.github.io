@@ -3,7 +3,7 @@ layout: "post"
 title: "Android testing: AWS Device Farm vs Firebase TestLab"
 date: "2018-09-27 13:00"
 categories: [android]
-tags: [android, testing, aws, devicefarm, firebase, testlab]
+tags: [android, test, aws, devicefarm, firebase]
 description: "Tips and tricks on the AWS DeviceFarm and Firebase TestLab."
 ---
 
