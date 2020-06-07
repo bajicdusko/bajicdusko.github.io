@@ -4,7 +4,7 @@ title: "Moving away from Google services"
 date: "2020-06-07 23:00"
 categories: [cloud]
 tags: [google, privacy, cloud]
-description: "Danger of having locked Google account is real. Being unable to access your data is frightening. I've started my mission of migrating from Google services and dispersing access to my data. This is how."
+description: "Danger of having locked Google account is real. I've started my migration from Google services and dispersing access to my data. This is how."
 ---
 
 There isn't a person in the modern world which isn't affected with at least one of its services. Their services are great products and we're happy to use them, for FREE.
@@ -67,7 +67,7 @@ Finding alternative to Google Drive deserves its own post. Currently I'm paying 
     Some other alternatives are OneDrive and Dropbox, but no one can't beat 200GB package I'm using. It's worth mentioning that [Office 365 Personal (1TB)](https://onedrive.live.com/about/en-us/plans/) has acceptable price of 69.99$ annually as you get Office applications as well. However, if we scale it to 2TB it's more expensive than Google One.
 
 6. **Android** ❌  
-There isn't much to do here. Whatever I use, they'll collect data from my mobile anyway. Switching to Apple or some chinese manufacturer makes sense only to disperse data, instead of sending it to Google data center. So my next phone will be either iPhone or Xiaomi :).
+There isn't much to do here. Whatever I use, they'll collect data from my mobile anyway. Switching to Apple or some chinese manufacturer makes sense only to disperse data. So my next phone will be either iPhone or Xiaomi :).
 7. **Docs**, **Spreadsheet**, **Calendar**, **Contacts** and **Notes** are usually part of email service or in my case, Nextcloud solution. 🔄
 8. **YouTube** and **Maps** have no alternative, therefore I'll stick with these. ❎  
 9. **Gmail** ❌  
