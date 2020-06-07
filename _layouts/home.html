@@ -13,6 +13,9 @@ layout: page
     <h1>
       <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
     </h1>
+    {% if post.image %}
+      <img src="{{ site.url }}/{{ post.image }}">
+    {% endif %}
     <div class="post-content">
       <p>
       {% assign _content = post.content %}
