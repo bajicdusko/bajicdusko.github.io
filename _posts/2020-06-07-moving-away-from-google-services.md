@@ -64,7 +64,7 @@ Finding alternative to Google Drive deserves its own post. Currently I'm paying 
 
     ![Google Drive storage almost full]({{ site.url }}/assets/img/posts/2020/2020-06-07-drive-running-out-of-storage.png)
 
-    Paying 2TB package (99.99$ annually) is unacceptable for me. My current approach is Nextcloud on a private VPS. There is an incoming post about it.  
+    Paying 2TB package (99.99$ annually) is unacceptable for me. My current approach is [Nextcloud on a private VPS]({{ site.url }}/posts/2020/06/nextcloud-alternative-to-google-services).  
     Some other alternatives are OneDrive and Dropbox, but no one can't beat 200GB package I'm using. It's worth mentioning that [Office 365 Personal (1TB)](https://onedrive.live.com/about/en-us/plans/) has acceptable price of 69.99$ annually as you get Office applications as well. However, if we scale it to 2TB it's more expensive than Google One.
 
 6. **Android** ❌  

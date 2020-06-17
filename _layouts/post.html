@@ -26,11 +26,13 @@ layout: default
           </span>
           by
           <span class="author">
+          {% assign author = "owner" %}
           {% if page.author %}
-            {{ page.author }}
-          {% else%}
-            {{ site.author }}
+            {% assign author = site.data.authors[page.author] %}
+          {% else %}
+            {% assign author = site.data.authors[site.author] %}
           {% endif %}
+          {{ author.name }}
           </span>
         </div>
 

@@ -4,15 +4,17 @@
 # © 2017-2019 Cotes Chung
 # MIT licensed
 
-title: Duško Bajić
+title: Duško Bajić - Blog
 
 tagline: Android  ●  .NET  ●  AWS  ●  Photography
 
 description: >-
-  Software engineer. Enjoys in DevOps, proficient in development.
+  Software engineer. Enjoys in DevOps. Proficient in development.
 url: 'https://dusko.dev'
-author: Duško Bajić
+author: bajicdusko
 avatar: /assets/img/profile.jpg   # support internet resources
+image: /assets/img/profile.jpg
+logo: /assets/img/profile.jpg
 lang: en_US
 
 github:
