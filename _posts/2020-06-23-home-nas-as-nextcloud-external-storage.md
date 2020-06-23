@@ -41,12 +41,12 @@ What do I gain with it?
 - My VPS is on static IP address, with registered DNS record.
 - Raspberry acting as VPN client connects to VPS and establish always-on connection.
 - Data transfer is encrypted.
-- No need to exposing my router ports publicly.
+- No need to expose my router ports publicly.
 - As of now, VPS and my home are practically in local network, which makes maintenance much easier and it has a potential of making my Nextcloud setup completely private by making it inaccessible from outside world and communicating through VPN only.
 
 ## VPN
 
-Without going into details on how to setup VPN, I'll reference to awesome, stable, state of the art, open source product [Algo VPN](https://github.com/trailofbits/algo). If you're planning on setting up VPN on your infrastructure, search no more. This is the solution you need.  
+Without going into details on how to setup VPN, I'll reference to awesome, stable, state of the art, open source product [Algo VPN](https://github.com/trailofbits/algo). If you're planning on setting up VPN on your infrastructure, search no more. This is the solution you need. Period.  
 Installation is straight-forward and as a result you'll get config files for WireGuard VPN clients, MacOS IPSec configs, even QRCodes to scan with mobile devices with installed WireGuard client app.
 
 On Raspberry, I've installed WireGuard client for Debian.
@@ -59,7 +59,7 @@ But this is just the first piece of the puzzle. Making the storage accessible fr
 
 - On Raspberry, mount USB device on boot.  
 In `/etc/fstab` file, I've added line to auto-mount my USB device, like this:  
-`UUID=5E98-D69A	/mnt/hdd	exfat	defaults,auto,users,rw,nofail	0	0`
+`UUID=5E98-D69A	/mnt/hdd	exfat	defaults,auto,users,rw,nofail	0	0`  
 You'll notice, I've choosed the directory `/mnt/hdd`.
 
 - Install Samba share server and share the mounted directory
@@ -116,7 +116,7 @@ The point is, none of my files are located on VPS and disk-space Nextcloud takes
 
 ### Public access lockdown (VPN only)
 
-Since I choosed to allow access to VPN from my mobile devices as well, by installing WireGuard app on mobile device, I'm easily connected to VPS through VPN connection from my mobile device, while whole sync job works without extra configuration.
+Since I choosed to allow access to VPN from my mobile devices as well, by installing WireGuard app on mobile device, I'm easily connected to VPS through VPN connection from my mobile device, while the whole sync job works without extra configuration.
 
 ![Android WireGuard]({{ site.url }}/assets/img/posts/2020/2020-06-23-android-wireguard.jpg)
 
