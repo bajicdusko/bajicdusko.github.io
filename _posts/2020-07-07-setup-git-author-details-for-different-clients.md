@@ -1,10 +1,10 @@
 ---
 layout: "post"
-title: "How to set different git author details per client"
+title: "How to setup git author details for different clients"
 date: "2020-07-07 00:00"
 categories: [tips]
 tags: [git]
-description: "Setting different author info for different clients and its repositories requires three steps only."
+description: "Setting different author info for different clients and its repositories requires three steps only. While it might seems like unimportant at first, improper setup can have legal consequences."
 ---
 
 You've definitelly been in a situation where you'd like to commit changes to repository, but to use your
