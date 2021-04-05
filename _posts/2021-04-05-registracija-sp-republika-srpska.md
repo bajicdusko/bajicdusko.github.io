@@ -132,3 +132,10 @@ Iz ličnog iskustva, proces osnovanja SP-a u Banjoj Luci traje oko 30 dana.
 Ukoliko ste mali preduzetnik i znate da sami izračunate poreze i doprinose, knjigovođa vam manje-više i ne treba. Međutim, postoje razne naknade kojih niste svjesni, npr "naknada za vodu"... sa druge strane, pošto sa SP odgovarate svojom imovinom, ne želite da se dovedete u situaciju da vam poreska šalje opomene zbog propuštenog plaćanja.  
 50KM mjesečno za knjigovođu je mala cijena za spriječavanje glavobolje i frustracije. Kada postanete veliki preduzetnik, knjigovođa će vam svakako trebati, a i pomoći će vam u transformaciji iz MP u VP.  
 Dobronamjeran savjet, unajmite knjigovođu.
+
+## SP: Da ili ne?
+Zavisi od mnogo čega. Ukoliko imate vrlo mali promet, mozda je ipak autorski ugovor svako toliko bolje rješenje.  
+Ako sa inostranim klijentima potpisujete direktan ugovor (na full-time) SP je sigurno najbolja opcija za vas. Radite lokalno i uspjevate zadržati promet ispod 50.000 KM, SP je definitivno opcija za vas.  
+U regionu, Republika Srpska ima najbolje uslove za poslovanje putem samostalnog preduzetništva. 2% porez je najniža stopa u Evropi te to treba iskoristiti.  
+
+Imate komentare? Pišite ispod.
