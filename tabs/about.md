@@ -8,33 +8,33 @@ title: About me
 # MIT License
 ---
 
-## Who are you
+## Who am I?
 
-I am a Software Engineer.
+I am a software engineer. A father and a husband.
 
-## What do you do
+## What do I do?
 
-- **Android**, since Froyo version. 10 years and counting.
-- **.NET**, for 6 years. Financial apps mostly.
-- **Angular** junior.
-- Enjoying working with **AWS**. Toddler **Terraform** steps.
+Director of Engineering at [Shyft Moving](http://www.shyftmoving.com).  
 
-## Anything "unofficial"
+### Fintech
+I have a great interest in fintech products.  
+That's what I was building for the 7 years at least. Some examples are:
 
-Well, driving **Raspberry** and side projects in the night hours.. if that counts. Exploring **Flutter** development at the moment.
+- Trading softwares for stock exchange.
+- Accounting softwares for investment funds.
+- Risk calculations for bonds and securities
+- Payment processing solutions (virtual/plastic cards, ACH, Wire).
 
-Oh and photography. Clicking through the lens of **Canon 70D** as much as I can.
+### Mobile
+Android is my first love, it lasts since Froyo, for 10 years, and counting.
 
-And music, yes. Collecting worldwide state of the art work.
+### DevOps
 
-Woodworking as a hobby.
+- AWS is new big love. Azure is as cool as Amazon. GCP as well.  
+- Fan of proper branching strategies, healthy development processes and useful reviews.
+- Proponent of software architecture that works.
+- Automated QA is a must.
 
-## Community?
+### Free time
 
-- **Kotlin** Bosnia User Group organizer. Tried hard. Local community is tiny. No response. Still trying.
-- Speaking on meetups.
-- Doing courses
-
-## Personal
-
-Playing with little daughter top priority. Trying to sleep enough. 
+When I don't play with the kid, I play with Raspberry. Amateur photographer. Audiophile. Woodworking.
