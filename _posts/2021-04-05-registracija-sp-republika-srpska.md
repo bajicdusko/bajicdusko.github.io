@@ -37,7 +37,7 @@ Radi se o sljedećem:
 
 ## Troškovi
 - Mali preduzetnik (MP) plaća porez na dohodak od 2% (a minimalno 50KM mjesečno). Ovo se još naziva i paušalni porez.
-- Veliki preduzetnik (VP) plaća porez na dohodatk od 10% i ulazi u sistem PDV-a. Dakle, sa svojim pravnim subjektom možete imati milionski promet, a i dalje biti SP.
+- Veliki preduzetnik (VP) plaća porez na dohodak od 10% i ulazi u sistem PDV-a. Dakle, sa svojim pravnim subjektom možete imati milionski promet, a i dalje biti SP.
 - Vi kao vlasnik SP-a, za sebe plaćate doprinose (PIO, zdravstveno osiguranje itd) na mjesečnom nivou. Iznos doprinosa se računa na osnovu prosječne plate u Republici Srpskoj za prethodnu godinu.  
 Npr. Za 2020-u godinu, prosječna bruto plata je bila 1485.00 KM, a računica izgleda kao na slici ispod:  
 ![Doprinosi za SP]({{ site.url }}/assets/img/posts/2021/2021-04-05-doprinosi-sp.png)
@@ -74,7 +74,9 @@ Dakle, ukoliko ste u sistemu PDV-a i fakturišete inostranom klijentu, primjenju
 
 Ukoliko svoje usluge fakturišete pravnom subjektu registrovanom u BiH, na cijenu vaše usluge se dodaje PDV od 17% i tako uvećana faktura se šalje klijentu.  
 
-Kako većina freelancer-a radi sa inostranim klijentima, prelazak u sistem PDV-a ne predstavlja nikakav problem.
+Kako većina freelancer-a radi sa inostranim klijentima, prelazak u sistem PDV-a ne predstavlja nikakav problem.  
+
+Ono što je bitno da se napomene. **Svake godine do 31.1 u poreskoj upravi se mora podnijeti zahtjev za MP status.** U suprotnom isti nemate te vam se status mijenja u velikog preduzetnika.
 
 ## Prednosti i mane
 
@@ -82,16 +84,16 @@ Zašto biste osnovali SP?
 
 - Zdravstveno osiguranje, staž.  
   Ukoliko ste do sada radili kao freelancer i vršili naplatu preko raznih payment servisa, deviznog računa u banci itd, bili ste u obavezi da platite porez od 10% na isplaćenu sumu i to je to.  
-  Kroz poslovanje sa SP-om zdravstveno osiguranje sebe i svoje porodice uplaćujete na mjesečnom nivou, a iznos poreza je manji (MP = 2%) ili isti (VP = 10%) nego kada ste bili u sivoj zoni.
+  Kroz poslovanje sa SP-om, zdravstveno osiguranje sebe i svoje porodice uplaćujete na mjesečnom nivou, a iznos poreza je manji (MP = 2%) ili isti (VP = 10%) nego kada ste bili u sivoj zoni.
 
 - Lakoća poslovanja.  
-  Kada imate osnovan pravni subjekt, potpisivanje ugovora sa drugim pravnim subjektima je stvar forme i vi vrlo lako ulazite u poslovne odnose sa drugim pravnim licima. Mnogim pravnim subjektima, naročito u na lokalnom tržištu nije povoljno da posluju sa fizičkim licima.
+  Kada imate osnovan pravni subjekt, potpisivanje ugovora sa drugim pravnim subjektima je stvar forme i vi vrlo lako ulazite u poslovne odnose sa drugim pravnim licima. Mnogim pravnim subjektima, naročito na lokalnom tržištu nije povoljno da posluju sa fizičkim licima.
 
 - Prepustite knjigovođi.  
   Obračun poreza, doprinosa, plaćanje istih i svih nekih zakonskih zavrzlama i naknada za koje ne znate da postoje treba da prepustite knjigovođi da se o tome brine. Usluge knjigovodstva su od 50 - 150 KM mjesečno.
 
 - Odbitak.  
-Nabavka opreme, laptop, internet, kafa, monitor, su sredstva koja vi kupujete da biste uspješno prodavali svoje usluge. Troškovi koje imate zbog nabavke svih tih sredstava se odbijaju od poreza i poreska uprava vam ta sredstva vrati na tekući račun.
+Ukoliko ste veliki preduzetnik, imate mogućnost odbitka od poreza kod nabavke opreme. Laptop, internet, kafa, monitor, su sredstva koja vi kupujete da biste uspješno prodavali svoje usluge. Troškovi koje imate zbog nabavke svih tih sredstava se odbijaju od poreske osnovice. Kao mali preduzetnik, ovu mogućnost nemate.
 
 Šta SP i dalje ne riješava?
 
@@ -129,9 +131,11 @@ Iz ličnog iskustva, proces osnovanja SP-a u Banjoj Luci traje oko 30 dana.
 
 ### Knjigovođa
 
-Ukoliko ste mali preduzetnik i znate da sami izračunate poreze i doprinose, knjigovođa vam manje-više i ne treba. Međutim, postoje razne naknade kojih niste svjesni, npr "naknada za vodu"... sa druge strane, pošto sa SP odgovarate svojom imovinom, ne želite da se dovedete u situaciju da vam poreska šalje opomene zbog propuštenog plaćanja.  
+Ukoliko ste mali preduzetnik i znate da sami izračunate poreze i doprinose, knjigovođa vam manje-više i ne treba. Međutim, postoje razne naknade kojih niste svjesni, npr "Vodoprivredna naknada" od 6KM... sa druge strane, pošto sa SP odgovarate svojom imovinom, ne želite da se dovedete u situaciju da vam poreska šalje opomene zbog propuštenog plaćanja.  
 50KM mjesečno za knjigovođu je mala cijena za spriječavanje glavobolje i frustracije. Kada postanete veliki preduzetnik, knjigovođa će vam svakako trebati, a i pomoći će vam u transformaciji iz MP u VP.  
-Dobronamjeran savjet, unajmite knjigovođu.
+Dobronamjeran savjet, unajmite knjigovođu.  
+
+Ukoliko pak odlučite da sami vodite knjige u plaćate porez, poželjno je da podnesete zahtjev u poreskoj upravi za elektronski pristup aplikacijama preko kojih se podnose poreske prijave.
 
 ## SP: Da ili ne?
 Zavisi od mnogo čega. Ukoliko imate vrlo mali promet, mozda je ipak autorski ugovor svako toliko bolje rješenje.  
