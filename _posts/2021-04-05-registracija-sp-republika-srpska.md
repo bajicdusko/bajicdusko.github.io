@@ -139,7 +139,9 @@ Ukoliko pak odlučite da sami vodite knjige u plaćate porez, poželjno je da po
 
 ## SP: Da ili ne?
 Zavisi od mnogo čega. Ukoliko imate vrlo mali promet, mozda je ipak autorski ugovor svako toliko bolje rješenje.  
-Ako sa inostranim klijentima potpisujete direktan ugovor (na full-time) SP je sigurno najbolja opcija za vas. Radite lokalno i uspjevate zadržati promet ispod 50.000 KM, SP je definitivno opcija za vas.  
+Ako sa inostranim klijentima potpisujete direktan ugovor (na full-time) SP je sigurno najbolja opcija za vas.  
+Radite lokalno i uspjevate zadržati promet ispod 50.000 KM? SP je definitivno opcija za vas.  
+
 U regionu, Republika Srpska ima najbolje uslove za poslovanje putem samostalnog preduzetništva. 2% porez je najniža stopa u Evropi te to treba iskoristiti.  
 
 Imate komentare? Pišite ispod.
