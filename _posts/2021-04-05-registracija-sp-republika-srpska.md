@@ -95,10 +95,10 @@ Nabavka opreme, laptop, internet, kafa, monitor, su sredstva koja vi kupujete da
 
 Šta SP i dalje ne riješava?
 
-- Nemogućnost naplate preko PayPal-a, UpWork-a itd.  
-Ovo je veliki problem za freelancer-e koji koriste pomenute platforme za rad. Ono što se dešava je da vi kao pravno lice prodajete usluge raznim klijentima na UpWork-u, a kada se ta sredstva naplate putem UpWork-a, ti klijenti nisu vidljivi. Vi praktično nemate ugovor sa tim klijentima, a ustvari UpWork vam plati i banka i poreska će vam napraviti problem.  
-Dakle, vi niste u mogućnosti da vežete vaš PayPal račun na biznis račun, odnosno devizni račun SP-a.  
-Situacija je apsurdna te smatram da je potrebno malo truda od strane poreske uprave da se prepreka prevaziđe, jer je trenutno glavni razlog zašto mnogi još uvijek nisu osnovali SP.
+- Poteškoće naplate preko PayPal-a, UpWork-a itd. 
+Većina freelancer-a radi putem UpWork-a i sličnih platformi. Vi kada radite za klijenta kojeg ste našli putem UpWork-a, najčešće nemate ugovor i ne šaljete mu fakturu. Kada vam zarađena sredstva budu isplaćena vi nemate na osnovu čega da opravdate porijeklo tog novca.  
+Zato se preporučuje da se klijenti sa kojima se radi potpiše ugovor ili da im se izda faktura, kako biste istu mogli predočiti banci u trenutku kada vam zarađena sredstva budu isplaćena.  
+Praktično je nebitno odakle se sredstva isplaćuju (PayPal, Payoneer, Wire itd) dok god možete dokazati porijeklo novca.
 
 - Nepovoljan položaj u banci kada vam treba kredit.  
   Desiće vam se da zarađujete vrlo lijepo, hoćete da kupite stan i odete u banku da podnesete zahtjev za stambeni kredit. Neprijatno ćete se iznenaditi, jer će vas u banci smatrati vrlo rizičnim klijentom.  
