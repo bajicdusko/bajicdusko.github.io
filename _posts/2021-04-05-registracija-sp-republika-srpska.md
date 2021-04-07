@@ -51,19 +51,17 @@ Ukoliko ste veliki preduzetnik, paušalni porez ne plaćate, već samo doprinose
 ### Kako se računa porez na dohodak
 
 Najbolje je da krenemo sa primjerom. Recimo da ste u toku mjeseca ukupno naplatili 3000 KM.  Porez na dohodak se računa tako što:
-1. Od iznosa koji ste naplatili odvojite doprinose:  
-   `3000 - 292 = 2708`
-2. Od preostalog iznosa iz prvog koraka se računa iznos poreza.  
-   U slučaju MP: `2708 * 2% = 54.16`  
-   U slučaju VP: `2708 * 10% = 270.80`
+1. Od preostalog iznosa iz prvog koraka se računa iznos poreza.  
+   U slučaju MP: `3000 * 2% = 60`  
+   U slučaju VP: `(3000 - 292) * 10% = 270.80`
 
 Dakle, ukupni troškovi koje ste dužni platiti poreskoj upravi u gornjem primjeru su:  
 
-MP: `292 + 54.16 = 346.16 KM`  
+MP: `292 + 60 = 352.00 KM`  
 VP: `292 + 270.80 = 562.80 KM`
 
 Tako da vam na raspolaganju ostaje:  
-MP: `3000 - 346.16 = 2653.84 KM`  
+MP: `3000 - 352 = 2648.00 KM`  
 VP: `3000 - 562.80 = 2437.20 KM`
 
 ### PDV
