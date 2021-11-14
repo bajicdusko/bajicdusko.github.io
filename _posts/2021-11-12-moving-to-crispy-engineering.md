@@ -1,6 +1,6 @@
 ---
 layout: "post"
-title: "Migrating to Crispy Engineering"
+title: "Migrating to crispy-engineering.com"
 date: "2021-11-01 08:00"
 categories: [engineering-management]
 tags: [engineeringmanager, blog]
