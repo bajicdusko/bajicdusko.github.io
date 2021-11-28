@@ -183,5 +183,6 @@ sitemap_exclude:  # Sitemap will exclude the following items.
     - 404.html
     - feed.xml
     - sitemap.xml
+    - sitemap-ce.xml
     - robots.txt
     - redirects.json

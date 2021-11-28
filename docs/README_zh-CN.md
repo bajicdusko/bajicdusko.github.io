@@ -152,7 +152,7 @@ jekyll-theme-chirpy/
 $ bash tools/run.sh
 ```
 
-访问本地服务： <http://localhost:4000>
+访问本地服务： <http://dusko.dev>
 
 如果你想在本地服务运行后，把修改源文件的更改实时刷新，可使用选项 `-r` (或 `--realtime`)，不过要先安装依赖 [**fswatch**](http://emcrisostomo.github.io/fswatch/) 。
 

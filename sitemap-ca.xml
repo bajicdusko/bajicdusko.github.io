@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="//www.crispy-engineering.com/sitemap.xsl"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <sitemap>
+        <loc>https://www.crispy-engineering.com/sitemap-pages.xml</loc>
+        <lastmod>2021-11-10T10:52:35.000Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.crispy-engineering.com/sitemap-posts.xml</loc>
+        <lastmod>2021-11-12T14:31:10.973Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.crispy-engineering.com/sitemap-authors.xml</loc>
+        <lastmod>2021-11-14T10:44:48.374Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.crispy-engineering.com/sitemap-tags.xml</loc>
+        <lastmod>2021-11-12T12:12:25.067Z</lastmod>
+    </sitemap>
+</sitemapindex>
+
