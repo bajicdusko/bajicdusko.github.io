@@ -5,7 +5,7 @@ date: "2021-04-05 23:00"
 categories: [tips]
 tags: [sp, agencija, registracija, porez, republika srpska, freelance]
 description: "Objašnjeno je koje su prednosti i mane poslovanja putem SP-a u Republici Srpskoj te koja je procedura za registraciju?"
-redirectirl: "https://www.crispy-engineering.com/registracija-sp-republika-srpska/"
+redirecturl: "https://www.crispy-engineering.com/registracija-sp-republika-srpska/"
 ---
 
 U vijestima se svako toliko provuče tekst o freelancer-ima i (ne)plaćanju poreza.

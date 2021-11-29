@@ -6,6 +6,7 @@ categories: [cloud]
 tags: [google, privacy, cloud, nextcloud]
 description: "If you are planning to install Nextcloud, this post should be your first step in the process. This is a self-hosted, honest review of Nextcloud and its integrations."
 image: "assets/img/posts/2020/2020-06-17-nextcloud-review.jpg"
+redirecturl: "https://www.crispy-engineering.com/nextcloud-honest-review/"
 ---
 
 You have probably went through short tutorial on how to setup Nextcloud in your private environment. If you haven't, make sure to check [Setting up Nextcloud as alternative to Google Drive]({{ site.url }}/posts/2020/06/nextcloud-alternative-to-google-services).  

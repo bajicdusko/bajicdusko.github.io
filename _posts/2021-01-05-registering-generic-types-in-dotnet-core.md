@@ -5,6 +5,7 @@ date: "2021-01-05 13:00"
 categories: [tips, dotnet]
 tags: [dotnet, core, dependency injection, generic, interface]
 description: "Injecting types as their generic interfaces has many advantages. Here is how to register those types in dotnet core."
+redirecturl: "https://www.crispy-engineering.com/registering-all-types-as-generic-interfaces-in-assembly-in-dotnet-core/"
 ---
 
 Let's say that we have an interface in your app as `IRepository<T>` which has dozens of implementations.

@@ -5,6 +5,7 @@ date: "2018-11-07 13:00"
 categories: [android]
 tags: [android, test, kotlin]
 description: "Writing powerful automated tests for Android has never been easier. This is how to utilize AndroidTestKTX with Robot pattern."
+redirecturl: "https://www.crispy-engineering.com/android-automated-tests-with-robot-pattern-in-kotlin/"
 ---
 In [previous blog post]({{ site.url }}/posts/2018/11/kotlin-dsl-android-automated-tests/), we have discussed and shown a [Kotlin DSL library](https://github.com/codecentric/androidtestktx) we developed for the Espresso and UIAutomator, as we noticed that readability and maintainability are endangered and made a necessary steps. However, the DSL is only one step into the right direction.
 

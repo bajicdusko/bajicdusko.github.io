@@ -6,6 +6,7 @@ categories: [cloud]
 tags: [google, privacy, cloud, nextcloud]
 description: "If you are searching for Google Drive or Keep Notes alternative, Nextcloud might be a solution you are looking for. I will show you how to set it up, what are its advantages and defects."
 image: "assets/img/posts/2020/2020-06-17-nextcloud-vs-google.jpg"
+redirecturl: "https://www.crispy-engineering.com/setting-up-nextcloud-as-alternative-to-google-services/"
 ---
 
 This is a second post in a row in [Moving away from Google services]({{ site.url }}/posts/2020/06/moving-away-from-google-services) series. With the intention of replacing Google Drive, I have decided to try out a [Nextcloud](https://nextcloud.com/) self-hosted solution.

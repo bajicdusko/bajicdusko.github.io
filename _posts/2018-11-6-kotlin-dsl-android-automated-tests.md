@@ -5,6 +5,7 @@ date: "2018-11-06 13:00"
 categories: [android]
 tags: [android, test, kotlin]
 description: "Android automation tests assume Espresso and UIAutomator. This DSL unifies them into unique syntax."
+redirecturl: "https://www.crispy-engineering.com/kotlin-dsl-for-espresso-and-uiautomator/"
 ---
 On Android there aren’t many choices when it comes to which library to use. Obvious choices are [Espresso](https://developer.android.com/training/testing/espresso/) and [UIAutomator](https://developer.android.com/training/testing/ui-automator). Although the libraries can be used for the same goal, there are crucial differences between them. Shortly:
 

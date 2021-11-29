@@ -6,6 +6,7 @@ categories: [cloud]
 tags: [google, privacy, cloud]
 description: "Danger of having locked Google account is real. I've started my migration from Google services and dispersing access to my data. This is how."
 image: "assets/img/posts/2020/2020-06-06-google-services.png"
+redirecturl: "https://www.crispy-engineering.com/moving-away-from-google-services/"
 ---
 
 There isn't a person in the modern world which isn't affected with at least one of its services. Their services are great products and we're happy to use them, for FREE.

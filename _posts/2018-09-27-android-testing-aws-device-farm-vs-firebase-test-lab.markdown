@@ -5,6 +5,7 @@ date: "2018-09-27 13:00"
 categories: [android]
 tags: [android, test, aws, devicefarm, firebase]
 description: "Tips and tricks on the AWS DeviceFarm and Firebase TestLab."
+redirecturl: "https://www.crispy-engineering.com/android-testing-aws-device-farm-vs-firebase-test-lab/"
 ---
 
 A whole year passed since I started working on Android automation testing solution on the project for a large corporation. The project is handed over to another team now, and it’s time to share the valuable experience.

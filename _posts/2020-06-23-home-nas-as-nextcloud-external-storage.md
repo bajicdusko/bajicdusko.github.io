@@ -5,6 +5,7 @@ date: "2020-06-23 23:30"
 categories: [cloud]
 tags: [nas, privacy, cloud, nextcloud]
 description: "Keeping files and documents in NAS, located at home is a preferable way and privacy vise. Real advantage of such storage is achieved by attaching it to your Nextcloud instance, without exposing it to the internet."
+redirecturl: "https://www.crispy-engineering.com/home-nas-as-nextcloud-external-storage/"
 image: "assets/img/posts/2020/2020-06-23-nextcloud-external-storage-cover.jpg"
 ---
 
